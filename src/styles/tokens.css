@@ -1,0 +1,49 @@
+:root {
+  /* ink and night */
+  --ink-950: #05070f;
+  --ink-900: #070a14;
+  --night-900: #0b1128;
+  --night-800: #111a3a;
+  --night-700: #1a2652;
+  --night-600: #263670;
+
+  /* gold leaf */
+  --gold-500: #c49a3c;
+  --gold-400: #d8b45a;
+  --gold-300: #e9cf8a;
+  --gold-200: #f3e3b4;
+
+  /* parchment */
+  --parchment-100: #f6ecd2;
+  --parchment-200: #ebdcb6;
+  --parchment-400: #c9b48a;
+
+  --text: #ebe3cf;
+  --text-muted: #a8a28f;
+  --line: rgb(216 180 90 / 0.28);
+  --focus: #f3e3b4;
+
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Alegreya Variable', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+  }
+}
