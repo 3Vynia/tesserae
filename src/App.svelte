@@ -34,7 +34,7 @@
 <footer>
   <p>
     {t('ui.footer.license')}
-    <a href="https://github.com/Heavenly3/tesserae" rel="noopener noreferrer">
+    <a href="https://github.com/3Vynia/tesserae" rel="noopener noreferrer">
       {t('ui.footer.source')}
     </a>
   </p>

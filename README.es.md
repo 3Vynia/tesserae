@@ -13,7 +13,7 @@ cartas, hazlos crecer y llévalos a combates automáticos por turnos.
   público, contados con palabras propias y con la fuente clásica citada en cada carta.
 - Disponible en inglés y español. Se pueden añadir más idiomas solo con archivos de traducción.
 
-Juega en <https://heavenly3.github.io/tesserae/>.
+Juega en <https://3vynia.github.io/tesserae/>.
 
 ## Estado
 

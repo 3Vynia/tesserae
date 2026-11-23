@@ -13,7 +13,7 @@ automatic turn-based battles.
   words with the classical source cited on each card.
 - Available in English and Spanish. More languages can be added with translation files alone.
 
-Play it at <https://heavenly3.github.io/tesserae/>.
+Play it at <https://3vynia.github.io/tesserae/>.
 
 ## Status
 
