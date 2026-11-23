@@ -1,0 +1,45 @@
+{
+  "language": {
+    "name": "English"
+  },
+  "app": {
+    "title": "Tesserae",
+    "tagline": "Gather the gods, heroes and monsters of the ancient world, one tile at a time.",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "label": "Main",
+    "home": "Home",
+    "settings": "Settings"
+  },
+  "home": {
+    "heading": "A mosaic of myths",
+    "intro": "Every card is a tile. Earn them by playing, raise them, and send them into battle. Nothing here is for sale.",
+    "pillars": {
+      "collect": {
+        "title": "Collect",
+        "body": "Light up the night sky, pantheon by pantheon."
+      },
+      "summon": {
+        "title": "Summon",
+        "body": "Spend what you earn in play. Drop rates are always visible."
+      },
+      "battle": {
+        "title": "Battle",
+        "body": "Build a team of four or five and let fate turn the wheel."
+      }
+    },
+    "upcoming": "Coming soon",
+    "pantheons": "{count, plural, one {# pantheon} other {# pantheons}} awaiting"
+  },
+  "settings": {
+    "heading": "Settings",
+    "language": "Language",
+    "languageHint": "Detected from your browser on first launch. Stored only on this device.",
+    "privacy": "Tesserae makes no network requests and keeps your progress in this browser."
+  },
+  "footer": {
+    "license": "Free and open source under the MIT license.",
+    "source": "Source code"
+  }
+}

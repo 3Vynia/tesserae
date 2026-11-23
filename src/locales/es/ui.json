@@ -1,0 +1,45 @@
+{
+  "language": {
+    "name": "Español"
+  },
+  "app": {
+    "title": "Tesserae",
+    "tagline": "Reúne a los dioses, héroes y monstruos del mundo antiguo, tesela a tesela.",
+    "skipToContent": "Saltar al contenido"
+  },
+  "nav": {
+    "label": "Principal",
+    "home": "Inicio",
+    "settings": "Ajustes"
+  },
+  "home": {
+    "heading": "Un mosaico de mitos",
+    "intro": "Cada carta es una tesela. Gánalas jugando, hazlas crecer y llévalas al combate. Aquí nada está a la venta.",
+    "pillars": {
+      "collect": {
+        "title": "Colecciona",
+        "body": "Ilumina el cielo nocturno, panteón a panteón."
+      },
+      "summon": {
+        "title": "Invoca",
+        "body": "Gasta lo que ganas jugando. Las probabilidades siempre están a la vista."
+      },
+      "battle": {
+        "title": "Combate",
+        "body": "Forma un equipo de cuatro o cinco y deja que el destino gire la rueda."
+      }
+    },
+    "upcoming": "Próximamente",
+    "pantheons": "{count, plural, one {# panteón} other {# panteones}} en espera"
+  },
+  "settings": {
+    "heading": "Ajustes",
+    "language": "Idioma",
+    "languageHint": "Se detecta del navegador la primera vez. Se guarda solo en este dispositivo.",
+    "privacy": "Tesserae no hace peticiones de red y guarda tu progreso en este navegador."
+  },
+  "footer": {
+    "license": "Libre y de código abierto bajo la licencia MIT.",
+    "source": "Código fuente"
+  }
+}
