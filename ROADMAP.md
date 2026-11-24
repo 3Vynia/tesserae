@@ -15,36 +15,37 @@ Each phase ends with lint, type check, translation check, tests and build passin
 
 ## Phase 1: data model and sample cards (v0.1.0)
 
-- [ ] Card mechanics schema validated with Zod, per-language card text
-- [ ] 20 sample cards across at least 5 pantheons, with sources
-- [ ] Translation check covers card text
+- [x] Card mechanics schema validated with Zod, per-language card text
+- [x] 20 sample cards across 7 pantheons, with sources
+- [x] Tests fail on missing or orphan card text
 
 ## Phase 2: card component (v0.2.0)
 
-- [ ] Layered card: art, frame, effect, stickers
-- [ ] 3D tilt, holographic shine by rarity, flip to the back
-- [ ] Swappable placeholder art and `docs/art-guide.md`
+- [x] Layered card: art, frame, effect (stickers arrive with personalization)
+- [x] 3D tilt, holographic shine by rarity, flip to the back
+- [x] Swappable placeholder art and `docs/art-guide.md`
 
 ## Phase 3: collection (v0.3.0)
 
-- [ ] Mosaic view grouped by pantheon with ornaments
-- [ ] Filters and detail view
+- [x] Mosaic view grouped by pantheon with ornaments
+- [x] Filters and detail view
 
 ## Phase 4: summoning (v0.4.0)
 
-- [ ] Banners, visible drop rates, pity
-- [ ] Pull history, daily quests, pull animation
-- [ ] Save in IndexedDB
+- [x] Banners, visible drop rates, pity
+- [x] Pull history, daily quests, pull animation
+- [x] Save in IndexedDB
 
 ## Phase 5: combat (v0.5.0)
 
-- [ ] Deterministic auto-battle engine: formation, synergies, elements
-- [ ] Combat UI and animations
-- [ ] Campaign chapters, tower, bosses
+- [x] Deterministic auto-battle engine: formation, synergies, elements
+- [x] Combat UI and animations
+- [x] Campaign chapters, tower, bosses
 
 ## Phase 6: progression (v0.6.0)
 
-- [ ] Levels 1 to 60, ascension milestones
+- [x] Levels 1 to 60 from battle experience
+- [ ] Ascension milestones (frame change, skill unlocks)
 - [ ] Duplicates to stars and awakening
 - [ ] Relics
 
@@ -61,6 +62,9 @@ Each phase ends with lint, type check, translation check, tests and build passin
 
 ## Open items
 
+- More chapters and cards: chapter 2 needs summoned cards to clear.
+- Pantheons without cards yet: Roman, Slavic, Persian, Aztec, Maya, Inca.
+
 - Donation link for the README (needs an account chosen by the maintainer).
 
 ## Visual layer
@@ -69,6 +73,6 @@ Each phase ends with lint, type check, translation check, tests and build passin
       `docs/design/`)
 - [x] Tokens, fonts, engraved icon set, ornaments for all 13 pantheons
 - [x] Home oculus with procedural clouds, settings with motion preference, page transitions
-- [ ] Collection mosaic with filters, card detail with flip
-- [ ] Pull ceremony
-- [ ] Battle stage
+- [x] Collection mosaic with filters, card detail with flip
+- [x] Pull ceremony
+- [x] Battle stage

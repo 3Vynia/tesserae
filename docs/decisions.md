@@ -137,3 +137,53 @@ rise. Browsers without it swap instantly.
 
 Design and screenshot helper scripts live outside the repository. ESLint and Prettier ignore
 dot-folders at the root (except `.github/`) so local tool folders never break the checks.
+
+## Card data split
+
+Mechanics live in `src/data/cards.ts` and are validated with Zod at load. Text lives in
+`src/locales/<locale>/cards.json`. Skill descriptions never repeat numbers: they use ICU
+arguments (`{damage}`, `{turns}`) filled from the skill's effects by `skillValues`, so balancing a
+card never touches a translation. Tests fail when a card lacks text in any locale, when a locale
+has text for an unknown card, or when a description uses an argument the data does not provide.
+Relations between cards are only listed when the sources support them.
+
+## Summoning numbers
+
+Base rates: Mortal 50%, Hero 30%, Demigod 14%, God 5%, Primordial 1%. A Demigod or better is
+guaranteed within 10 pulls and a God or better within 60, with the God-or-better chance rising
+by 5 points per pull from pull 45. Each banner keeps its own counters. A featured banner sends
+half of the Demigod-and-above results to its pantheon and changes every week. A pull costs 160
+starlight. Every pull draws from an RNG seeded with the save seed and the pull count, so a save
+always produces the same results and the odds can be checked by tests over thousands of pulls.
+
+## Earning starlight
+
+New saves start with 1600 starlight (ten pulls) and a team of four Mortal and Hero cards. Three
+daily quests (from a pool of eight) pay between 80 and 320, battles pay on the first win and a
+third or a quarter on replays, and tower floors pay more as they climb.
+
+## Battle rules
+
+Automatic and deterministic from a seed. Units act in speed order each round. A unit uses its
+ultimate when its energy reaches the cost, its active skill when the cooldown allows, otherwise
+a basic attack. Single-target attacks hit the front row first. Elements: storm beats tide, tide
+beats flame, flame beats verdure, verdure beats stone, stone beats storm (x1.3 / x0.8); sun and
+night beat each other. Two, three or four cards of one pantheon give +5/10/15% attack (and +5/10%
+health from three). From round 12 all damage grows by 15% per round so even fights end; the cap
+is 30 rounds. The engine returns an event log and the UI replays it, so the result is decided
+before any animation runs and skipping never changes it.
+
+Progression for now is experience only: every battle gives experience to the team (less for a
+loss, so nobody gets stuck) and stats grow 5% per level. Ascension, stars from duplicates and
+relics are still to come (see the roadmap).
+
+## Overlays
+
+The pull ceremony and the battle stage are moved to the end of `<body>` and make the rest of the
+page inert while open, then return focus where it was. The card detail uses a native `<dialog>`.
+
+## Development shortcut
+
+In development builds only, `?starlight` in the URL sets the balance to five million
+(`?starlight=200` sets an exact amount) to test summons and progression. The code is removed from
+production builds by Vite, so the published game has no way to add starlight.

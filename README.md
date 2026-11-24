@@ -17,7 +17,8 @@ Play it at <https://3vynia.github.io/tesserae/>.
 
 ## Status
 
-Early development. See [ROADMAP.md](ROADMAP.md) for what is done and what comes next, and
+Playable: collection, summoning with visible odds, daily quests and automatic battles with a
+campaign, a tower and bosses. See [ROADMAP.md](ROADMAP.md) for what is done and what comes next, and
 [docs/decisions.md](docs/decisions.md) for the reasoning behind technical and content choices.
 
 ## Development
@@ -35,8 +36,9 @@ Project layout:
 
 ```
 src/engine/    game logic in plain TypeScript, deterministic from a seed, no UI imports
-src/data/      game data (cards, pantheons)
-src/locales/   one folder per language, one JSON file per namespace
+src/data/      game data (cards, pantheons, stages)
+DESIGN.md      visual system; details in docs/design/
+src/locales/   one folder per language, one JSON file per namespace (ui, cards)
 src/i18n/      translation runtime
 src/ui/        reusable Svelte components
 src/app/       views and app wiring

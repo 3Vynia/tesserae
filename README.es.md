@@ -17,7 +17,8 @@ Juega en <https://3vynia.github.io/tesserae/>.
 
 ## Estado
 
-En desarrollo temprano. Consulta [ROADMAP.md](ROADMAP.md) para ver lo hecho y lo pendiente, y
+Jugable: colección, invocación con probabilidades visibles, misiones diarias y combates
+automáticos con campaña, torre y jefes. Consulta [ROADMAP.md](ROADMAP.md) para ver lo hecho y lo pendiente, y
 [docs/decisions.md](docs/decisions.md) para las razones detrás de las decisiones técnicas y de
 contenido (en inglés).
 
