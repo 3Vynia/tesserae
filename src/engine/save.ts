@@ -28,6 +28,13 @@ export const saveSchema = z.object({
       z.object({ at: z.number(), banner: z.string(), card: z.string(), rarity: z.string() }),
     ),
   }),
+  quests: z
+    .object({
+      day: z.string(),
+      progress: z.record(z.string(), z.number().int().min(0)),
+      claimed: z.array(z.string()),
+    })
+    .default({ day: '', progress: {}, claimed: [] }),
 });
 export type Save = z.infer<typeof saveSchema>;
 
@@ -39,6 +46,7 @@ export function createSave(seed: string, now: number): Save {
     starlight: STARTER_STARLIGHT,
     owned: {},
     pulls: { total: 0, pity: {}, history: [] },
+    quests: { day: '', progress: {}, claimed: [] },
   };
   for (const id of STARTER_CARDS) grant(save, id, now, true);
   return save;
