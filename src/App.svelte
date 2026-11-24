@@ -13,6 +13,7 @@
   import Dock from './ui/game/Dock.svelte';
   import Rail from './ui/game/Rail.svelte';
   import type { NavItem } from './ui/game/nav';
+  import { THEMES, type Theme } from './data/themes';
   import Home from './app/views/Home.svelte';
   import Collection from './app/views/Collection.svelte';
   import Summon from './app/views/Summon.svelte';
@@ -115,6 +116,20 @@
   ]);
 
   onMount(() => void game.load());
+
+  // A profile theme can be worn across the whole game.
+  $effect(() => {
+    const root = document.documentElement;
+    const profile = ready ? game.save.profile : null;
+    const theme = profile?.everywhere ? THEMES[profile.theme as Theme] : undefined;
+    if (theme) {
+      root.dataset['theme'] = profile?.theme ?? '';
+      root.style.setProperty('--theme-ground', theme.ground);
+    } else {
+      delete root.dataset['theme'];
+      root.style.removeProperty('--theme-ground');
+    }
+  });
 </script>
 
 <a class="skip visually-hidden" href="#main">{t('ui.app.skipToContent')}</a>

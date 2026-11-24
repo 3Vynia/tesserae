@@ -149,3 +149,15 @@ input {
   background: var(--gold-pale);
   clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
 }
+
+/* A vault theme worn across the game: the night takes on the theme's ground near the top. */
+:root[data-theme] body {
+  background:
+    radial-gradient(
+        140% 90% at 50% -10%,
+        color-mix(in srgb, var(--theme-ground) 60%, var(--ink)),
+        transparent 70%
+      )
+      fixed,
+    var(--ink);
+}

@@ -627,5 +627,63 @@
       "eclipse": "Eclipse"
     },
     "needCopies": "necesita {count} copias"
+  },
+  "profile": {
+    "defaultName": "Guarda de la bóveda",
+    "defaultMotto": "Cada tesela, en su sitio.",
+    "since": "Guardando la bóveda desde el {date}",
+    "edit": "Editar perfil",
+    "byRarity": "Cartas por rareza",
+    "tabsLabel": "Perfil",
+    "tabs": {
+      "showcase": "Escaparate",
+      "stats": "Estadísticas",
+      "albums": "Álbumes",
+      "wishlist": "Deseos"
+    },
+    "ofTotal": "{done} de {total}",
+    "emptySlot": "Elige una carta en la bóveda",
+    "showcaseHint": "Hasta {max} cartas. Abre una carta en la bóveda y elige Mostrar en el perfil.",
+    "stats": {
+      "lit": "Teselas encendidas",
+      "summons": "Invocaciones",
+      "copies": "Copias",
+      "wins": "Duelos ganados",
+      "campaign": "Etapas de campaña",
+      "tower": "Pisos de la torre",
+      "dissolved": "Copias disueltas",
+      "claimed": "Regalos tomados",
+      "bought": "Cartas compradas",
+      "spins": "Giros de la rueda",
+      "since": "Bóveda abierta"
+    },
+    "albums": {
+      "back": "Todos los álbumes",
+      "name": "Nombre del álbum",
+      "rename": "Renombrar",
+      "delete": "Borrar álbum",
+      "remove": "Sacar a {name} del álbum",
+      "emptyAlbum": "Este álbum está vacío. Selecciona cartas en la bóveda para llenarlo.",
+      "none": "Aún no hay álbumes. En la bóveda, pulsa Seleccionar, elige algunas cartas y pulsa Álbum."
+    },
+    "wishlist": {
+      "none": "Tu lista de deseos está vacía. Abre una carta que te falte y pulsa Desear.",
+      "found": "Encontrada",
+      "remove": "Quitar de la lista de deseos"
+    },
+    "name": "Nombre",
+    "motto": "Lema",
+    "featured": "Carta del medallón",
+    "theme": "Tema de la bóveda",
+    "themes": {
+      "lapis": "Lapislázuli",
+      "porphyry": "Pórfido",
+      "verdigris": "Verdín",
+      "obsidian": "Obsidiana",
+      "ochre": "Ocre",
+      "amethyst": "Amatista"
+    },
+    "everywhere": "Usar este tema en todo el juego",
+    "done": "Listo"
   }
 }

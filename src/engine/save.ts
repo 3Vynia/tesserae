@@ -87,8 +87,17 @@ export const saveSchema = z.object({
       showcase: z.array(z.string()).max(5),
       featured: z.string().nullable(),
       theme: z.string(),
+      /** Wear the theme across the whole game, not just the profile. */
+      everywhere: z.boolean().default(false),
     })
-    .default({ name: '', motto: '', showcase: [], featured: null, theme: 'lapis' }),
+    .default({
+      name: '',
+      motto: '',
+      showcase: [],
+      featured: null,
+      theme: 'lapis',
+      everywhere: false,
+    }),
   albums: z
     .array(
       z.object({
@@ -147,7 +156,14 @@ export function createSave(seed: string, now: number): Save {
       wheel: { at: 0, spins: 0 },
     },
     stats: { dissolved: 0, claimed: 0, bought: 0 },
-    profile: { name: '', motto: '', showcase: [], featured: null, theme: 'lapis' },
+    profile: {
+      name: '',
+      motto: '',
+      showcase: [],
+      featured: null,
+      theme: 'lapis',
+      everywhere: false,
+    },
     albums: [],
     wishlist: [],
     cosmetics: { frames: [], gifts: [], glyphs: [] },

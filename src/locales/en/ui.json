@@ -627,5 +627,63 @@
       "eclipse": "Eclipse"
     },
     "needCopies": "needs {count} copies"
+  },
+  "profile": {
+    "defaultName": "Keeper of the vault",
+    "defaultMotto": "Every tile, in its place.",
+    "since": "Keeping the vault since {date}",
+    "edit": "Edit profile",
+    "byRarity": "Cards held by rarity",
+    "tabsLabel": "Profile",
+    "tabs": {
+      "showcase": "Showcase",
+      "stats": "Stats",
+      "albums": "Albums",
+      "wishlist": "Wishlist"
+    },
+    "ofTotal": "{done} of {total}",
+    "emptySlot": "Pick a card in the vault",
+    "showcaseHint": "Up to {max} cards. Open a card in the vault and choose Show on profile.",
+    "stats": {
+      "lit": "Tiles lit",
+      "summons": "Summons",
+      "copies": "Copies held",
+      "wins": "Duels won",
+      "campaign": "Campaign stages",
+      "tower": "Tower floors climbed",
+      "dissolved": "Copies dissolved",
+      "claimed": "Gifts taken",
+      "bought": "Cards bought",
+      "spins": "Turns of the wheel",
+      "since": "Vault opened"
+    },
+    "albums": {
+      "back": "All albums",
+      "name": "Album name",
+      "rename": "Rename",
+      "delete": "Delete album",
+      "remove": "Take {name} out of the album",
+      "emptyAlbum": "This album is empty. Select cards in the vault to fill it.",
+      "none": "No albums yet. In the vault, choose Select, pick some cards and press Album."
+    },
+    "wishlist": {
+      "none": "Your wishlist is empty. Open a card you are missing and press Wish.",
+      "found": "Found",
+      "remove": "Take off the wishlist"
+    },
+    "name": "Name",
+    "motto": "Motto",
+    "featured": "Medallion card",
+    "theme": "Vault theme",
+    "themes": {
+      "lapis": "Lapis",
+      "porphyry": "Porphyry",
+      "verdigris": "Verdigris",
+      "obsidian": "Obsidian",
+      "ochre": "Ochre",
+      "amethyst": "Amethyst"
+    },
+    "everywhere": "Wear this theme across the whole game",
+    "done": "Done"
   }
 }
