@@ -4,50 +4,55 @@
   interface Props {
     seed?: string;
     stars?: number;
+    /** Fixed to the viewport (page background) or filling its parent. */
+    fixed?: boolean;
+    /** Draw constellation lines with a stroke animation. */
+    constellations?: boolean;
   }
-  let { seed = 'tesserae-sky', stars = 140 }: Props = $props();
+  let { seed = 'tesserae-sky', stars = 140, fixed = true, constellations = true }: Props = $props();
 
   const sky = $derived.by(() => {
     const rng = createRng(seed);
     const points = Array.from({ length: stars }, () => ({
       x: rng.next() * 1000,
       y: rng.next() * 1000,
-      r: 0.4 + rng.next() ** 3 * 1.8,
+      r: 0.5 + rng.next() ** 4 * 2.2,
       o: 0.35 + rng.next() * 0.6,
-      delay: rng.next() * 6,
+      gold: rng.chance(0.3),
+      delay: rng.next() * 8,
     }));
-    // A few loose constellations: short chains of nearby bright stars.
-    const lines: Array<[number, number, number, number]> = [];
-    for (let c = 0; c < 4; c++) {
-      let x = 100 + rng.next() * 800;
-      let y = 80 + rng.next() * 500;
+    const lines: Array<{ d: string; length: number }> = [];
+    for (let c = 0; c < 3; c++) {
+      let x = 80 + rng.next() * 840;
+      let y = 60 + rng.next() * 880;
+      let d = `M${x.toFixed(1)} ${y.toFixed(1)}`;
+      let length = 0;
       for (let i = 0; i < 4 + rng.int(0, 2); i++) {
-        const nx = x + (rng.next() - 0.4) * 110;
-        const ny = y + (rng.next() - 0.4) * 80;
-        lines.push([x, y, nx, ny]);
+        const nx = x + (rng.next() - 0.45) * 120;
+        const ny = y + (rng.next() - 0.45) * 90;
+        length += Math.hypot(nx - x, ny - y);
+        d += ` L${nx.toFixed(1)} ${ny.toFixed(1)}`;
         x = nx;
         y = ny;
       }
+      lines.push({ d, length: Math.ceil(length) });
     }
     return { points, lines };
   });
 </script>
 
-<svg class="sky" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <defs>
-    <radialGradient id="sky-glow" cx="50%" cy="0%" r="90%">
-      <stop offset="0%" stop-color="#1a2652" />
-      <stop offset="55%" stop-color="#0b1128" />
-      <stop offset="100%" stop-color="#05070f" />
-    </radialGradient>
-  </defs>
-  <rect width="1000" height="1000" fill="url(#sky-glow)" />
-  <g class="lines">
-    {#each sky.lines as [x1, y1, x2, y2], i (i)}
-      <line {x1} {y1} {x2} {y2} />
-      <circle cx={x2} cy={y2} r="1.6" class="node" />
+<svg
+  class="sky"
+  class:fixed
+  viewBox="0 0 1000 1000"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+>
+  {#if constellations}
+    {#each sky.lines as line, i (i)}
+      <path class="line" d={line.d} style:--len={line.length} style:--i={i} />
     {/each}
-  </g>
+  {/if}
   {#each sky.points as s, i (i)}
     <circle
       cx={s.x}
@@ -55,6 +60,7 @@
       r={s.r}
       opacity={s.o}
       class="star"
+      class:gold={s.gold}
       style:animation-delay="{s.delay}s"
     />
   {/each}
@@ -62,38 +68,53 @@
 
 <style>
   .sky {
-    position: fixed;
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
     pointer-events: none;
   }
+  .sky.fixed {
+    position: fixed;
+    z-index: var(--z-sky);
+  }
   .star {
-    fill: var(--parchment-100);
-    animation: twinkle 7s ease-in-out infinite;
+    fill: var(--parchment);
+    animation: twinkle 9s ease-in-out infinite;
   }
-  .lines line {
-    stroke: var(--gold-400);
-    stroke-width: 0.6;
-    opacity: 0.22;
+  .star.gold {
+    fill: var(--gold-pale);
   }
-  .node {
-    fill: var(--gold-300);
-    opacity: 0.6;
+  .line {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 0.7;
+    opacity: 0.35;
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+    animation: draw var(--dur-ceremony) var(--ease-in-out) forwards;
+    animation-delay: calc(400ms + var(--i) * 80ms);
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   @keyframes twinkle {
-    0%,
-    100% {
-      opacity: inherit;
-    }
     50% {
-      opacity: 0.15;
+      opacity: 0.12;
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .star {
-      animation: none;
+  :global([data-motion='calm']) .star {
+    animation: none;
+  }
+  :global([data-motion='calm']) .line {
+    stroke-dashoffset: 0;
+    animation: fade var(--dur-base) ease both;
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
     }
   }
 </style>
