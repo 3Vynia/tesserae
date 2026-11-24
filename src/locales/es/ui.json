@@ -29,9 +29,7 @@
     "chinese": "Chino",
     "japanese": "Japonés"
   },
-  "home": {
-    "tagline": "Dioses, héroes y monstruos de los mitos antiguos, engastados tesela a tesela en una bóveda de noche."
-  },
+  "home": {},
   "settings": {
     "heading": "Ajustes",
     "language": "Idioma",
@@ -277,10 +275,47 @@
     "japanese": "japonés"
   },
   "hub": {
-    "label": "Adónde ir",
+    "label": "Estandartes y eventos",
     "quests": "Misiones diarias",
-    "pulls": "{count, plural, =0 {Gana luz de estrellas para invocar} one {# invocación lista} other {# invocaciones listas}}",
-    "next": "Siguiente: fase {id}",
-    "allClear": "Todas las fases superadas"
+    "previous": "Estandarte anterior",
+    "next": "Estandarte siguiente",
+    "news": "Novedades",
+    "slides": {
+      "chapter-two": {
+        "title": "Las raíces del mundo",
+        "sub": "Capítulo dos: Fenrir, Apep y Yamata no Orochi esperan al final de seis fases.",
+        "chip": "Campaña · 6 fases"
+      },
+      "tower": {
+        "title": "La torre sin fin",
+        "sub": "Cada piso es más difícil que el anterior y paga más. ¿Hasta dónde llegará tu equipo?",
+        "chip": "Luz de estrellas en cada piso"
+      }
+    },
+    "modes": {
+      "campaign": "Campaña",
+      "campaignValue": "{done} de {total} fases",
+      "tower": "Torre",
+      "towerValue": "Piso {floor}",
+      "vault": "La bóveda"
+    }
+  },
+  "news": {
+    "weekly-banners": {
+      "title": "Un panteón destacado cada semana",
+      "body": "Cada semana una tradición se lleva la mitad de los resultados raros. Las probabilidades siguen escritas en el altar."
+    },
+    "chapter-two": {
+      "title": "El capítulo dos está abierto",
+      "body": "Supera las playas de Troya para llegar a las raíces del mundo."
+    },
+    "twenty-figures": {
+      "title": "Veinte figuras en la bóveda",
+      "body": "Siete tradiciones por ahora, cada carta con su mito y su fuente."
+    },
+    "calm-motion": {
+      "title": "Movimiento sereno",
+      "body": "¿Prefieres fundidos en vez de desplazamientos? Actívalo en Ajustes."
+    }
   }
 }

@@ -47,6 +47,7 @@
       label: t('ui.nav.collection'),
     },
     {
+      featured: true,
       route: 'summon',
       href: router.href('summon'),
       icon: 'summon' as const,

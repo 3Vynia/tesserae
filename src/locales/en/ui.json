@@ -29,9 +29,7 @@
     "chinese": "Chinese",
     "japanese": "Japanese"
   },
-  "home": {
-    "tagline": "Gods, heroes and monsters of the old myths, set tile by tile into a vault of night."
-  },
+  "home": {},
   "settings": {
     "heading": "Settings",
     "language": "Language",
@@ -277,10 +275,47 @@
     "japanese": "Japanese"
   },
   "hub": {
-    "label": "Where to",
+    "label": "Banners and events",
     "quests": "Daily quests",
-    "pulls": "{count, plural, =0 {Earn starlight to summon} one {# summon ready} other {# summons ready}}",
-    "next": "Next: stage {id}",
-    "allClear": "Every stage cleared"
+    "previous": "Previous banner",
+    "next": "Next banner",
+    "news": "News",
+    "slides": {
+      "chapter-two": {
+        "title": "Roots of the World",
+        "sub": "Chapter two: Fenrir, Apep and Yamata no Orochi wait at the end of six stages.",
+        "chip": "Campaign · 6 stages"
+      },
+      "tower": {
+        "title": "The endless tower",
+        "sub": "Every floor is harder than the last, and pays more. How high can your team climb?",
+        "chip": "Starlight on every floor"
+      }
+    },
+    "modes": {
+      "campaign": "Campaign",
+      "campaignValue": "{done} of {total} stages",
+      "tower": "Tower",
+      "towerValue": "Floor {floor}",
+      "vault": "The vault"
+    }
+  },
+  "news": {
+    "weekly-banners": {
+      "title": "A new featured pantheon every week",
+      "body": "Each week one tradition gets half of the rare results. The odds stay printed on the altar."
+    },
+    "chapter-two": {
+      "title": "Chapter two is open",
+      "body": "Win the Shores of Troy to reach the Roots of the World."
+    },
+    "twenty-figures": {
+      "title": "Twenty figures in the vault",
+      "body": "Seven traditions so far, each card with its myth and its source."
+    },
+    "calm-motion": {
+      "title": "Calm motion",
+      "body": "Prefer fades to movement? Switch it on in Settings."
+    }
   }
 }

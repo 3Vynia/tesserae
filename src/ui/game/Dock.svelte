@@ -10,6 +10,8 @@
     label: string;
     /** Shows a small star when something waits there, such as a quest to claim. */
     alert?: boolean;
+    /** The raised medallion in the middle of the dock. */
+    featured?: boolean;
   }
   let { items, current }: { items: Item[]; current: string } = $props();
 </script>
@@ -20,6 +22,7 @@
       <li>
         <a
           href={item.href}
+          class:featured={item.featured}
           class:active={current === item.route}
           aria-current={current === item.route ? 'page' : undefined}
         >
@@ -109,6 +112,28 @@
     height: 14px;
     background: var(--gold-pale);
     clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  }
+  /* the summoning medallion rises above the bar */
+  .featured .tablet {
+    width: 76px;
+    height: 76px;
+    margin-top: -34px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: radial-gradient(circle at 50% 35%, #f2c879 0, #b0603f 35%, #2b1f45 75%);
+    color: var(--parchment);
+    box-shadow:
+      inset 0 0 0 4px rgb(4 6 13 / 0.35),
+      0 10px 22px -8px rgb(0 0 0 / 0.9);
+  }
+  .featured .tablet :global(svg) {
+    width: 38px;
+    height: 38px;
+  }
+  .featured.active .tablet {
+    translate: 0 -4px;
+    background: radial-gradient(circle at 50% 35%, #fdf1d2 0, #f2c879 40%, #b0603f 90%);
+    color: var(--ink);
   }
   @media (hover: hover) and (pointer: fine) {
     a:not(.active):hover {

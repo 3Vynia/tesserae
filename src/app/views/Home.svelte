@@ -1,149 +1,236 @@
 <script lang="ts">
-  import { t } from '../../i18n/i18n.svelte';
+  import { t, fmtDate } from '../../i18n/i18n.svelte';
   import { CARDS } from '../../data/cards';
   import { CHAPTERS } from '../../data/stages';
-  import { PULL_COST } from '../../engine/gacha';
+  import { NEWS } from '../../data/news';
+  import { bannersFor, type Banner } from '../../engine/gacha';
   import { game } from '../save.svelte';
   import { router } from '../router.svelte';
   import Oculus from '../../ui/sky/Oculus.svelte';
-  import PortalCard from '../../ui/game/PortalCard.svelte';
+  import Carousel from '../../ui/game/Carousel.svelte';
+  import BannerArt from '../../ui/summon/BannerArt.svelte';
+  import EventArt from '../../ui/game/EventArt.svelte';
   import Frame from '../../ui/game/Frame.svelte';
   import QuestList from '../../ui/game/QuestList.svelte';
   import Icon from '../../ui/icons/Icon.svelte';
-  import Ornament from '../../ui/Ornament.svelte';
+
+  type Slide =
+    | { kind: 'banner'; banner: Banner }
+    | { kind: 'event'; id: 'chapter-two' | 'tower'; route: 'battle' };
+
+  const now = Date.now();
+  const [standing, ...weekly] = bannersFor(now, CARDS);
+  const slides: Slide[] = [
+    ...weekly.map((banner) => ({ kind: 'banner' as const, banner })),
+    { kind: 'event', id: 'chapter-two', route: 'battle' },
+    ...(standing ? [{ kind: 'banner' as const, banner: standing }] : []),
+    { kind: 'event', id: 'tower', route: 'battle' },
+  ];
+
+  const slideName = (s: Slide) =>
+    s.kind === 'banner'
+      ? s.banner.featured
+        ? t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${s.banner.featured}`) })
+        : t('ui.summon.banner.standing')
+      : t(`ui.hub.slides.${s.id}.title`);
 
   const ready = $derived(game.status === 'ready');
-  const owned = $derived(ready ? CARDS.filter((c) => game.save.owned[c.id]).length : 0);
-  const pulls = $derived(ready ? Math.floor(game.save.starlight / PULL_COST) : 0);
-  const next = $derived(
+  const stages = CHAPTERS.flatMap((c) => c.stages);
+  const modes = $derived(
     ready
-      ? CHAPTERS.flatMap((c) => c.stages).find((s) => !game.save.battle.cleared.includes(s.id))?.id
-      : undefined,
+      ? [
+          {
+            id: 'campaign',
+            icon: 'battle' as const,
+            route: 'battle' as const,
+            value: t('ui.hub.modes.campaignValue', {
+              done: game.save.battle.cleared.length,
+              total: stages.length,
+            }),
+          },
+          {
+            id: 'tower',
+            icon: 'tower' as const,
+            route: 'battle' as const,
+            value: t('ui.hub.modes.towerValue', { floor: game.save.battle.tower + 1 }),
+          },
+          {
+            id: 'vault',
+            icon: 'collection' as const,
+            route: 'collection' as const,
+            value: t('ui.collection.progress', {
+              owned: CARDS.filter((c) => game.save.owned[c.id]).length,
+              total: CARDS.length,
+            }),
+          },
+        ]
+      : [],
   );
-  // 4 x 4 mosaic on the vault portal, lit in proportion to the collection.
-  const litTiles = $derived(Math.round((owned / CARDS.length) * 16));
 </script>
 
 <div class="hub">
-  <Oculus />
+  <div class="backdrop"><Oculus /></div>
+  <h1 class="visually-hidden">{t('ui.app.title')}</h1>
 
-  <section class="title-block">
-    <h1 class="title">{t('ui.app.title')}</h1>
-    <p class="tagline">{t('ui.home.tagline')}</p>
-  </section>
+  <div class="main">
+    <Carousel
+      items={slides}
+      label={t('ui.hub.label')}
+      href={(s) => router.href(s.kind === 'banner' ? 'summon' : s.route)}
+      name={slideName}
+    >
+      {#snippet slide(s)}
+        {#if s.kind === 'banner'}
+          <BannerArt banner={s.banner} compact />
+        {:else}
+          <EventArt
+            pantheon={s.id === 'tower' ? 'mesopotamian' : 'norse'}
+            icon={s.id === 'tower' ? 'tower' : 'battle'}
+            title={t(`ui.hub.slides.${s.id}.title`)}
+            sub={t(`ui.hub.slides.${s.id}.sub`)}
+            chip={t(`ui.hub.slides.${s.id}.chip`)}
+          />
+        {/if}
+      {/snippet}
+    </Carousel>
 
-  {#if ready}
-    <section class="quest-block" aria-labelledby="quests-title">
-      <Frame tone="ink" class="quests">
-        <h2 id="quests-title" class="quests-title caps">
-          <Icon name="quest" size={20} />{t('ui.hub.quests')}
-        </h2>
+    <ul class="modes">
+      {#each modes as mode (mode.id)}
+        <li>
+          <a class="mode" href={router.href(mode.route)}>
+            <span class="mode-icon"><Icon name={mode.icon} size={30} /></span>
+            <span class="mode-title caps">{t(`ui.hub.modes.${mode.id}`)}</span>
+            <span class="mode-value">{mode.value}</span>
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </div>
+
+  <aside class="side">
+    <Frame tone="ink">
+      <h2 class="side-title caps"><Icon name="scroll" size={20} />{t('ui.hub.news')}</h2>
+      <ul class="news">
+        {#each NEWS as item (item.id)}
+          <li>
+            <a href={router.href(item.route)}>
+              <span class="news-icon"><Icon name={item.icon} size={22} /></span>
+              <span class="news-text">
+                <span class="news-title">{t(`ui.news.${item.id}.title`)}</span>
+                <span class="news-body">{t(`ui.news.${item.id}.body`)}</span>
+              </span>
+              <time datetime={item.date}>
+                {fmtDate(new Date(`${item.date}T12:00:00`), { day: 'numeric', month: 'short' })}
+              </time>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    </Frame>
+    {#if ready}
+      <Frame tone="ink">
+        <h2 class="side-title caps"><Icon name="quest" size={20} />{t('ui.hub.quests')}</h2>
         <QuestList />
       </Frame>
-    </section>
-  {/if}
-
-  <nav class="portals" aria-label={t('ui.hub.label')}>
-    <div class="slot one">
-      <PortalCard
-        href={router.href('collection')}
-        tone="vault"
-        title={t('ui.nav.collection')}
-        status={t('ui.collection.progress', { owned, total: CARDS.length })}
-      >
-        {#snippet art()}
-          <svg class="mosaic" viewBox="0 0 100 100">
-            {#each { length: 16 } as _, i (i)}
-              <rect
-                x={6 + (i % 4) * 23}
-                y={6 + Math.floor(i / 4) * 23}
-                width="20"
-                height="20"
-                rx="1.5"
-                class:lit={i < litTiles}
-                transform="rotate({((i * 37) % 7) - 3} {16 + (i % 4) * 23} {16 +
-                  Math.floor(i / 4) * 23})"
-              />
-            {/each}
-          </svg>
-        {/snippet}
-      </PortalCard>
-    </div>
-    <div class="slot two">
-      <PortalCard
-        href={router.href('summon')}
-        tone="summon"
-        title={t('ui.nav.summon')}
-        status={t('ui.hub.pulls', { count: pulls })}
-      >
-        {#snippet art()}
-          <span class="glyph"><Icon name="summon" size={120} /></span>
-        {/snippet}
-      </PortalCard>
-    </div>
-    <div class="slot three">
-      <PortalCard
-        href={router.href('battle')}
-        tone="battle"
-        title={t('ui.nav.battle')}
-        status={next ? t('ui.hub.next', { id: next }) : t('ui.hub.allClear')}
-      >
-        {#snippet art()}
-          <span class="glyph"><Icon name="battle" size={120} /></span>
-          <span class="band"><Ornament pantheon="greek" height={10} /></span>
-        {/snippet}
-      </PortalCard>
-    </div>
-  </nav>
+    {/if}
+  </aside>
 </div>
 
 <style>
   .hub {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: 'title portals' 'quests portals';
-    grid-template-rows: 1fr auto;
-    align-items: end;
-    gap: var(--space-5) var(--space-6);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+    gap: var(--space-5);
+    align-items: start;
+    max-width: 90rem;
+    margin-inline: auto;
     min-height: 100dvh;
-    padding: 6rem var(--gutter) 8.5rem;
+    padding: 5.5rem var(--gutter) 9rem;
     isolation: isolate;
-    overflow: hidden;
   }
-  .hub :global(.oculus) {
+  .backdrop {
+    position: fixed;
+    inset: 0;
     z-index: -1;
+    opacity: 0.55;
   }
-  .title-block {
-    grid-area: title;
+  .main {
+    animation: rise 700ms var(--ease-out) 150ms both;
+  }
+  .modes {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+  .mode {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgb(29 44 99 / 0.85), rgb(7 10 20 / 0.92));
+    box-shadow:
+      inset 0 1px 0 rgb(255 244 210 / 0.12),
+      var(--shadow-2);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform var(--dur-press) var(--ease-out),
+      border-color var(--dur-quick) ease;
+  }
+  .mode:active {
+    transform: scale(0.97);
+  }
+  .mode-icon {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    background: radial-gradient(circle at 50% 35%, #2b3f86, #0b1128);
+    color: var(--gold-pale);
+  }
+  .mode-title {
+    font-size: var(--text-lg);
+    color: var(--gold-pale);
+    letter-spacing: 0.06em;
+  }
+  .mode-value {
+    font-size: var(--text-sm);
+    color: var(--parchment-dim);
+    font-variant-numeric: lining-nums;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mode:hover {
+      border-color: var(--gold);
+    }
+  }
+  @media (max-width: 640px) {
+    .modes {
+      grid-template-columns: 1fr;
+    }
+  }
+  .side {
     display: grid;
     gap: var(--space-4);
-    align-content: end;
+    animation: rise 700ms var(--ease-out) 300ms both;
   }
-  .title {
-    font-family: var(--font-caps);
-    font-size: clamp(3rem, 1rem + 7vw, 6.5rem);
-    letter-spacing: 0.14em;
-    line-height: 0.95;
-    color: var(--parchment);
-    text-shadow: 0 2px 24px rgb(7 10 20 / 0.6);
-    animation: rise var(--dur-ceremony) var(--ease-out) 300ms both;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
   }
-  .tagline {
-    font-size: var(--text-xl);
-    font-style: italic;
-    color: var(--gold-pale);
-    max-width: 34ch;
-    animation: rise var(--dur-ceremony) var(--ease-out) 450ms both;
-  }
-  .quest-block {
-    grid-area: quests;
-  }
-  .quest-block :global(.quests) {
-    max-width: 30rem;
-    animation: rise var(--dur-ceremony) var(--ease-out) 600ms both;
-  }
-  .quests-title {
+  .side-title {
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -152,92 +239,70 @@
     font-weight: 400;
     color: var(--gold);
   }
-  .portals {
-    grid-area: portals;
-    align-self: center;
-    padding-inline: var(--space-4);
+  .news {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-4);
-    align-items: end;
-    padding-bottom: var(--space-4);
   }
-  /* the three portals sit in a gentle fan, like a hand of cards */
-  .slot {
-    transform-origin: 50% 120%;
-    animation: deal 900ms var(--ease-settle) both;
+  .news a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-3);
+    align-items: start;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule);
+    color: inherit;
+    text-decoration: none;
+    transition: background-color var(--dur-quick) ease;
   }
-  .one {
-    rotate: -5deg;
-    translate: 0 14px;
-    animation-delay: 500ms;
+  .news li:last-child a {
+    border-bottom: 0;
   }
-  .two {
-    animation-delay: 620ms;
-  }
-  .three {
-    rotate: 5deg;
-    translate: 0 14px;
-    animation-delay: 740ms;
-  }
-  @keyframes deal {
-    from {
-      opacity: 0;
-      transform: translateY(60px) scale(0.9);
-    }
-  }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-  }
-  .mosaic {
-    width: 78%;
-  }
-  .mosaic rect {
-    fill: #142352;
-    stroke: var(--lapis-bright);
-    stroke-width: 0.8;
-  }
-  .mosaic rect.lit {
-    fill: var(--gold);
-    stroke: var(--gold-pale);
-  }
-  .glyph {
+  .news-icon {
     display: grid;
     place-items: center;
-    filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.6));
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    background: var(--vault);
+    color: var(--gold-pale);
   }
-  .band {
-    position: absolute;
-    inset-inline: 6%;
-    bottom: -4%;
+  .news-text {
+    display: grid;
+    gap: 2px;
   }
-  @media (max-width: 900px) {
+  .news-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--parchment);
+    line-height: 1.2;
+  }
+  .news-body {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-snug);
+  }
+  time {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-variant-numeric: lining-nums;
+    white-space: nowrap;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .news a:hover .news-title {
+      color: var(--gold-pale);
+    }
+  }
+  @media (max-width: 960px) {
     .hub {
       grid-template-columns: 1fr;
-      grid-template-areas: 'title' 'portals' 'quests';
-      grid-template-rows: auto;
-      align-items: start;
       padding-top: 5rem;
-      overflow: visible;
-    }
-    .title {
-      font-size: clamp(2.4rem, 1rem + 7vw, 4rem);
-    }
-    .tagline {
-      font-size: var(--text-lg);
-    }
-    .portals {
-      gap: var(--space-2);
-      padding-inline: 0;
     }
   }
-  :global([data-motion='calm']) .slot,
-  :global([data-motion='calm']) .title,
-  :global([data-motion='calm']) .tagline,
-  :global([data-motion='calm']) .quest-block :global(.quests) {
+  :global([data-motion='calm']) .main,
+  :global([data-motion='calm']) .side {
     animation-name: fade;
     animation-duration: var(--dur-base);
   }
