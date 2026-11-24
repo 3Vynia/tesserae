@@ -32,10 +32,25 @@ async function load(): Promise<void> {
     const row = await db.saves.get(SLOT);
     data = row ? parseSave(row.data) : createSave(newSeed(), Date.now());
     if (!row) await persistNow();
+    if (import.meta.env.DEV) applyDevParams();
     status = 'ready';
   } catch (e) {
     error = e instanceof Error ? e.message : String(e);
     status = 'error';
+  }
+}
+
+/**
+ * Development only, stripped from production builds: `?starlight` sets the balance to five
+ * million (or `?starlight=200` to an exact amount) so summons and progression can be tested.
+ */
+function applyDevParams(): void {
+  const param = new URLSearchParams(location.search).get('starlight');
+  if (param === null) return;
+  const amount = param === '' ? 5_000_000 : Number(param);
+  if (data && Number.isFinite(amount) && amount > 0) {
+    data.starlight = Math.floor(amount);
+    void persistNow();
   }
 }
 
