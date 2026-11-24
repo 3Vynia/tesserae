@@ -436,7 +436,8 @@
   },
   "time": {
     "hm": "{h}h {m}m",
-    "ms": "{m}m {s}s"
+    "ms": "{m}m {s}s",
+    "dh": "{d}d {h}h"
   },
   "wallet": {
     "dustName": "Stardust",
@@ -685,5 +686,42 @@
     },
     "everywhere": "Wear this theme across the whole game",
     "done": "Done"
+  },
+  "workshop": {
+    "heading": "The frame workshop",
+    "rotation": "New frames on the bench in {time}",
+    "tryOn": "Try on",
+    "previewLabel": "Preview",
+    "onCard": "On a card",
+    "frameOnly": "Frame only",
+    "giftEyebrow": "This week’s gift",
+    "giftBody": "The workshop gives one frame away each week. Take it before the bench changes.",
+    "takeGift": "Take the gift",
+    "giftTakenShort": "Taken",
+    "giftTaken": "The {name} frame is yours. Dress a card with it in the vault.",
+    "frames": "On the bench this week",
+    "from": "Drawn from the {pantheon} band",
+    "plain": "Cut for every pantheon",
+    "color": "Color",
+    "owned": "Owned",
+    "bought": "{name} is yours.",
+    "boughtSticker": "The {name} sticker is yours.",
+    "stickers": "Stickers",
+    "note": "Frames and stickers are paid in stardust, which comes from dissolving spare copies and from the wheel. Seals of each pantheon come free with its cards."
+  },
+  "market": {
+    "heading": "The Oracle’s market",
+    "restock": "New cards on the stall in {time}",
+    "balance": "You hold {dust, number} stardust",
+    "newToYou": "New to you",
+    "onWishlist": "Wished",
+    "youHave": "{count, plural, one {You have # copy} other {You have # copies}}",
+    "notYet": "Not in your vault yet",
+    "sold": "Bought",
+    "boughtNew": "{name} joins your vault.",
+    "boughtCopy": "Another copy of {name}.",
+    "howHeading": "Where stardust comes from",
+    "howBody": "Dissolve spare copies in the vault, or win it on Fortuna’s wheel. The stall sells each card once a week, and always has one god or better.",
+    "toVault": "Dissolve spares in the vault"
   }
 }

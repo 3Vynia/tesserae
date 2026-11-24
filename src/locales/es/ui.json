@@ -436,7 +436,8 @@
   },
   "time": {
     "hm": "{h} h {m} min",
-    "ms": "{m} min {s} s"
+    "ms": "{m} min {s} s",
+    "dh": "{d} d {h} h"
   },
   "wallet": {
     "dustName": "Polvo de estrellas",
@@ -685,5 +686,42 @@
     },
     "everywhere": "Usar este tema en todo el juego",
     "done": "Listo"
+  },
+  "workshop": {
+    "heading": "El taller de marcos",
+    "rotation": "Marcos nuevos en el banco en {time}",
+    "tryOn": "Probar en",
+    "previewLabel": "Vista previa",
+    "onCard": "En una carta",
+    "frameOnly": "Solo el marco",
+    "giftEyebrow": "El regalo de esta semana",
+    "giftBody": "El taller regala un marco cada semana. Tómalo antes de que cambie el banco.",
+    "takeGift": "Tomar el regalo",
+    "giftTakenShort": "Tomado",
+    "giftTaken": "El marco {name} es tuyo. Vístelo en una carta desde la bóveda.",
+    "frames": "En el banco esta semana",
+    "from": "Sacado de la cenefa del panteón {pantheon}",
+    "plain": "Tallado para todos los panteones",
+    "color": "Color",
+    "owned": "Tuyo",
+    "bought": "{name} es tuyo.",
+    "boughtSticker": "El sticker {name} es tuyo.",
+    "stickers": "Stickers",
+    "note": "Los marcos y los stickers se pagan con polvo de estrellas, que sale de disolver copias de sobra y de la rueda. El sello de cada panteón viene gratis con sus cartas."
+  },
+  "market": {
+    "heading": "El mercado del Oráculo",
+    "restock": "Cartas nuevas en el puesto en {time}",
+    "balance": "Tienes {dust, number} de polvo de estrellas",
+    "newToYou": "Nueva para ti",
+    "onWishlist": "Deseada",
+    "youHave": "{count, plural, one {Tienes # copia} other {Tienes # copias}}",
+    "notYet": "Aún no está en tu bóveda",
+    "sold": "Comprada",
+    "boughtNew": "{name} entra en tu bóveda.",
+    "boughtCopy": "Otra copia de {name}.",
+    "howHeading": "De dónde sale el polvo de estrellas",
+    "howBody": "Disuelve copias de sobra en la bóveda o gánalo en la rueda de Fortuna. El puesto vende cada carta una vez por semana y siempre tiene un dios o algo mejor.",
+    "toVault": "Disolver copias en la bóveda"
   }
 }
