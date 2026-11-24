@@ -130,7 +130,7 @@
     box-shadow:
       inset 0 0 0 3px var(--accent),
       inset 0 0 0 4px rgb(4 6 13 / 0.7),
-      inset 0 0 18px rgb(242 200 121 / 0.25);
+      inset 0 5px 0 -1px rgb(255 244 210 / 0.22);
     background: linear-gradient(
       125deg,
       rgb(255 244 210 / 0.22) 0,

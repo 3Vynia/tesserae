@@ -436,8 +436,10 @@
     background: var(--lapis);
   }
   .stage.locked {
-    opacity: 0.5;
     cursor: not-allowed;
+  }
+  .stage.locked .stage-name {
+    color: var(--text-muted);
   }
   .stage-name {
     font-family: var(--font-display);
