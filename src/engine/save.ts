@@ -9,6 +9,7 @@ const ownedCard = z.object({
   count: z.number().int().min(1),
   level: z.number().int().min(1).max(60),
   stars: z.number().int().min(0).max(5),
+  xp: z.number().int().min(0).default(0),
   firstAt: z.number(),
   seen: z.boolean(),
 });
@@ -35,6 +36,16 @@ export const saveSchema = z.object({
       claimed: z.array(z.string()),
     })
     .default({ day: '', progress: {}, claimed: [] }),
+  battle: z
+    .object({
+      /** Card ids by slot: 0-2 front row, 3-4 back row. */
+      team: z.array(z.string().nullable()).length(5),
+      cleared: z.array(z.string()),
+      tower: z.number().int().min(0),
+      bosses: z.array(z.string()),
+      wins: z.number().int().min(0),
+    })
+    .default({ team: [null, null, null, null, null], cleared: [], tower: 0, bosses: [], wins: 0 }),
 });
 export type Save = z.infer<typeof saveSchema>;
 
@@ -47,6 +58,13 @@ export function createSave(seed: string, now: number): Save {
     owned: {},
     pulls: { total: 0, pity: {}, history: [] },
     quests: { day: '', progress: {}, claimed: [] },
+    battle: {
+      team: [STARTER_CARDS[1], STARTER_CARDS[0], STARTER_CARDS[3], STARTER_CARDS[2], null],
+      cleared: [],
+      tower: 0,
+      bosses: [],
+      wins: 0,
+    },
   };
   for (const id of STARTER_CARDS) grant(save, id, now, true);
   return save;
@@ -59,7 +77,7 @@ export function grant(save: Save, cardId: string, now: number, seen = false): bo
     existing.count += 1;
     return false;
   }
-  save.owned[cardId] = { count: 1, level: 1, stars: 0, firstAt: now, seen };
+  save.owned[cardId] = { count: 1, level: 1, stars: 0, xp: 0, firstAt: now, seen };
   return true;
 }
 

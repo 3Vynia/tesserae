@@ -10,7 +10,7 @@ export interface Quest {
   reward: number;
 }
 
-/** Quests the day draws from. Battle quests join the pool when battles open. */
+/** Quests the day draws from. */
 export const QUEST_POOL: readonly Quest[] = [
   { id: 'summon-once', event: 'summon', goal: 1, reward: 160 },
   { id: 'summon-ten', event: 'summon', goal: 10, reward: 320 },
@@ -18,6 +18,8 @@ export const QUEST_POOL: readonly Quest[] = [
   { id: 'read-a-myth', event: 'read-myth', goal: 1, reward: 120 },
   { id: 'read-three-myths', event: 'read-myth', goal: 3, reward: 200 },
   { id: 'visit-vault', event: 'visit-vault', goal: 1, reward: 80 },
+  { id: 'win-battle', event: 'win-battle', goal: 1, reward: 160 },
+  { id: 'win-three-battles', event: 'win-battle', goal: 3, reward: 280 },
 ];
 export const QUESTS_PER_DAY = 3;
 
