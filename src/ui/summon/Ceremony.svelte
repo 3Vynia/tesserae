@@ -10,13 +10,35 @@
   import Button from '../Button.svelte';
   import { playSummonParticles } from './particles';
   import { modal, portal } from '../portal';
+  import CardArt from '../card/CardArt.svelte';
+  import { fmtNumber } from '../../i18n/i18n.svelte';
+  import { tally } from '../../app/tally';
 
   interface Props {
     results: PullResult[];
     seed: string;
     onclose: (action: 'vault' | 'stay') => void;
+    /** Replaying a past wish: no new-or-copy labels, and the actions only close. */
+    replay?: boolean;
   }
-  let { results, seed, onclose }: Props = $props();
+  let { results, seed, onclose, replay = false }: Props = $props();
+
+  // A big wish (more than ten) shows its highlights as cards and the rest as a tally.
+  const haul = $derived(results.length > 10);
+  const rows = $derived(tally(results));
+  const perRarity = $derived(
+    RARITIES.map((r) => ({ rarity: r, count: results.filter((x) => x.rarity === r).length }))
+      .filter((x) => x.count > 0)
+      .reverse(),
+  );
+  const shown = $derived.by((): PullResult[] => {
+    if (!haul) return results;
+    const best = rows
+      .filter((x) => x.isNew || rank(x.rarity) >= rank('god'))
+      .slice(0, 10)
+      .map((x) => ({ card: x.card, rarity: x.rarity, isNew: x.isNew }));
+    return best.length ? best : rows.slice(0, 5).map((x) => ({ ...x }));
+  });
 
   const RARITY_HEX: Record<Rarity, string> = {
     mortal: '#c49a74',
@@ -31,15 +53,14 @@
   );
   // Rarer results are revealed later, the rarest last with a pause before it.
   const order = $derived(
-    results
+    shown
       .map((r, i) => ({ i, rank: rank(r.rarity) }))
       .sort((a, b) => a.rank - b.rank || a.i - b.i)
       .map((x) => x.i),
   );
   const delayOf = (i: number) => {
     const pos = order.indexOf(i);
-    const last =
-      pos === order.length - 1 && rank(results[i]?.rarity ?? 'mortal') >= rank('demigod');
+    const last = pos === order.length - 1 && rank(shown[i]?.rarity ?? 'mortal') >= rank('demigod');
     return pos * 110 + (last ? 420 : 0);
   };
 
@@ -86,7 +107,8 @@
   use:portal
   use:modal
   class="ceremony top-{top}"
-  class:many={results.length > 1}
+  class:many={shown.length > 1}
+  class:haul
   role="dialog"
   aria-modal="true"
   aria-label={t('ui.ceremony.label')}
@@ -104,21 +126,36 @@
   <div class="flash" class:on={phase === 'burst' || phase === 'reveal'} aria-hidden="true"></div>
 
   {#if phase === 'reveal'}
+    {#if haul}
+      <div class="haul-head">
+        <h2 class="caps">{t('ui.ceremony.haul', { count: results.length })}</h2>
+        <ul class="per-rarity">
+          {#each perRarity as row (row.rarity)}
+            <li style:--pip="var(--rarity-{row.rarity})">
+              <i aria-hidden="true"></i>{t(`ui.rarity.${row.rarity}`)}
+              <b>{fmtNumber(row.count)}</b>
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
     <ol class="spread" aria-live="polite">
-      {#each results as result, i (i)}
+      {#each shown as result, i (i)}
         {@const card = CARDS_BY_ID.get(result.card)}
         {#if card}
           <li
             class="slot rarity-{result.rarity}"
-            style:--i={i - (results.length - 1) / 2}
+            style:--i={i - (shown.length - 1) / 2}
             style:--delay="{delayOf(i)}ms"
           >
             <div class="card-wrap">
-              <CardView {card} interactive={results.length === 1} />
+              <CardView {card} interactive={shown.length === 1} />
             </div>
-            <p class="status caps" class:fresh={result.isNew}>
-              {result.isNew ? t('ui.ceremony.new') : t('ui.ceremony.copy')}
-            </p>
+            {#if !replay}
+              <p class="status caps" class:fresh={result.isNew}>
+                {result.isNew ? t('ui.ceremony.new') : t('ui.ceremony.copy')}
+              </p>
+            {/if}
             <span class="visually-hidden">
               {t('ui.ceremony.result', {
                 name: cardName(card),
@@ -130,11 +167,32 @@
         {/if}
       {/each}
     </ol>
+    {#if haul}
+      <ul class="tally" aria-label={t('ui.ceremony.tally')}>
+        {#each rows as row (row.card)}
+          {@const card = CARDS_BY_ID.get(row.card)}
+          {#if card}
+            <li class="rarity-{row.rarity}" title={cardName(card)}>
+              <span class="thumb"><CardArt {card} /></span>
+              <span class="times">×{fmtNumber(row.count)}</span>
+              {#if row.isNew && !replay}<span class="new caps">{t('ui.ceremony.new')}</span>{/if}
+              <span class="visually-hidden">{cardName(card)}</span>
+            </li>
+          {/if}
+        {/each}
+      </ul>
+    {/if}
     <div class="actions" bind:this={doneButton}>
-      <Button variant="gilt" icon="collection" onclick={() => onclose('vault')}>
-        {t('ui.ceremony.done', { count: results.length })}
-      </Button>
-      <Button variant="quiet" onclick={() => onclose('stay')}>{t('ui.ceremony.again')}</Button>
+      {#if replay}
+        <Button variant="gilt" onclick={() => onclose('stay')}>
+          {t('ui.ceremony.closeReplay')}
+        </Button>
+      {:else}
+        <Button variant="gilt" icon="collection" onclick={() => onclose('vault')}>
+          {t('ui.ceremony.done', { count: results.length })}
+        </Button>
+        <Button variant="quiet" onclick={() => onclose('stay')}>{t('ui.ceremony.again')}</Button>
+      {/if}
     </div>
   {:else}
     <button class="skip caps" type="button" bind:this={skipButton} onclick={() => void reveal()}>
@@ -279,6 +337,115 @@
     font-size: var(--text-lg);
     cursor: pointer;
   }
+  /* a big wish: the highlights in an arc, then the whole haul as a tally */
+  .haul {
+    grid-template-rows: auto auto 1fr auto;
+    place-items: start center;
+    gap: var(--space-4);
+    overflow-y: auto;
+  }
+  .haul .spread {
+    padding: var(--space-4) 0 var(--space-8);
+  }
+  .haul .status {
+    display: none;
+  }
+  .haul .slot {
+    width: clamp(4.5rem, 7vw, 7.5rem);
+    margin-inline: calc(clamp(4.5rem, 7vw, 7.5rem) * -0.1);
+  }
+  .haul-head {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+    animation: arrive 500ms var(--ease-out) both;
+  }
+  .haul-head h2 {
+    font-size: var(--text-3xl);
+    color: var(--gold-pale);
+    letter-spacing: 0.06em;
+  }
+  .per-rarity {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--parchment-dim);
+  }
+  .per-rarity li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .per-rarity i {
+    width: 0.6em;
+    height: 0.6em;
+    rotate: 45deg;
+    background: var(--pip);
+  }
+  .per-rarity b {
+    font-weight: 500;
+    color: var(--gold-pale);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .tally {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4.25rem, 1fr));
+    gap: var(--space-2);
+    width: min(60rem, 100%);
+    margin: 0;
+    padding: var(--space-3);
+    list-style: none;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sheet);
+    background: rgb(7 10 20 / 0.7);
+    animation: arrive 500ms var(--ease-out) 1200ms both;
+  }
+  .tally li {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    justify-items: center;
+  }
+  .tally .thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 2px var(--accent, var(--rarity-mortal));
+  }
+  .tally .rarity-hero {
+    --accent: var(--rarity-hero);
+  }
+  .tally .rarity-demigod {
+    --accent: var(--rarity-demigod);
+  }
+  .tally .rarity-god {
+    --accent: var(--rarity-god);
+  }
+  .tally .rarity-primordial {
+    --accent: var(--rarity-primordial);
+  }
+  .times {
+    font-size: var(--text-sm);
+    color: var(--parchment);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .new {
+    position: absolute;
+    top: -6px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: var(--text-xs);
+  }
   @media (max-width: 760px) {
     .many .spread {
       display: grid;
@@ -293,6 +460,8 @@
     }
   }
   :global([data-motion='calm']) .slot,
+  :global([data-motion='calm']) .haul-head,
+  :global([data-motion='calm']) .tally,
   :global([data-motion='calm']) .actions {
     animation-name: fade;
     animation-duration: var(--dur-base);

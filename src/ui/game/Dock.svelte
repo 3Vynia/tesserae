@@ -1,19 +1,14 @@
 <script lang="ts">
   import { t } from '../../i18n/i18n.svelte';
   import Icon from '../icons/Icon.svelte';
-  import type { IconName } from '../icons/paths';
+  import Sheet from './Sheet.svelte';
+  import type { NavItem } from './nav';
 
-  interface Item {
-    route: string;
-    href: string;
-    icon: IconName;
-    label: string;
-    /** Shows a small star when something waits there, such as a quest to claim. */
-    alert?: boolean;
-    /** The raised medallion in the middle of the dock. */
-    featured?: boolean;
-  }
-  let { items, current }: { items: Item[]; current: string } = $props();
+  // The bottom dock on narrow screens; the rest of the destinations sit behind "More".
+  let { items, more, current }: { items: NavItem[]; more: NavItem[]; current: string } = $props();
+  let open = $state(false);
+  const moreActive = $derived(more.some((m) => m.route === current));
+  const moreBadge = $derived(more.some((m) => m.badge));
 </script>
 
 <nav class="dock" aria-label={t('ui.nav.label')}>
@@ -28,14 +23,45 @@
         >
           <span class="tablet">
             <Icon name={item.icon} size={28} />
-            {#if item.alert}<span class="alert" aria-hidden="true"></span>{/if}
+            {#if item.badge}<span class="alert" aria-hidden="true"></span>{/if}
           </span>
           <span class="label caps">{item.label}</span>
+          {#if item.status}<span class="visually-hidden">, {item.status}</span>{/if}
         </a>
       </li>
     {/each}
+    <li>
+      <button type="button" class:active={moreActive} onclick={() => (open = true)}>
+        <span class="tablet">
+          <Icon name="more" size={28} />
+          {#if moreBadge}<span class="alert" aria-hidden="true"></span>{/if}
+        </span>
+        <span class="label caps">{t('ui.nav.more')}</span>
+      </button>
+    </li>
   </ul>
 </nav>
+
+{#if open}
+  <Sheet title={t('ui.nav.more')} onclose={() => (open = false)}>
+    <ul class="more">
+      {#each more as item (item.route)}
+        <li>
+          <a
+            href={item.href}
+            aria-current={current === item.route ? 'page' : undefined}
+            onclick={() => (open = false)}
+          >
+            <span class="more-icon"><Icon name={item.icon} size={26} /></span>
+            <span class="more-label">{item.label}</span>
+            {#if item.timer}<span class="more-note">{item.timer}</span>{/if}
+            {#if item.status}<span class="more-note">{item.status}</span>{/if}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </Sheet>
+{/if}
 
 <style>
   .dock {
@@ -59,7 +85,8 @@
     padding: 0;
     list-style: none;
   }
-  a {
+  a,
+  button {
     display: grid;
     justify-items: center;
     gap: 2px;
@@ -67,12 +94,17 @@
     padding: var(--space-1) var(--space-2);
     color: var(--parchment-dim);
     text-decoration: none;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
     border-radius: 10px;
     transition:
       color var(--dur-quick) ease,
       transform var(--dur-press) var(--ease-out);
   }
-  a:active {
+  a:active,
+  button:active {
     transform: scale(0.95);
   }
   .tablet {
@@ -135,6 +167,36 @@
     background: radial-gradient(circle at 50% 35%, #fdf1d2 0, #f2c879 40%, #b0603f 90%);
     color: var(--ink);
   }
+  .more {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .more a {
+    grid-template-columns: auto 1fr auto;
+    justify-items: start;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+    min-height: 56px;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--rule);
+    color: var(--parchment);
+    font-size: var(--text-lg);
+  }
+  .more a[aria-current='page'] {
+    border-color: var(--gold);
+    color: var(--gold-pale);
+  }
+  .more-icon {
+    color: var(--gold);
+  }
+  .more-note {
+    font-size: var(--text-sm);
+    color: var(--gold);
+  }
   @media (hover: hover) and (pointer: fine) {
     a:not(.active):hover {
       color: var(--gold-pale);
@@ -155,9 +217,26 @@
     ul {
       justify-content: space-around;
     }
-    a {
-      min-width: 0;
+    li {
       flex: 1;
+      min-width: 0;
+    }
+    ul {
+      gap: 0;
+    }
+    .label {
+      font-size: var(--text-xs);
+      letter-spacing: 0.02em;
+    }
+    a,
+    button {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+  @media (min-width: 900px) {
+    .dock {
+      display: none;
     }
   }
   :global([data-motion='calm']) .tablet {

@@ -1,15 +1,15 @@
 <script lang="ts">
   import { t } from '../../i18n/i18n.svelte';
   import Icon from '../icons/Icon.svelte';
-  import Starlight from '../hud/Starlight.svelte';
+  import Purse from '../hud/Purse.svelte';
 
   interface Props {
     homeHref: string;
     settingsHref: string;
-    starlight: number | null;
+    wallet: { starlight: number; dust: number; golden: number } | null;
     lit: { owned: number; total: number } | null;
   }
-  let { homeHref, settingsHref, starlight, lit }: Props = $props();
+  let { homeHref, settingsHref, wallet, lit }: Props = $props();
 </script>
 
 <header class="hud">
@@ -27,7 +27,7 @@
     </span>
   </a>
   <div class="right">
-    {#if starlight !== null}<Starlight amount={starlight} />{/if}
+    {#if wallet}<Purse {...wallet} />{/if}
     <a class="gear" href={settingsHref} aria-label={t('ui.nav.settings')}>
       <Icon name="settings" size={24} />
     </a>
@@ -90,11 +90,6 @@
     align-items: center;
     gap: var(--space-2);
   }
-  .right :global(.starlight) {
-    background: rgb(7 10 20 / 0.85);
-    border-color: var(--rule-strong);
-    border-radius: 999px;
-  }
   .gear {
     display: grid;
     place-items: center;
@@ -109,8 +104,15 @@
   .gear:active {
     transform: scale(0.94) rotate(-20deg);
   }
+  /* the rail carries Settings on wide screens */
+  @media (min-width: 900px) {
+    .gear {
+      display: none;
+    }
+  }
   @media (max-width: 520px) {
-    .lit-count {
+    .lit-count,
+    .word {
       display: none;
     }
   }

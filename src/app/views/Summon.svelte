@@ -3,15 +3,23 @@
   import { RARITIES, type Rarity } from '../../data/schema';
   import {
     bannersFor,
+    cardChance,
     DEMIGOD_PITY,
     GOD_PITY,
+    GOLDEN_EVERY,
+    historyBatches,
+    MAX_PULLS,
     pityStatus,
     pull,
     PULL_COST,
     RATES,
+    summonGolden,
+    toggleFavorite,
     type Banner,
     type PullResult,
   } from '../../engine/gacha';
+  import { tally } from '../tally';
+  import Offerings from '../../ui/summon/Offerings.svelte';
   import { dayKey, track } from '../../engine/quests';
   import { fmtDate, fmtNumber, t } from '../../i18n/i18n.svelte';
   import { game } from '../save.svelte';
@@ -33,8 +41,13 @@
   const banners = [...others, standing];
 
   let bannerId = $state(banners[0]?.id ?? standing.id);
-  let ceremony = $state<{ results: PullResult[]; seed: string } | null>(null);
-  let sheet = $state<'details' | 'history' | null>(null);
+  let ceremony = $state<{ results: PullResult[]; seed: string; replay?: boolean } | null>(null);
+  let sheet = $state<'details' | 'history' | 'amount' | null>(null);
+  let custom = $state(50);
+  let oddsQuery = $state('');
+  let openBatch = $state<number | null>(null);
+  let onlyStarred = $state(false);
+  let notice = $state('');
   let viewing = $state<number | null>(null);
   // The viewer browses the banner's featured cards first, then the rest of its pool.
   const pool = $derived.by(() => {
@@ -50,8 +63,25 @@
   const pity = $derived(
     ready ? pityStatus(game.save, banner.id) : { demigod: DEMIGOD_PITY, god: GOD_PITY },
   );
-  const history = $derived(ready ? game.save.pulls.history.slice(0, 40) : []);
+  const rawPity = $derived(
+    (ready ? game.save.pulls.pity[banner.id] : undefined) ?? { demigod: 0, god: 0 },
+  );
+  const golden = $derived(ready ? game.save.wallet.golden : 0);
+  const meter = $derived(ready ? game.save.pulls.meter : 0);
+  const batches = $derived(ready ? historyBatches(game.save) : []);
+  const starred = $derived(ready ? game.save.pulls.favorites : []);
+  const wishes = $derived(
+    (onlyStarred ? batches.filter((b) => starred.includes(b.batch)) : batches).slice(0, 60),
+  );
+  const odds = $derived.by(() => {
+    const q = oddsQuery.trim().toLocaleLowerCase();
+    return CARDS.filter((c) => !q || cardName(c).toLocaleLowerCase().includes(q))
+      .map((c) => ({ card: c, chance: cardChance(c.id, banner, rawPity, CARDS) }))
+      .sort((a, b) => b.chance - a.chance);
+  });
   const today = dayKey(now);
+  // The largest affordable amount, for the "as many as I can" shortcut.
+  const affordable = $derived(Math.min(MAX_PULLS, Math.floor(starlight / PULL_COST)));
 
   function summon(count: number): void {
     let outcome: ReturnType<typeof pull> | undefined;
@@ -60,9 +90,45 @@
       if (outcome && 'results' in outcome) track(save, 'summon', today, count);
     });
     if (outcome && 'results' in outcome) {
+      sheet = null;
+      notice = outcome.golden ? t('ui.summon.golden.earned', { count: outcome.golden }) : '';
       ceremony = { results: outcome.results, seed: `${game.save.seed}:${game.save.pulls.total}` };
     }
   }
+
+  function summonWithGolden(): void {
+    let outcome: ReturnType<typeof summonGolden> | undefined;
+    game.update((save) => (outcome = summonGolden(save, banner, CARDS, Date.now())));
+    if (outcome && 'results' in outcome) {
+      ceremony = { results: outcome.results, seed: `${game.save.seed}:golden:${outcome.batch}` };
+    }
+  }
+
+  function replay(batch: (typeof batches)[number]): void {
+    sheet = null;
+    ceremony = {
+      replay: true,
+      seed: `${game.save.seed}:replay:${batch.batch}`,
+      results: batch.cards.map((c) => ({
+        card: c.card,
+        rarity: c.rarity as Rarity,
+        isNew: false,
+      })),
+    };
+  }
+
+  const wishTitle = (b: (typeof batches)[number]) => {
+    const only = b.cards.length === 1 ? CARDS_BY_ID.get(b.cards[0]?.card ?? '') : undefined;
+    return only ? cardName(only) : t('ui.summon.history.wish', { count: b.cards.length });
+  };
+  const grouped = (b: (typeof batches)[number]) => tally(b.cards);
+  const oneIn = (p: number) => (p > 0 ? Math.round(1 / p) : 0);
+  const batchTop = (b: (typeof batches)[number]) =>
+    b.cards.reduce(
+      (best, c) =>
+        ORDER.indexOf(c.rarity as Rarity) > ORDER.indexOf(best) ? (c.rarity as Rarity) : best,
+      'mortal' as Rarity,
+    );
 
   function finish(action: 'vault' | 'stay'): void {
     const results = ceremony?.results ?? [];
@@ -74,6 +140,9 @@
   }
 
   const missing = (count: number) => Math.max(0, PULL_COST * count - starlight);
+  const customCount = $derived(
+    Math.max(1, Math.min(MAX_PULLS, Math.floor(Number.isFinite(custom) ? custom : 1))),
+  );
   const tabTitle = (b: Banner) =>
     b.featured
       ? t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${b.featured}`) })
@@ -102,6 +171,7 @@
       </button>
     {/each}
   </div>
+  {#if ready}<div class="free-slot"><Offerings /></div>{/if}
 
   <div class="stage" id="banner-panel" role="tabpanel" aria-label={tabTitle(banner)}>
     {#key banner.id}
@@ -118,10 +188,21 @@
         </button>
       </div>
 
-      <p class="pity">
-        <span class="pity-num">{pity.god}</span>
-        <span>{t('ui.summon.pity.godShort', { count: pity.god })}</span>
-      </p>
+      <div class="counters">
+        <p class="pity">
+          <span class="pity-num">{pity.god}</span>
+          <span>{t('ui.summon.pity.godShort', { count: pity.god })}</span>
+        </p>
+        <div class="meter" title={t('ui.summon.golden.meterHint', { every: GOLDEN_EVERY })}>
+          <p class="meter-text">
+            <Icon name="golden" size={16} />
+            {t('ui.summon.golden.next', { count: GOLDEN_EVERY - meter })}
+          </p>
+          <span class="bar" aria-hidden="true">
+            <span style:width="{(meter / GOLDEN_EVERY) * 100}%"></span>
+          </span>
+        </div>
+      </div>
 
       <div class="pulls">
         {#each [1, 10] as count (count)}
@@ -142,9 +223,43 @@
         {/each}
       </div>
     </div>
-    {#if ready && missing(1) > 0}
-      <p class="short" role="status">{t('ui.summon.short', { missing: missing(1) })}</p>
-    {/if}
+
+    <div class="more-pulls">
+      {#each [100, 1000] as count (count)}
+        <button
+          type="button"
+          class="chip"
+          disabled={!ready || missing(count) > 0}
+          onclick={() => summon(count)}
+        >
+          <span class="chip-x">×{fmtNumber(count)}</span>
+          <span class="chip-cost">
+            <Icon name="starlight" size={14} />{fmtNumber(PULL_COST * count)}
+          </span>
+        </button>
+      {/each}
+      <button
+        type="button"
+        class="chip"
+        disabled={!ready || affordable < 1}
+        onclick={() => (sheet = 'amount')}
+      >
+        <span class="chip-x">{t('ui.summon.other')}</span>
+        <span class="chip-cost">{t('ui.summon.upTo', { count: affordable })}</span>
+      </button>
+      <button
+        type="button"
+        class="chip golden"
+        disabled={!ready || golden < 1}
+        onclick={summonWithGolden}
+      >
+        <span class="chip-x"><Icon name="golden" size={16} />{t('ui.summon.golden.use')}</span>
+        <span class="chip-cost">{t('ui.summon.golden.have', { count: golden })}</span>
+      </button>
+    </div>
+    <p class="short" role="status">
+      {notice || (ready && missing(1) > 0 ? t('ui.summon.short', { missing: missing(1) }) : '')}
+    </p>
   </div>
 </div>
 
@@ -175,21 +290,135 @@
         })}
       </p>
     {/if}
+    <h3 class="sheet-h caps">{t('ui.summon.golden.heading')}</h3>
+    <p>{t('ui.summon.golden.body', { every: GOLDEN_EVERY })}</p>
+    <h3 class="sheet-h caps">{t('ui.summon.odds.heading')}</h3>
+    <p class="note">{t('ui.summon.odds.note')}</p>
+    <label class="search">
+      <Icon name="search" size={18} />
+      <span class="visually-hidden">{t('ui.summon.odds.search')}</span>
+      <input type="search" bind:value={oddsQuery} placeholder={t('ui.summon.odds.search')} />
+    </label>
+    <table class="rates odds">
+      <tbody>
+        {#each odds as row (row.card.id)}
+          <tr>
+            <th scope="row" style:--pip="var(--rarity-{row.card.rarity})">
+              <i class="pip" aria-hidden="true"></i>{cardName(row.card)}
+            </th>
+            <td>{t('ui.summon.rates.value', { rate: row.chance })}</td>
+            <td class="one-in">{t('ui.summon.odds.oneIn', { n: oneIn(row.chance) })}</td>
+          </tr>
+        {:else}
+          <tr><td colspan="3" class="note">{t('ui.summon.odds.none')}</td></tr>
+        {/each}
+      </tbody>
+    </table>
+  </Sheet>
+{:else if sheet === 'amount'}
+  <Sheet title={t('ui.summon.amount.heading')} onclose={() => (sheet = null)}>
+    <form
+      class="amount"
+      onsubmit={(e) => {
+        e.preventDefault();
+        if (missing(customCount) === 0) summon(customCount);
+      }}
+    >
+      <label for="amount-input">{t('ui.summon.amount.label', { max: affordable })}</label>
+      <div class="amount-row">
+        <input
+          id="amount-input"
+          type="number"
+          inputmode="numeric"
+          min="1"
+          max={Math.max(1, affordable)}
+          bind:value={custom}
+        />
+        <button type="button" class="pill" onclick={() => (custom = Math.max(1, affordable))}>
+          {t('ui.summon.amount.max')}
+        </button>
+      </div>
+      <input
+        type="range"
+        min="1"
+        max={Math.max(1, affordable)}
+        bind:value={custom}
+        aria-label={t('ui.summon.amount.slider')}
+      />
+      <p class="amount-cost">
+        <Icon name="starlight" size={18} />
+        {t('ui.summon.amount.cost', { cost: PULL_COST * customCount })}
+      </p>
+      <button type="submit" class="pull-btn ten" disabled={missing(customCount) > 0}>
+        <span class="pull-label caps">{t('ui.summon.amount.go', { count: customCount })}</span>
+      </button>
+    </form>
   </Sheet>
 {:else if sheet === 'history'}
   <Sheet title={t('ui.summon.history.heading')} onclose={() => (sheet = null)}>
-    {#if history.length === 0}
-      <p class="note">{t('ui.summon.history.empty')}</p>
+    <div class="history-tools">
+      <label class="toggle">
+        <input type="checkbox" bind:checked={onlyStarred} />
+        {t('ui.summon.history.onlyStarred')}
+      </label>
+      <span class="note">{t('ui.summon.history.kept')}</span>
+    </div>
+    {#if wishes.length === 0}
+      <p class="note">
+        {onlyStarred ? t('ui.summon.history.noStarred') : t('ui.summon.history.empty')}
+      </p>
     {:else}
-      <ol class="history">
-        {#each history as entry, i (i)}
-          {@const card = CARDS_BY_ID.get(entry.card)}
-          <li style:--pip="var(--rarity-{entry.rarity})">
-            <i class="pip" aria-hidden="true"></i>
-            <span>{card ? cardName(card) : entry.card}</span>
-            <span class="when">
-              {fmtDate(entry.at, { dateStyle: 'short', timeStyle: 'short' })}
-            </span>
+      <ol class="wishes">
+        {#each wishes as wish (wish.batch + ':' + wish.at)}
+          {@const top = batchTop(wish)}
+          {@const isStarred = starred.includes(wish.batch)}
+          <li class="wish" style:--pip="var(--rarity-{top})">
+            <div class="wish-row">
+              <button
+                type="button"
+                class="star"
+                class:on={isStarred}
+                aria-pressed={isStarred}
+                aria-label={t('ui.summon.history.star')}
+                onclick={() => game.update((save) => toggleFavorite(save, wish.batch))}
+              >
+                <Icon name="star" size={20} />
+              </button>
+              <button
+                type="button"
+                class="wish-open"
+                aria-expanded={openBatch === wish.batch}
+                onclick={() => (openBatch = openBatch === wish.batch ? null : wish.batch)}
+              >
+                <i class="pip" aria-hidden="true"></i>
+                <span class="wish-title">
+                  {wishTitle(wish)}
+                </span>
+                <span class="when">
+                  {fmtDate(wish.at, { dateStyle: 'short', timeStyle: 'short' })}
+                </span>
+                <Icon name="chevron" size={18} />
+              </button>
+              <button
+                type="button"
+                class="replay"
+                aria-label={t('ui.summon.history.replay')}
+                onclick={() => replay(wish)}
+              >
+                <Icon name="replay" size={20} />
+              </button>
+            </div>
+            {#if openBatch === wish.batch}
+              <ul class="wish-cards">
+                {#each grouped(wish) as row (row.card)}
+                  {@const card = CARDS_BY_ID.get(row.card)}
+                  <li style:--pip="var(--rarity-{row.rarity})">
+                    <i class="pip" aria-hidden="true"></i>{card ? cardName(card) : row.card}
+                    {#if row.count > 1}<span class="times">×{fmtNumber(row.count)}</span>{/if}
+                  </li>
+                {/each}
+              </ul>
+            {/if}
           </li>
         {/each}
       </ol>
@@ -213,7 +442,10 @@
 <style>
   .altar {
     display: grid;
-    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+    grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'tabs stage' 'free stage';
+    align-items: start;
     gap: var(--space-5);
     max-width: 82rem;
     margin-inline: auto;
@@ -430,17 +662,251 @@
     font-size: var(--text-sm);
     color: var(--text-muted);
   }
-  .history {
+  .tabs {
+    grid-area: tabs;
+  }
+  .stage {
+    grid-area: stage;
+  }
+  .free-slot {
+    grid-area: free;
+  }
+  .counters {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+  }
+  .meter {
+    display: grid;
+    gap: 4px;
+    width: min(16rem, 100%);
+  }
+  .meter-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--parchment-dim);
+    font-variant-numeric: lining-nums;
+  }
+  .meter-text :global(svg) {
+    color: var(--gold);
+  }
+  .bar {
+    height: 6px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: rgb(7 10 20 / 0.85);
+    overflow: hidden;
+  }
+  .bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold-pale));
+    transition: width var(--dur-sheet) var(--ease-out);
+  }
+  .more-pulls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+  .chip {
+    display: grid;
+    justify-items: center;
+    min-width: 7.5rem;
+    min-height: 48px;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    background: rgb(7 10 20 / 0.88);
+    color: var(--gold-pale);
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition:
+      transform var(--dur-press) var(--ease-out),
+      border-color var(--dur-quick) ease;
+  }
+  .chip:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+  .chip:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .chip.golden {
+    border-color: var(--gold);
+    background: linear-gradient(180deg, rgb(138 111 51 / 0.45), rgb(7 10 20 / 0.9));
+  }
+  .chip-x {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+  }
+  .chip-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--text-xs);
+    color: var(--parchment-dim);
+    font-variant-numeric: lining-nums;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .chip:hover:not(:disabled) {
+      border-color: var(--gold-pale);
+    }
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: var(--space-2) 0;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--gold);
+  }
+  .search input {
+    flex: 1;
+    min-height: 40px;
+    border: 0;
+    background: transparent;
+    color: var(--parchment);
+    font: inherit;
+  }
+  .search input:focus {
+    outline: none;
+  }
+  .search:focus-within {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .odds td {
+    padding-inline-start: var(--space-3);
+  }
+  .one-in {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+  .amount {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .amount-row {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .amount-row input {
+    flex: 1;
+    min-height: 48px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-control);
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-variant-numeric: lining-nums;
+  }
+  .amount input[type='range'] {
+    accent-color: var(--gold);
+  }
+  .amount-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--gold-pale);
+    font-variant-numeric: lining-nums;
+  }
+  .history-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .toggle input {
+    accent-color: var(--gold);
+    width: 18px;
+    height: 18px;
+  }
+  .wishes {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  .history li {
+  .wish {
+    border-bottom: 1px solid var(--rule);
+  }
+  .wish-row {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    padding: var(--space-1) 0;
-    border-bottom: 1px solid var(--rule);
+    gap: var(--space-1);
+  }
+  .star,
+  .replay {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .star.on {
+    color: var(--gold);
+  }
+  .star.on :global(svg) {
+    fill: var(--gold);
+  }
+  .replay {
+    color: var(--gold-pale);
+  }
+  .wish-open {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--parchment);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .wish-open[aria-expanded='true'] :global(svg) {
+    rotate: 180deg;
+  }
+  .times {
+    margin-inline-start: 4px;
+    color: var(--gold-pale);
+    font-variant-numeric: lining-nums;
+  }
+  .wish-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin: 0 0 var(--space-3);
+    padding: 0 0 0 3rem;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--parchment-dim);
   }
   .when {
     font-size: var(--text-sm);
@@ -449,7 +915,9 @@
   }
   @media (max-width: 900px) {
     .altar {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      grid-template-areas: 'tabs' 'stage' 'free';
     }
     .tabs {
       grid-auto-flow: column;
@@ -466,6 +934,10 @@
     }
   }
   @media (max-width: 520px) {
+    .more-pulls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
     .pulls {
       width: 100%;
     }

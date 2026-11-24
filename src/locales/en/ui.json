@@ -12,7 +12,18 @@
     "settings": "Settings",
     "collection": "Collection",
     "summon": "Summon",
-    "battle": "Battle"
+    "battle": "Battle",
+    "wheel": "Wheel",
+    "market": "Market",
+    "workshop": "Workshop",
+    "profile": "Profile",
+    "more": "More",
+    "status": {
+      "quest": "a quest is ready to claim",
+      "altar": "{count, plural, one {# gift waits} other {# gifts wait}} at the altar",
+      "wheel": "a free turn is ready",
+      "gift": "this week’s gift is ready"
+    }
   },
   "pantheon": {
     "greek": "Greek",
@@ -159,7 +170,13 @@
     "short": "You need {missing, number} more starlight. Daily quests give more.",
     "history": {
       "heading": "Recent summons",
-      "empty": "Nothing summoned yet. Your pulls will be listed here, newest first."
+      "empty": "Nothing summoned yet. Your pulls will be listed here, newest first.",
+      "onlyStarred": "Starred only",
+      "kept": "Starred wishes are always kept.",
+      "noStarred": "No starred wishes yet. Tap the star on a wish to keep it.",
+      "star": "Star this wish",
+      "replay": "Replay this wish",
+      "wish": "{count, plural, one {# card} other {# cards}}"
     },
     "quests": {
       "resets": "New quests every day at midnight.",
@@ -177,7 +194,33 @@
         "win-three-battles": "Win three battles"
       }
     },
-    "details": "Details"
+    "details": "Details",
+    "other": "Other",
+    "upTo": "up to {count, number}",
+    "golden": {
+      "use": "Golden",
+      "have": "{count, number} held",
+      "next": "Golden tessera in {count, plural, one {# summon} other {# summons}}",
+      "meterHint": "Every {every} summons on any banner earns a golden tessera.",
+      "earned": "{count, plural, one {A golden tessera joined your purse.} other {# golden tesserae joined your purse.}}",
+      "heading": "Golden tesserae",
+      "body": "Every {every} summons, on any banner, earn a golden tessera. Spend one to summon a god or a primordial for certain, from the banner you are on. It does not touch your pity."
+    },
+    "odds": {
+      "heading": "Every card’s chance",
+      "note": "Chance of each card on your next summon here, with your pity as it stands.",
+      "search": "Find a card",
+      "oneIn": "1 in {n, number}",
+      "none": "No card by that name."
+    },
+    "amount": {
+      "heading": "Summon many",
+      "label": "How many? You can afford {max, number}.",
+      "max": "As many as I can",
+      "slider": "Amount",
+      "cost": "Costs {cost, number} starlight",
+      "go": "Summon {count, number}"
+    }
   },
   "ceremony": {
     "label": "Summoning",
@@ -186,7 +229,10 @@
     "again": "Summon again",
     "new": "New",
     "copy": "Another copy",
-    "result": "{name}, {rarity}. {status}"
+    "result": "{name}, {rarity}. {status}",
+    "haul": "{count, number} summons",
+    "tally": "Everything that came",
+    "closeReplay": "Close"
   },
   "battle": {
     "heading": "Battle",
@@ -387,5 +433,32 @@
       "yours": "You"
     },
     "kinshipShort": "Kinship +1/+1"
+  },
+  "time": {
+    "hm": "{h}h {m}m",
+    "ms": "{m}m {s}s"
+  },
+  "wallet": {
+    "dustName": "Stardust",
+    "goldenName": "Golden tesserae",
+    "dust": "{amount, number} stardust",
+    "golden": "{amount, plural, one {# golden tessera} other {# golden tesserae}}"
+  },
+  "free": {
+    "heading": "Gifts of the altar",
+    "offerings": "Offerings",
+    "offeringsFull": "All three are lit. Take one.",
+    "offeringsNext": "Next one lights in {time}",
+    "offeringClaim": "Take an offering, {count} ready",
+    "offeringTaken": "+{amount, number} starlight from the offering.",
+    "tribute": "Daily tribute",
+    "tributeDay": "Day {day} of {total}",
+    "tributeDone": "Taken today. Come back tomorrow to keep the streak.",
+    "tributeTaken": "+{amount, number} starlight from the tribute.",
+    "tributeGolden": "+{amount, number} starlight and a golden tessera. The streak starts again tomorrow.",
+    "streak": "Seven-day streak",
+    "dayGift": "Day {day}: {amount, number} starlight{golden, plural, =0 {} other { and a golden tessera}}",
+    "claim": "Take",
+    "claimed": "Taken"
   }
 }

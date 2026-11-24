@@ -12,7 +12,18 @@
     "settings": "Ajustes",
     "collection": "Colección",
     "summon": "Invocar",
-    "battle": "Combate"
+    "battle": "Combate",
+    "wheel": "Rueda",
+    "market": "Mercado",
+    "workshop": "Taller",
+    "profile": "Perfil",
+    "more": "Más",
+    "status": {
+      "quest": "hay una misión lista para cobrar",
+      "altar": "{count, plural, one {# regalo espera} other {# regalos esperan}} en el altar",
+      "wheel": "hay un giro gratis listo",
+      "gift": "el regalo de esta semana está listo"
+    }
   },
   "pantheon": {
     "greek": "Griego",
@@ -159,7 +170,13 @@
     "short": "Te faltan {missing, number} de luz de estrellas. Las misiones diarias dan más.",
     "history": {
       "heading": "Invocaciones recientes",
-      "empty": "Todavía no has invocado nada. Aquí aparecerán tus tiradas, de la más reciente a la más antigua."
+      "empty": "Todavía no has invocado nada. Aquí aparecerán tus tiradas, de la más reciente a la más antigua.",
+      "onlyStarred": "Solo con estrella",
+      "kept": "Los deseos con estrella se guardan siempre.",
+      "noStarred": "Aún no hay deseos con estrella. Toca la estrella de un deseo para guardarlo.",
+      "star": "Marcar este deseo con estrella",
+      "replay": "Repetir este deseo",
+      "wish": "{count, plural, one {# carta} other {# cartas}}"
     },
     "quests": {
       "resets": "Misiones nuevas cada día a medianoche.",
@@ -177,7 +194,33 @@
         "win-three-battles": "Gana tres combates"
       }
     },
-    "details": "Detalles"
+    "details": "Detalles",
+    "other": "Otra",
+    "upTo": "hasta {count, number}",
+    "golden": {
+      "use": "De oro",
+      "have": "tienes {count, number}",
+      "next": "Tesela de oro en {count, plural, one {# invocación} other {# invocaciones}}",
+      "meterHint": "Cada {every} invocaciones en cualquier estandarte te dan una tesela de oro.",
+      "earned": "{count, plural, one {Una tesela de oro entró en tu bolsa.} other {# teselas de oro entraron en tu bolsa.}}",
+      "heading": "Teselas de oro",
+      "body": "Cada {every} invocaciones, en cualquier estandarte, ganas una tesela de oro. Gástala para invocar seguro un dios o un primordial del estandarte en el que estés. No toca tu garantía."
+    },
+    "odds": {
+      "heading": "La probabilidad de cada carta",
+      "note": "Probabilidad de cada carta en tu próxima invocación aquí, con tu garantía tal como está.",
+      "search": "Buscar una carta",
+      "oneIn": "1 de cada {n, number}",
+      "none": "Ninguna carta con ese nombre."
+    },
+    "amount": {
+      "heading": "Invocar muchas",
+      "label": "¿Cuántas? Te alcanza para {max, number}.",
+      "max": "Todas las que pueda",
+      "slider": "Cantidad",
+      "cost": "Cuesta {cost, number} de luz estelar",
+      "go": "Invocar {count, number}"
+    }
   },
   "ceremony": {
     "label": "Invocación",
@@ -186,7 +229,10 @@
     "again": "Invocar de nuevo",
     "new": "Nueva",
     "copy": "Otra copia",
-    "result": "{name}, {rarity}. {status}"
+    "result": "{name}, {rarity}. {status}",
+    "haul": "{count, number} invocaciones",
+    "tally": "Todo lo que llegó",
+    "closeReplay": "Cerrar"
   },
   "battle": {
     "heading": "Combate",
@@ -387,5 +433,32 @@
       "yours": "Tú"
     },
     "kinshipShort": "Parentesco +1/+1"
+  },
+  "time": {
+    "hm": "{h} h {m} min",
+    "ms": "{m} min {s} s"
+  },
+  "wallet": {
+    "dustName": "Polvo de estrellas",
+    "goldenName": "Teselas de oro",
+    "dust": "{amount, number} de polvo de estrellas",
+    "golden": "{amount, plural, one {# tesela de oro} other {# teselas de oro}}"
+  },
+  "free": {
+    "heading": "Dones del altar",
+    "offerings": "Ofrendas",
+    "offeringsFull": "Las tres están encendidas. Toma una.",
+    "offeringsNext": "La siguiente se enciende en {time}",
+    "offeringClaim": "Tomar una ofrenda, {count} listas",
+    "offeringTaken": "+{amount, number} de luz estelar de la ofrenda.",
+    "tribute": "Tributo diario",
+    "tributeDay": "Día {day} de {total}",
+    "tributeDone": "Ya lo tomaste hoy. Vuelve mañana para seguir la racha.",
+    "tributeTaken": "+{amount, number} de luz estelar del tributo.",
+    "tributeGolden": "+{amount, number} de luz estelar y una tesela de oro. Mañana empieza otra racha.",
+    "streak": "Racha de siete días",
+    "dayGift": "Día {day}: {amount, number} de luz estelar{golden, plural, =0 {} other { y una tesela de oro}}",
+    "claim": "Tomar",
+    "claimed": "Tomado"
   }
 }
