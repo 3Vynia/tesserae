@@ -5,6 +5,8 @@
   import Ornament from '../../ui/Ornament.svelte';
   import Icon from '../../ui/icons/Icon.svelte';
   import { reveal } from '../../ui/motion/reveal';
+  import Button from '../../ui/Button.svelte';
+  import { router } from '../router.svelte';
 
   const ways = [
     { id: 'collect', icon: 'collection' },
@@ -19,6 +21,11 @@
     <h1 class="title">{t('ui.app.title')}</h1>
     <p class="tagline">{t('ui.home.tagline')}</p>
     <p class="promise">{t('ui.home.promise')}</p>
+    <div class="cta">
+      <Button variant="gilt" icon="collection" href={router.href('collection')}>
+        {t('ui.home.enter')}
+      </Button>
+    </div>
   </div>
 </section>
 
@@ -90,6 +97,10 @@
     color: var(--parchment-dim);
     max-width: 46ch;
     animation: rise var(--dur-ceremony) var(--ease-out) 700ms both;
+  }
+  .cta {
+    margin-top: var(--space-3);
+    animation: rise var(--dur-ceremony) var(--ease-out) 850ms both;
   }
   @keyframes rise {
     from {
@@ -213,7 +224,8 @@
 
   :global([data-motion='calm']) .title,
   :global([data-motion='calm']) .tagline,
-  :global([data-motion='calm']) .promise {
+  :global([data-motion='calm']) .promise,
+  :global([data-motion='calm']) .cta {
     animation-name: fade-in;
   }
   :global([data-motion='calm']) .band {

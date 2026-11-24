@@ -6,9 +6,21 @@
   import type { IconName } from './ui/icons/paths';
   import Home from './app/views/Home.svelte';
   import Settings from './app/views/Settings.svelte';
+  import Collection from './app/views/Collection.svelte';
+  import { game } from './app/save.svelte';
+  import { onMount } from 'svelte';
 
-  const views = { home: Home, settings: Settings } satisfies Record<Route, unknown>;
-  const icons: Record<Route, IconName> = { home: 'home', settings: 'settings' };
+  const views = { home: Home, collection: Collection, settings: Settings } satisfies Record<
+    Route,
+    unknown
+  >;
+  const icons: Record<Route, IconName> = {
+    home: 'home',
+    collection: 'collection',
+    settings: 'settings',
+  };
+
+  onMount(() => void game.load());
   const View = $derived(views[router.route]);
 
   let nav = $state<HTMLUListElement>();

@@ -8,8 +8,9 @@
   },
   "nav": {
     "label": "Main",
-    "home": "Vault",
-    "settings": "Settings"
+    "home": "Home",
+    "settings": "Settings",
+    "collection": "Collection"
   },
   "pantheon": {
     "greek": "Greek",
@@ -47,8 +48,9 @@
         "title": "Battle",
         "body": "Choose four or five, set the formation, and watch the fight play out turn by turn."
       },
-      "soon": "These open over the coming updates. The vault is being set tile by tile."
-    }
+      "soon": "Summoning and battles open over the coming updates. The vault is being set tile by tile."
+    },
+    "enter": "Enter the vault"
   },
   "settings": {
     "heading": "Settings",
@@ -71,5 +73,78 @@
   "footer": {
     "license": "Free and open source under the MIT license.",
     "source": "Read the source"
+  },
+  "rarity": {
+    "mortal": "Mortal",
+    "hero": "Hero",
+    "demigod": "Demigod",
+    "god": "God",
+    "primordial": "Primordial"
+  },
+  "element": {
+    "storm": "Storm",
+    "tide": "Tide",
+    "flame": "Flame",
+    "verdure": "Verdure",
+    "stone": "Stone",
+    "sun": "Sun",
+    "night": "Night"
+  },
+  "stat": {
+    "health": "Health",
+    "attack": "Attack",
+    "defense": "Defense",
+    "speed": "Speed"
+  },
+  "card": {
+    "flip": "Turn the card over",
+    "story": "The myth",
+    "source": "Source",
+    "allies": "Allies",
+    "rivals": "Rivals",
+    "trivia": "Did you know",
+    "stats": "Stats",
+    "skills": "Skills",
+    "active": "Active",
+    "ultimate": "Ultimate",
+    "passive": "Passive",
+    "cooldown": "Every {cooldown, plural, one {turn} other {# turns}}",
+    "cost": "{cost} energy",
+    "summary": "{name}, {epithet}. {rarity}, {pantheon}, {element}."
+  },
+  "collection": {
+    "heading": "The vault",
+    "progress": "{owned} of {total} tiles lit",
+    "intro": "Every card you own is a lit tile. Dark tiles are figures still waiting to be found.",
+    "group": "{owned} of {total}",
+    "unwritten": "Still being set: {list}.",
+    "tileOwned": "{summary} In your collection.",
+    "tileMissing": "{summary} Not found yet.",
+    "new": "New",
+    "loading": "Lighting the vault…",
+    "errorTitle": "The vault would not open",
+    "errorBody": "Your save could not be read ({message}). Nothing has been deleted.",
+    "retry": "Try again",
+    "filters": {
+      "label": "Filter the vault",
+      "search": "Find by name",
+      "rarity": "Rarity",
+      "element": "Element",
+      "show": "Show",
+      "all": "All tiles",
+      "owned": "Lit only",
+      "missing": "Dark only",
+      "clear": "Clear filters",
+      "matches": "{count, plural, =0 {No tile matches. Loosen a filter.} one {# tile matches} other {# tiles match}}"
+    }
+  },
+  "detail": {
+    "close": "Close",
+    "flip": "Turn over",
+    "flipBack": "Turn back to the front",
+    "level": "Level {level}",
+    "copies": "{count, plural, one {# copy} other {# copies}}",
+    "missing": "Not found yet. Summon or win battles to light this tile.",
+    "found": "Found {date}"
   }
 }

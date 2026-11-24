@@ -8,8 +8,9 @@
   },
   "nav": {
     "label": "Principal",
-    "home": "Bóveda",
-    "settings": "Ajustes"
+    "home": "Inicio",
+    "settings": "Ajustes",
+    "collection": "Colección"
   },
   "pantheon": {
     "greek": "Griego",
@@ -47,8 +48,9 @@
         "title": "Combate",
         "body": "Elige cuatro o cinco, coloca la formación y mira cómo se desarrolla la lucha turno a turno."
       },
-      "soon": "Se irán abriendo en las próximas versiones. La bóveda se está engastando tesela a tesela."
-    }
+      "soon": "La invocación y los combates se abrirán en las próximas versiones. La bóveda se está engastando tesela a tesela."
+    },
+    "enter": "Entrar en la bóveda"
   },
   "settings": {
     "heading": "Ajustes",
@@ -71,5 +73,78 @@
   "footer": {
     "license": "Libre y de código abierto bajo la licencia MIT.",
     "source": "Ver el código"
+  },
+  "rarity": {
+    "mortal": "Mortal",
+    "hero": "Héroe",
+    "demigod": "Semidiós",
+    "god": "Dios",
+    "primordial": "Primordial"
+  },
+  "element": {
+    "storm": "Tormenta",
+    "tide": "Marea",
+    "flame": "Llama",
+    "verdure": "Verdor",
+    "stone": "Piedra",
+    "sun": "Sol",
+    "night": "Noche"
+  },
+  "stat": {
+    "health": "Vida",
+    "attack": "Ataque",
+    "defense": "Defensa",
+    "speed": "Velocidad"
+  },
+  "card": {
+    "flip": "Dar la vuelta a la carta",
+    "story": "El mito",
+    "source": "Fuente",
+    "allies": "Aliados",
+    "rivals": "Rivales",
+    "trivia": "¿Sabías que…?",
+    "stats": "Atributos",
+    "skills": "Habilidades",
+    "active": "Activa",
+    "ultimate": "Definitiva",
+    "passive": "Pasiva",
+    "cooldown": "Cada {cooldown, plural, one {turno} other {# turnos}}",
+    "cost": "{cost} de energía",
+    "summary": "{name}, {epithet}. {rarity}, {pantheon}, {element}."
+  },
+  "collection": {
+    "heading": "La bóveda",
+    "progress": "{owned} de {total} teselas encendidas",
+    "intro": "Cada carta que tienes es una tesela encendida. Las oscuras son figuras que aún esperan a que las encuentres.",
+    "group": "{owned} de {total}",
+    "unwritten": "Aún se están engastando: {list}.",
+    "tileOwned": "{summary} En tu colección.",
+    "tileMissing": "{summary} Aún no encontrada.",
+    "new": "Nueva",
+    "loading": "Encendiendo la bóveda…",
+    "errorTitle": "La bóveda no se abrió",
+    "errorBody": "No se pudo leer tu partida ({message}). No se ha borrado nada.",
+    "retry": "Reintentar",
+    "filters": {
+      "label": "Filtrar la bóveda",
+      "search": "Buscar por nombre",
+      "rarity": "Rareza",
+      "element": "Elemento",
+      "show": "Mostrar",
+      "all": "Todas",
+      "owned": "Solo encendidas",
+      "missing": "Solo oscuras",
+      "clear": "Quitar filtros",
+      "matches": "{count, plural, =0 {Ninguna tesela coincide. Afloja algún filtro.} one {# tesela coincide} other {# teselas coinciden}}"
+    }
+  },
+  "detail": {
+    "close": "Cerrar",
+    "flip": "Dar la vuelta",
+    "flipBack": "Volver al anverso",
+    "level": "Nivel {level}",
+    "copies": "{count, plural, one {# copia} other {# copias}}",
+    "missing": "Aún no la tienes. Invoca o gana combates para encender esta tesela.",
+    "found": "Encontrada el {date}"
   }
 }
