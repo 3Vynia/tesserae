@@ -29,6 +29,9 @@
   import Ornament from '../../ui/Ornament.svelte';
   import CardArt from '../../ui/card/CardArt.svelte';
   import Stage from '../../ui/battle/Stage.svelte';
+  import SceneTitle from '../../ui/game/SceneTitle.svelte';
+  import ChapterMap from '../../ui/battle/ChapterMap.svelte';
+  import Frame from '../../ui/game/Frame.svelte';
   import { flyStarlight } from '../../ui/motion/flight';
 
   const FIRST_BOSS = BOSSES[0]?.id ?? '';
@@ -48,11 +51,6 @@
   const teamOk = $derived(validTeam(fighters));
   const synergies = $derived(
     [...teamSynergies(fighters.map((f) => f.card))].filter(([, n]) => n >= 2),
-  );
-  const firstLocked = $derived(
-    ready
-      ? CHAPTERS.flatMap((c) => c.stages).find((st) => !stageUnlocked(game.save, st.id))?.id
-      : undefined,
   );
   const owned = $derived(
     ready
@@ -130,10 +128,7 @@
 </script>
 
 <div class="battle-page">
-  <header class="head">
-    <h1>{t('ui.battle.heading')}</h1>
-    <p class="intro">{t('ui.battle.intro')}</p>
-  </header>
+  <SceneTitle title={t('ui.battle.heading')} />
 
   {#if ready}
     <div class="layout">
@@ -153,32 +148,16 @@
 
         {#if mode === 'campaign'}
           {#each CHAPTERS as chapter (chapter.id)}
-            <h3 class="chapter">{t(`ui.battle.chapters.${chapter.id}`)}</h3>
-            <ul class="stages">
-              {#each chapter.stages as stage (stage.id)}
-                {@const open = stageUnlocked(game.save, stage.id)}
-                {@const done = game.save.battle.cleared.includes(stage.id)}
-                <li>
-                  <label class="stage" class:selected={selected === stage.id} class:locked={!open}>
-                    <input
-                      type="radio"
-                      name="stage"
-                      value={stage.id}
-                      bind:group={selected}
-                      disabled={!open}
-                    />
-                    <span class="stage-name">{t('ui.battle.stageName', { id: stage.id })}</span>
-                    <span class="meta">
-                      {#if done}{t('ui.battle.cleared')}{:else if !open}{stage.id === firstLocked
-                          ? t('ui.battle.locked')
-                          : t('ui.battle.lockedShort')}{:else}{t('ui.battle.level', {
-                          level: stage.enemies[0]?.level ?? 1,
-                        })}{/if}
-                    </span>
-                  </label>
-                </li>
-              {/each}
-            </ul>
+            <Frame tone="ink" class="chapter-frame">
+              <h3 class="chapter caps">{t(`ui.battle.chapters.${chapter.id}`)}</h3>
+              <ChapterMap
+                stages={chapter.stages}
+                cleared={game.save.battle.cleared}
+                unlocked={(id) => stageUnlocked(game.save, id)}
+                {selected}
+                onselect={(id) => (selected = id)}
+              />
+            </Frame>
           {/each}
         {:else if mode === 'tower'}
           <div class="tower">
@@ -207,110 +186,112 @@
       </section>
 
       <section class="formation" aria-labelledby="formation-heading">
-        <h2 id="formation-heading">{t('ui.battle.team.heading')}</h2>
-        <p class="note">{t('ui.battle.team.hint')}</p>
-        {#each [{ label: 'front', slots: [0, 1, 2] }, { label: 'back', slots: [3, 4] }] as row (row.label)}
-          <p class="row-label caps">{t(`ui.battle.team.${row.label}`)}</p>
-          <div class="row {row.label}">
-            {#each row.slots as slot (slot)}
-              {@const id = team[slot] ?? null}
-              {@const card = id ? CARDS_BY_ID.get(id) : undefined}
-              {#if card}
+        <Frame>
+          <h2 id="formation-heading">{t('ui.battle.team.heading')}</h2>
+          <p class="note">{t('ui.battle.team.hint')}</p>
+          {#each [{ label: 'front', slots: [0, 1, 2] }, { label: 'back', slots: [3, 4] }] as row (row.label)}
+            <p class="row-label caps">{t(`ui.battle.team.${row.label}`)}</p>
+            <div class="row {row.label}">
+              {#each row.slots as slot (slot)}
+                {@const id = team[slot] ?? null}
+                {@const card = id ? CARDS_BY_ID.get(id) : undefined}
+                {#if card}
+                  <button
+                    type="button"
+                    class="slot filled"
+                    onclick={() => toggleCard(card.id)}
+                    aria-label={t('ui.battle.team.remove', { name: cardName(card) })}
+                  >
+                    <span class="art"><CardArt {card} /></span>
+                    <span class="slot-name">{cardName(card)}</span>
+                    <span class="lvl">
+                      {t('ui.detail.level', { level: game.save.owned[card.id]?.level ?? 1 })}
+                    </span>
+                  </button>
+                {:else}
+                  <span class="slot empty">{t('ui.battle.team.empty')}</span>
+                {/if}
+              {/each}
+            </div>
+          {/each}
+
+          <div class="synergy">
+            {#if synergies.length === 0}
+              <p class="note">{t('ui.battle.team.noSynergy')}</p>
+            {:else}
+              {#each synergies as [pantheon, count] (pantheon)}
+                {@const bonus = synergyFor(count)}
+                <div class="syn">
+                  <Ornament {pantheon} height={10} />
+                  <p>
+                    {bonus.health > 0
+                      ? t('ui.battle.team.synergyHealth', {
+                          count,
+                          pantheon: t(`ui.pantheon.${pantheon}`),
+                          attack: Math.round(bonus.attack * 100),
+                          health: Math.round(bonus.health * 100),
+                        })
+                      : t('ui.battle.team.synergy', {
+                          count,
+                          pantheon: t(`ui.pantheon.${pantheon}`),
+                          attack: Math.round(bonus.attack * 100),
+                        })}
+                  </p>
+                </div>
+              {/each}
+            {/if}
+          </div>
+
+          {#if encounter}
+            <h3 class="caps pick">{t('ui.battle.opponents')}</h3>
+            <div
+              class="foes"
+              aria-label={t('ui.battle.level', { level: encounter.enemies[0]?.level ?? 1 })}
+            >
+              {#each encounter.enemies as foe (foe.slot)}
+                <span class="foe" title={cardName(foe.card)}><CardArt card={foe.card} /></span>
+              {/each}
+            </div>
+            <p class="reward">
+              {t('ui.battle.reward', { reward: encounter.reward })}
+              {#if encounter.firstClear && encounter.mode !== 'tower'}<span>
+                  {t('ui.battle.firstWin')}
+                </span>{/if}
+            </p>
+          {/if}
+
+          <div class="go">
+            <Button variant="gilt" icon="battle" disabled={!teamOk || !encounter} onclick={start}>
+              {t('ui.battle.fight')}
+            </Button>
+            {#if !teamOk}<p class="warn" role="status">{t('ui.battle.team.invalid')}</p>{/if}
+          </div>
+
+          <h3 class="caps pick">{t('ui.battle.team.pick')}</h3>
+          <ul class="bench">
+            {#each owned as card (card.id)}
+              {@const inTeam = team.includes(card.id)}
+              {@const full = !team.includes(null)}
+              <li>
                 <button
                   type="button"
-                  class="slot filled"
+                  class="bench-card"
+                  class:in-team={inTeam}
+                  disabled={!inTeam && full}
+                  aria-pressed={inTeam}
+                  aria-label={inTeam
+                    ? t('ui.battle.team.remove', { name: cardName(card) })
+                    : t('ui.battle.team.place', { name: cardName(card) })}
+                  title={!inTeam && full ? t('ui.battle.team.full') : undefined}
                   onclick={() => toggleCard(card.id)}
-                  aria-label={t('ui.battle.team.remove', { name: cardName(card) })}
                 >
                   <span class="art"><CardArt {card} /></span>
                   <span class="slot-name">{cardName(card)}</span>
-                  <span class="lvl">
-                    {t('ui.detail.level', { level: game.save.owned[card.id]?.level ?? 1 })}
-                  </span>
                 </button>
-              {:else}
-                <span class="slot empty">{t('ui.battle.team.empty')}</span>
-              {/if}
+              </li>
             {/each}
-          </div>
-        {/each}
-
-        <div class="synergy">
-          {#if synergies.length === 0}
-            <p class="note">{t('ui.battle.team.noSynergy')}</p>
-          {:else}
-            {#each synergies as [pantheon, count] (pantheon)}
-              {@const bonus = synergyFor(count)}
-              <div class="syn">
-                <Ornament {pantheon} height={10} />
-                <p>
-                  {bonus.health > 0
-                    ? t('ui.battle.team.synergyHealth', {
-                        count,
-                        pantheon: t(`ui.pantheon.${pantheon}`),
-                        attack: Math.round(bonus.attack * 100),
-                        health: Math.round(bonus.health * 100),
-                      })
-                    : t('ui.battle.team.synergy', {
-                        count,
-                        pantheon: t(`ui.pantheon.${pantheon}`),
-                        attack: Math.round(bonus.attack * 100),
-                      })}
-                </p>
-              </div>
-            {/each}
-          {/if}
-        </div>
-
-        {#if encounter}
-          <h3 class="caps pick">{t('ui.battle.opponents')}</h3>
-          <div
-            class="foes"
-            aria-label={t('ui.battle.level', { level: encounter.enemies[0]?.level ?? 1 })}
-          >
-            {#each encounter.enemies as foe (foe.slot)}
-              <span class="foe" title={cardName(foe.card)}><CardArt card={foe.card} /></span>
-            {/each}
-          </div>
-          <p class="reward">
-            {t('ui.battle.reward', { reward: encounter.reward })}
-            {#if encounter.firstClear && encounter.mode !== 'tower'}<span>
-                {t('ui.battle.firstWin')}
-              </span>{/if}
-          </p>
-        {/if}
-
-        <div class="go">
-          <Button variant="gilt" icon="battle" disabled={!teamOk || !encounter} onclick={start}>
-            {t('ui.battle.fight')}
-          </Button>
-          {#if !teamOk}<p class="warn" role="status">{t('ui.battle.team.invalid')}</p>{/if}
-        </div>
-
-        <h3 class="caps pick">{t('ui.battle.team.pick')}</h3>
-        <ul class="bench">
-          {#each owned as card (card.id)}
-            {@const inTeam = team.includes(card.id)}
-            {@const full = !team.includes(null)}
-            <li>
-              <button
-                type="button"
-                class="bench-card"
-                class:in-team={inTeam}
-                disabled={!inTeam && full}
-                aria-pressed={inTeam}
-                aria-label={inTeam
-                  ? t('ui.battle.team.remove', { name: cardName(card) })
-                  : t('ui.battle.team.place', { name: cardName(card) })}
-                title={!inTeam && full ? t('ui.battle.team.full') : undefined}
-                onclick={() => toggleCard(card.id)}
-              >
-                <span class="art"><CardArt {card} /></span>
-                <span class="slot-name">{cardName(card)}</span>
-              </button>
-            </li>
-          {/each}
-        </ul>
+          </ul>
+        </Frame>
       </section>
     </div>
   {/if}
@@ -379,15 +360,12 @@
 
 <style>
   .battle-page {
-    padding: var(--space-8) var(--gutter) var(--space-9);
+    padding: var(--space-4) var(--gutter) var(--space-6);
   }
   .head {
     display: grid;
     gap: var(--space-3);
     margin-bottom: var(--space-7);
-  }
-  h1 {
-    font-size: var(--text-6xl);
   }
   .intro,
   .note {
@@ -402,9 +380,15 @@
     gap: var(--space-8);
     align-items: start;
   }
+  .encounters :global(.chapter-frame) {
+    margin-top: var(--space-5);
+  }
   .chapter {
-    margin: var(--space-6) 0 var(--space-3);
-    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--gold-pale);
   }
   .stages {
     list-style: none;
