@@ -155,6 +155,42 @@
       transform: none;
     }
   }
+  /* a card just summoned: it settles into its slot and a ring of light spreads from it */
+  .tile:global(.arrive) .glass {
+    animation: settle 700ms var(--ease-settle) calc(var(--delay, 0ms) + 200ms) both;
+  }
+  .tile:global(.arrive)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--gold-pale);
+    border-radius: var(--radius-tile);
+    pointer-events: none;
+    opacity: 0;
+    animation: ripple 1100ms var(--ease-out) calc(var(--delay, 0ms) + 450ms) 2;
+  }
+  @keyframes settle {
+    from {
+      transform: translateY(-18px) scale(1.15);
+      opacity: 0;
+    }
+  }
+  @keyframes ripple {
+    0% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.9);
+    }
+  }
+  :global([data-motion='calm']) .tile:global(.arrive)::after {
+    animation: none;
+  }
+  :global([data-motion='calm']) .tile:global(.arrive) .glass {
+    animation-name: fade;
+  }
   .new {
     position: absolute;
     top: 6%;

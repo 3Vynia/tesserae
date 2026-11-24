@@ -10,7 +10,8 @@
     "label": "Principal",
     "home": "Inicio",
     "settings": "Ajustes",
-    "collection": "Colección"
+    "collection": "Colección",
+    "summon": "Invocar"
   },
   "pantheon": {
     "greek": "Griego",
@@ -146,5 +147,62 @@
     "copies": "{count, plural, one {# copia} other {# copias}}",
     "missing": "Aún no la tienes. Invoca o gana combates para encender esta tesela.",
     "found": "Encontrada el {date}"
+  },
+  "hud": {
+    "starlight": "{amount, number} de luz de estrellas"
+  },
+  "summon": {
+    "heading": "Invocar",
+    "intro": "Gasta luz de estrellas para llamar a figuras de los mitos. Las probabilidades están aquí escritas y nunca cambian a tus espaldas.",
+    "banner": {
+      "label": "Estandartes",
+      "standing": "La bóveda nocturna",
+      "standingBody": "Cualquier figura de la bóveda puede responder.",
+      "featured": "Semana {pantheon}",
+      "featuredBody": "La mitad de los resultados Semidiós, Dios y Primordial vienen de la tradición {pantheon}.",
+      "ends": "Cambia en {days, plural, one {# día} other {# días}}"
+    },
+    "rates": {
+      "heading": "Probabilidades",
+      "note": "Probabilidad por tirada antes de las garantías.",
+      "value": "{rate, number, ::percent .#}"
+    },
+    "pity": {
+      "heading": "Garantías",
+      "demigod": "Semidiós o superior en {count, plural, one {# tirada} other {# tiradas}} como mucho",
+      "god": "Dios o superior en {count, plural, one {# tirada} other {# tiradas}} como mucho"
+    },
+    "one": "Invocar una vez",
+    "ten": "Invocar diez",
+    "cost": "{cost, number} de luz de estrellas",
+    "short": "Te faltan {missing, number} de luz de estrellas. Las misiones diarias dan más.",
+    "history": {
+      "heading": "Invocaciones recientes",
+      "empty": "Todavía no has invocado nada. Aquí aparecerán tus tiradas, de la más reciente a la más antigua."
+    },
+    "quests": {
+      "heading": "Misiones de hoy",
+      "resets": "Misiones nuevas cada día a medianoche.",
+      "claim": "Reclamar {reward, number}",
+      "claimed": "Reclamada",
+      "progress": "{done} de {goal}",
+      "titles": {
+        "summon-once": "Invoca una vez",
+        "summon-ten": "Invoca diez veces",
+        "open-three": "Abre tres cartas en la bóveda",
+        "read-a-myth": "Da la vuelta a una carta y lee su mito",
+        "read-three-myths": "Lee tres mitos",
+        "visit-vault": "Visita la bóveda"
+      }
+    }
+  },
+  "ceremony": {
+    "label": "Invocación",
+    "skip": "Saltar",
+    "done": "Engastarlas en la bóveda",
+    "again": "Quedarme e invocar de nuevo",
+    "new": "Nueva",
+    "copy": "Otra copia",
+    "result": "{name}, {rarity}. {status}"
   }
 }

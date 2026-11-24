@@ -14,8 +14,10 @@
     owned: OwnedCard | undefined;
     transitionName: string;
     onclose: () => void;
+    /** Called when the player turns the card to read its back. */
+    onflip?: () => void;
   }
-  let { card, owned, transitionName, onclose }: Props = $props();
+  let { card, owned, transitionName, onclose, onflip }: Props = $props();
 
   let dialog = $state<HTMLDialogElement>();
   let closeButton = $state<HTMLButtonElement>();
@@ -110,7 +112,10 @@
         <Button
           variant="engraved"
           icon="flip"
-          onclick={() => (flipped = !flipped)}
+          onclick={() => {
+            flipped = !flipped;
+            if (flipped) onflip?.();
+          }}
           aria-pressed={flipped}
         >
           {flipped ? t('ui.detail.flipBack') : t('ui.detail.flip')}

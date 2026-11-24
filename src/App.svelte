@@ -7,16 +7,21 @@
   import Home from './app/views/Home.svelte';
   import Settings from './app/views/Settings.svelte';
   import Collection from './app/views/Collection.svelte';
+  import Summon from './app/views/Summon.svelte';
+  import Starlight from './ui/hud/Starlight.svelte';
   import { game } from './app/save.svelte';
   import { onMount } from 'svelte';
 
-  const views = { home: Home, collection: Collection, settings: Settings } satisfies Record<
-    Route,
-    unknown
-  >;
+  const views = {
+    home: Home,
+    collection: Collection,
+    summon: Summon,
+    settings: Settings,
+  } satisfies Record<Route, unknown>;
   const icons: Record<Route, IconName> = {
     home: 'home',
     collection: 'collection',
+    summon: 'summon',
     settings: 'settings',
   };
 
@@ -68,6 +73,7 @@
       <span class="thread" bind:this={thread} aria-hidden="true"></span>
     </ul>
   </nav>
+  {#if game.status === 'ready'}<Starlight amount={game.save.starlight} />{/if}
 </header>
 
 <main id="main" tabindex="-1" class="page route-{router.route}">
@@ -99,7 +105,6 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-2) var(--space-4);
     padding: var(--space-2) var(--gutter);
     background: linear-gradient(180deg, var(--ink) 0, rgb(7 10 20 / 0.92) 100%);
@@ -112,6 +117,7 @@
     border-bottom-color: transparent;
   }
   .brand {
+    margin-inline-end: auto;
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);

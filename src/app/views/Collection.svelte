@@ -4,6 +4,8 @@
   import { PANTHEONS, type Pantheon } from '../../data/pantheons';
   import { ELEMENTS, RARITIES, type Element, type Rarity } from '../../data/schema';
   import { markSeen } from '../../engine/save';
+  import { dayKey, track } from '../../engine/quests';
+  import { arrivals } from '../arrivals.svelte';
   import { createRng } from '../../engine/rng';
   import { i18n, t } from '../../i18n/i18n.svelte';
   import { game } from '../save.svelte';
@@ -63,6 +65,7 @@
   const list = $derived(new Intl.ListFormat(i18n.locale, { type: 'conjunction' }));
 
   function open(id: string): void {
+    game.update((s) => track(s, 'open-card', dayKey(Date.now())));
     flushSync(() => (flying = id));
     location.hash = router.href('collection', id);
   }
@@ -74,10 +77,21 @@
     location.hash = router.href('collection');
   }
 
-  /** Radial wave: lit tiles ignite outward from the top-left corner of the mosaic. */
+  let arrived: string[] = [];
+
+  /**
+   * Radial wave: lit tiles ignite outward from the top-left corner of the mosaic, or from the
+   * first card that just arrived from a summon, which also ripples into place.
+   */
   function wave(): void {
     if (!mosaic) return;
-    const origin = mosaic.getBoundingClientRect();
+    const first = arrived[0]
+      ? mosaic.querySelector<HTMLElement>(`[data-card="${arrived[0]}"]`)
+      : null;
+    const origin = (first ?? mosaic).getBoundingClientRect();
+    for (const id of arrived) {
+      mosaic.querySelector<HTMLElement>(`[data-card="${id}"]`)?.classList.add('arrive');
+    }
     const rng = createRng('wave');
     const tiles = mosaic.querySelectorAll<HTMLElement>('.tile.lit');
     const size = tiles[0]?.getBoundingClientRect().width || 96;
@@ -120,6 +134,8 @@
   }
 
   onMount(() => {
+    arrived = arrivals.take();
+    if (game.status === 'ready') game.update((s) => track(s, 'visit-vault', dayKey(Date.now())));
     let observer: ResizeObserver | undefined;
     let raf = 0;
     void tick().then(() => {
@@ -322,6 +338,7 @@
       owned={owned(selected.id)}
       transitionName="card-flight"
       onclose={close}
+      onflip={() => game.update((s) => track(s, 'read-myth', dayKey(Date.now())))}
     />
   {/key}
 {/if}

@@ -10,7 +10,8 @@
     "label": "Main",
     "home": "Home",
     "settings": "Settings",
-    "collection": "Collection"
+    "collection": "Collection",
+    "summon": "Summon"
   },
   "pantheon": {
     "greek": "Greek",
@@ -146,5 +147,62 @@
     "copies": "{count, plural, one {# copy} other {# copies}}",
     "missing": "Not found yet. Summon or win battles to light this tile.",
     "found": "Found {date}"
+  },
+  "hud": {
+    "starlight": "{amount, number} starlight"
+  },
+  "summon": {
+    "heading": "Summon",
+    "intro": "Spend starlight to call figures out of the myths. The odds are printed here and never change behind your back.",
+    "banner": {
+      "label": "Banners",
+      "standing": "The night vault",
+      "standingBody": "Every figure in the vault can answer.",
+      "featured": "{pantheon} week",
+      "featuredBody": "Half of the Demigod, God and Primordial results come from the {pantheon} tradition.",
+      "ends": "Changes in {days, plural, one {# day} other {# days}}"
+    },
+    "rates": {
+      "heading": "Drop rates",
+      "note": "Chance per pull before guarantees.",
+      "value": "{rate, number, ::percent .#}"
+    },
+    "pity": {
+      "heading": "Guarantees",
+      "demigod": "Demigod or better within {count, plural, one {# pull} other {# pulls}}",
+      "god": "God or better within {count, plural, one {# pull} other {# pulls}}"
+    },
+    "one": "Summon once",
+    "ten": "Summon ten",
+    "cost": "{cost, number} starlight",
+    "short": "You need {missing, number} more starlight. Daily quests give more.",
+    "history": {
+      "heading": "Recent summons",
+      "empty": "Nothing summoned yet. Your pulls will be listed here, newest first."
+    },
+    "quests": {
+      "heading": "Today’s quests",
+      "resets": "New quests every day at midnight.",
+      "claim": "Claim {reward, number}",
+      "claimed": "Claimed",
+      "progress": "{done} of {goal}",
+      "titles": {
+        "summon-once": "Summon once",
+        "summon-ten": "Summon ten times",
+        "open-three": "Open three cards in the vault",
+        "read-a-myth": "Turn a card over and read its myth",
+        "read-three-myths": "Read three myths",
+        "visit-vault": "Visit the vault"
+      }
+    }
+  },
+  "ceremony": {
+    "label": "Summoning",
+    "skip": "Skip",
+    "done": "Set them in the vault",
+    "again": "Stay and summon again",
+    "new": "New",
+    "copy": "Another copy",
+    "result": "{name}, {rarity}. {status}"
   }
 }
