@@ -47,6 +47,11 @@
       inset 0 0 0 5px rgb(212 173 85 / 0.2),
       var(--shadow-3);
     animation: rise var(--dur-sheet) var(--ease-sheet) both;
+    overflow: hidden;
+  }
+  .sheet[open] {
+    display: flex;
+    flex-direction: column;
   }
   .sheet::backdrop {
     background: rgb(4 6 13 / 0.75);
@@ -58,8 +63,9 @@
     }
   }
   header {
-    position: sticky;
-    top: 0;
+    position: relative;
+    z-index: 1;
+    flex: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -84,8 +90,11 @@
     cursor: pointer;
   }
   .body {
+    flex: 1;
+    min-height: 0;
     padding: var(--space-5);
     overflow: auto;
+    overscroll-behavior: contain;
   }
   :global([data-motion='calm']) .sheet {
     animation-name: fade;

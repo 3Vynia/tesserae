@@ -139,7 +139,9 @@
       "rateUp": "Probabilidad aumentada: {names}",
       "timer": "Termina en {days} d {hours} h {minutes} min",
       "always": "Siempre abierto",
-      "seal": "Más prob."
+      "seal": "Más prob.",
+      "view": "Ver a {name}",
+      "tapToView": "Toca una carta para verla"
     },
     "rates": {
       "heading": "Probabilidades",

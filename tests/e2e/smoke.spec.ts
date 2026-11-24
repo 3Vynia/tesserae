@@ -12,7 +12,7 @@ test('loads offline-only and switches language', async ({ page, baseURL }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tesserae');
 
-  await page.getByRole('link', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
   await page.getByLabel('Language').selectOption('es');
   await expect(page.getByRole('heading', { name: 'Ajustes' })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');

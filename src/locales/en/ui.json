@@ -139,7 +139,9 @@
       "rateUp": "Rate up: {names}",
       "timer": "Ends in {days}d {hours}h {minutes}m",
       "always": "Always open",
-      "seal": "Rate up"
+      "seal": "Rate up",
+      "view": "Look at {name}",
+      "tapToView": "Tap a card to look closer"
     },
     "rates": {
       "heading": "Drop rates",

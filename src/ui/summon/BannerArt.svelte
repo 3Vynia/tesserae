@@ -11,7 +11,13 @@
   import Ornament from '../Ornament.svelte';
 
   // The illustrated face of a summoning banner, used on the summon altar and the home carousel.
-  let { banner, compact = false }: { banner: Banner; compact?: boolean } = $props();
+  interface Props {
+    banner: Banner;
+    compact?: boolean;
+    /** When set, the featured cards become buttons that open a viewer. */
+    oncard?: (index: number) => void;
+  }
+  let { banner, compact = false, oncard }: Props = $props();
 
   const cards = $derived(bannerCards(banner));
   const pantheon = $derived(banner.featured ?? 'greek');
@@ -41,8 +47,20 @@
   <div class="rosette"><Rosette {pantheon} petals={12} /></div>
 
   <div class="cards">
+    {#if oncard}<span class="hint caps">{t('ui.summon.banner.tapToView')}</span>{/if}
     {#each cards as card, i (card.id)}
-      <div class="card-slot s{i}"><CardView {card} interactive={false} /></div>
+      {#if oncard}
+        <button
+          type="button"
+          class="card-slot s{i} pick"
+          onclick={() => oncard(i)}
+          aria-label={t('ui.summon.banner.view', { name: cardName(card) })}
+        >
+          <CardView {card} interactive={false} />
+        </button>
+      {:else}
+        <div class="card-slot s{i}"><CardView {card} interactive={false} /></div>
+      {/if}
     {/each}
   </div>
 
@@ -135,6 +153,31 @@
     transform-origin: 50% 120%;
     filter: drop-shadow(0 14px 22px rgb(0 0 0 / 0.65));
   }
+  .pick {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    transition:
+      translate var(--dur-base) var(--ease-out),
+      rotate var(--dur-base) var(--ease-out),
+      scale var(--dur-press) var(--ease-out);
+  }
+  .pick:active {
+    scale: 0.97;
+  }
+  .pick:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 4px;
+    border-radius: 3.5cqi;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pick:hover {
+      translate: 0 -3cqi;
+      rotate: 0deg;
+      z-index: 4;
+    }
+  }
   .s0 {
     left: 14cqi;
     width: 26cqi;
@@ -150,6 +193,15 @@
     left: 31cqi;
     rotate: 12deg;
     z-index: 1;
+  }
+  .hint {
+    position: absolute;
+    right: 0;
+    top: 16cqi;
+    font-size: max(0.65rem, 1.4cqi);
+    color: var(--parchment-dim);
+    letter-spacing: 0.08em;
+    pointer-events: none;
   }
   .copy {
     position: absolute;

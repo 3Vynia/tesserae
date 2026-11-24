@@ -24,6 +24,8 @@
   import BannerArt from '../../ui/summon/BannerArt.svelte';
   import Sheet from '../../ui/game/Sheet.svelte';
   import CardArt from '../../ui/card/CardArt.svelte';
+  import CardViewer from '../../ui/summon/CardViewer.svelte';
+  import { RARITIES as ORDER } from '../../data/schema';
 
   const now = Date.now();
   const [standing, ...others] = bannersFor(now, CARDS) as [Banner, ...Banner[]];
@@ -33,6 +35,15 @@
   let bannerId = $state(banners[0]?.id ?? standing.id);
   let ceremony = $state<{ results: PullResult[]; seed: string } | null>(null);
   let sheet = $state<'details' | 'history' | null>(null);
+  let viewing = $state<number | null>(null);
+  // The viewer browses the banner's featured cards first, then the rest of its pool.
+  const pool = $derived.by(() => {
+    const lead = bannerCards(banner);
+    const rest = CARDS.filter(
+      (c) => !lead.includes(c) && (!banner.featured || c.pantheon === banner.featured),
+    ).sort((a, b) => ORDER.indexOf(b.rarity) - ORDER.indexOf(a.rarity));
+    return [...lead, ...rest];
+  });
   const banner = $derived(banners.find((b) => b.id === bannerId) ?? standing);
   const ready = $derived(game.status === 'ready');
   const starlight = $derived(ready ? game.save.starlight : 0);
@@ -94,7 +105,7 @@
 
   <div class="stage" id="banner-panel" role="tabpanel" aria-label={tabTitle(banner)}>
     {#key banner.id}
-      <div class="banner-swap"><BannerArt {banner} /></div>
+      <div class="banner-swap"><BannerArt {banner} oncard={(i) => (viewing = i)} /></div>
     {/key}
 
     <div class="console">
@@ -184,6 +195,15 @@
       </ol>
     {/if}
   </Sheet>
+{/if}
+
+{#if viewing !== null}
+  <CardViewer
+    cards={pool}
+    start={viewing}
+    title={tabTitle(banner)}
+    onclose={() => (viewing = null)}
+  />
 {/if}
 
 {#if ceremony}
