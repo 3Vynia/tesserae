@@ -1,0 +1,426 @@
+{
+  "zeus": {
+    "name": "Zeus",
+    "epithet": "Cloud-gatherer",
+    "story": "Youngest son of Cronus, hidden as a baby so his father could not swallow him. Grown, he freed his siblings, overthrew the Titans with thunderbolts forged by the Cyclopes, and took the sky as his share of the world.",
+    "source": "Hesiod, Theogony; Homer, Iliad",
+    "trivia": "Homer calls him the cloud-gatherer, and shows him shaking the aegis to stir up storms.",
+    "skills": {
+      "thunderbolt": {
+        "name": "Thunderbolt",
+        "description": "Strikes the enemy for {damage}% of attack, with a {chance}% chance to stun."
+      },
+      "aegis-storm": {
+        "name": "Aegis Storm",
+        "description": "Shakes the aegis over the field: every enemy takes {damage}% of attack."
+      },
+      "king-of-olympus": {
+        "name": "King of Olympus",
+        "description": "At the start of battle, all allies gain {amount}% attack."
+      }
+    }
+  },
+  "achilles": {
+    "name": "Achilles",
+    "epithet": "Swift-footed",
+    "story": "Son of the sea nymph Thetis and the mortal Peleus, the greatest fighter of the Greeks at Troy. He withdrew from the war in anger at Agamemnon and returned only after Hector killed his friend Patroclus.",
+    "source": "Homer, Iliad",
+    "trivia": "The story of his mother dipping him in the Styx comes from a later poet, Statius, not from Homer.",
+    "skills": {
+      "spear-of-pelion": {
+        "name": "Spear of Pelion",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "wrath": {
+        "name": "Wrath",
+        "description": "Gains {amount}% attack, then strikes for {damage}% of attack."
+      },
+      "dipped-in-styx": {
+        "name": "Dipped in the Styx",
+        "description": "When badly wounded, gains a shield worth {shield}% of health."
+      }
+    }
+  },
+  "patroclus": {
+    "name": "Patroclus",
+    "epithet": "Gentle companion",
+    "story": "Achilles' closest friend. While Achilles refused to fight, Patroclus put on his armor to drive the Trojans back from the ships, pushed on toward the walls of Troy and was killed by Hector.",
+    "source": "Homer, Iliad",
+    "trivia": "The funeral games Achilles held for him fill most of a book of the Iliad.",
+    "skills": {
+      "borrowed-armor": {
+        "name": "Borrowed Armor",
+        "description": "Gains a shield worth {shield}% of health and {amount}% defense."
+      },
+      "charge-at-the-walls": {
+        "name": "Charge at the Walls",
+        "description": "Every enemy takes {damage}% of attack."
+      },
+      "loyal-friend": {
+        "name": "Loyal Friend",
+        "description": "Each turn, heals the most wounded ally for {heal}% of attack."
+      }
+    }
+  },
+  "medusa": {
+    "name": "Medusa",
+    "epithet": "The mortal Gorgon",
+    "story": "The only mortal among the three Gorgon sisters, whose gaze turned onlookers to stone. Perseus beheaded her by watching her reflection in a polished shield.",
+    "source": "Hesiod, Theogony; Ovid, Metamorphoses",
+    "trivia": "Hesiod says the winged horse Pegasus sprang from her body when she died.",
+    "skills": {
+      "stone-gaze": {
+        "name": "Stone Gaze",
+        "description": "Strikes for {damage}% of attack with a {chance}% chance to stun."
+      },
+      "hall-of-statues": {
+        "name": "Hall of Statues",
+        "description": "Slows every enemy by {amount}% and strikes them for {damage}% of attack."
+      },
+      "serpent-hair": {
+        "name": "Serpent Hair",
+        "description": "Gains {energy} energy each time she is hit."
+      }
+    }
+  },
+  "gaia": {
+    "name": "Gaia",
+    "epithet": "Broad-breasted Earth",
+    "story": "One of the first beings to emerge after Chaos. She bore the starry sky, the mountains and the sea, and from her union with the sky came the Titans.",
+    "source": "Hesiod, Theogony",
+    "trivia": "She helped hide the infant Zeus from Cronus on Crete.",
+    "skills": {
+      "bountiful-earth": {
+        "name": "Bountiful Earth",
+        "description": "Heals every ally for {heal}% of attack."
+      },
+      "mother-of-all": {
+        "name": "Mother of All",
+        "description": "Heals every ally for {heal}% of attack and shields them for {shield}% of health."
+      },
+      "deep-roots": {
+        "name": "Deep Roots",
+        "description": "At the start of battle, gains {amount}% defense."
+      },
+      "first-born": {
+        "name": "First Born",
+        "description": "Each turn, heals every ally for {heal}% of attack."
+      }
+    }
+  },
+  "thor": {
+    "name": "Thor",
+    "epithet": "Defender of Midgard",
+    "story": "Son of Odin and protector of gods and people against the giants. He carries the hammer Mjölnir, iron gloves to hold it and a belt that doubles his strength.",
+    "source": "Poetic Edda, Thrymskvida; Snorri Sturluson, Prose Edda",
+    "trivia": "When a giant stole his hammer, Thor got it back by going to the wedding disguised as the bride.",
+    "skills": {
+      "hammer-throw": {
+        "name": "Hammer Throw",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "thunder-over-midgard": {
+        "name": "Thunder over Midgard",
+        "description": "Every enemy takes {damage}% of attack, with a {chance}% chance to stun."
+      },
+      "belt-of-strength": {
+        "name": "Belt of Strength",
+        "description": "At the start of battle, gains {amount}% attack."
+      }
+    }
+  },
+  "odin": {
+    "name": "Odin",
+    "epithet": "The All-Father",
+    "story": "Chief of the Aesir, who gave an eye for a drink from the well of wisdom and hung nine nights on the world tree to win the runes. Two ravens fly out each day and bring him news of the world.",
+    "source": "Poetic Edda, Hávamál and Grímnismál; Snorri Sturluson, Prose Edda",
+    "trivia": "His ravens are named Huginn and Muninn, thought and memory.",
+    "skills": {
+      "ravens-report": {
+        "name": "Ravens' Report",
+        "description": "Strikes the weakest enemy for {damage}% of attack."
+      },
+      "gungnir": {
+        "name": "Gungnir",
+        "description": "Hurls the spear that never misses: {damage}% of attack to one enemy."
+      },
+      "all-father": {
+        "name": "All-Father",
+        "description": "At the start of battle, every ally gains {energy} energy."
+      }
+    }
+  },
+  "fenrir": {
+    "name": "Fenrir",
+    "epithet": "The bound wolf",
+    "story": "A wolf born of Loki who grew so fast the gods feared him. They bound him with a fetter made by dwarves from impossible things, and the god Tyr lost his hand in the wolf's jaws as surety.",
+    "source": "Snorri Sturluson, Prose Edda, Gylfaginning",
+    "trivia": "Gleipnir was made from the sound of a cat's footsteps, a woman's beard and the roots of a mountain, among other things.",
+    "skills": {
+      "savage-bite": {
+        "name": "Savage Bite",
+        "description": "Strikes for {damage}% of attack and lowers the target's defense by {amount}%."
+      },
+      "breaking-gleipnir": {
+        "name": "Breaking Gleipnir",
+        "description": "Gains {amount}% attack and speed for {turns} turns."
+      },
+      "growing-hunger": {
+        "name": "Growing Hunger",
+        "description": "Each turn, gains {amount}% attack."
+      }
+    }
+  },
+  "ymir": {
+    "name": "Ymir",
+    "epithet": "Ancestor of the giants",
+    "story": "The first being, formed where the ice of Niflheim met the sparks of Muspelheim. Odin and his brothers killed him and made the world from his body: earth from his flesh, sea from his blood, sky from his skull.",
+    "source": "Snorri Sturluson, Prose Edda, Gylfaginning; Poetic Edda, Völuspá",
+    "trivia": "He was fed by a primeval cow, Audhumla, who licked the first god out of the salty ice.",
+    "skills": {
+      "rime-breath": {
+        "name": "Rime Breath",
+        "description": "Every enemy takes {damage}% of attack and is slowed by {amount}%."
+      },
+      "world-from-flesh": {
+        "name": "World from Flesh",
+        "description": "Shields every ally for {shield}% of health and raises their defense by {amount}%."
+      },
+      "frost-giant": {
+        "name": "Frost Giant",
+        "description": "At the start of battle, gains a shield worth {shield}% of health."
+      }
+    }
+  },
+  "ra": {
+    "name": "Ra",
+    "epithet": "Sun of the two horizons",
+    "story": "The sun god who sails across the sky by day and through the underworld by night, reborn each dawn. On the night journey he must defeat the serpent Apep to rise again.",
+    "source": "Book of the Dead",
+    "trivia": "His day boat and night boat had different names: Mandjet and Mesektet.",
+    "skills": {
+      "solar-barque": {
+        "name": "Solar Barque",
+        "description": "Strikes for {damage}% of attack and burns for {burn}% of attack each turn."
+      },
+      "noon-blaze": {
+        "name": "Noon Blaze",
+        "description": "Every enemy takes {damage}% of attack and burns for {burn}% of attack each turn."
+      },
+      "daily-rebirth": {
+        "name": "Daily Rebirth",
+        "description": "Each turn, heals for {heal}% of attack."
+      }
+    }
+  },
+  "anubis": {
+    "name": "Anubis",
+    "epithet": "Lord of the sacred land",
+    "story": "The jackal-headed guardian of burials and embalming. In the hall of judgment he weighs the heart of the dead against the feather of Maat.",
+    "source": "Book of the Dead, spell 125",
+    "trivia": "Jackals prowled the desert cemeteries, which may be why the guardian of the dead took their shape.",
+    "skills": {
+      "weighing-of-the-heart": {
+        "name": "Weighing of the Heart",
+        "description": "Strikes the weakest enemy for {damage}% of attack."
+      },
+      "guide-of-souls": {
+        "name": "Guide of Souls",
+        "description": "Heals every ally for {heal}% of attack and raises defense by {amount}%."
+      },
+      "embalmer": {
+        "name": "Embalmer",
+        "description": "When an ally is badly wounded, shields them for {shield}% of health."
+      }
+    }
+  },
+  "apep": {
+    "name": "Apep",
+    "epithet": "Serpent of chaos",
+    "story": "A vast serpent of darkness who attacks the boat of the sun every night. He is driven back again and again, but never destroyed for good.",
+    "source": "Book of the Dead, spells 7 and 39",
+    "trivia": "Priests wrote his name on papyrus and burned it as a ritual to keep him away.",
+    "skills": {
+      "coils-of-chaos": {
+        "name": "Coils of Chaos",
+        "description": "Strikes for {damage}% of attack with a {chance}% chance to stun."
+      },
+      "swallow-the-sun": {
+        "name": "Swallow the Sun",
+        "description": "Lowers every enemy's attack by {amount}% and strikes them for {damage}% of attack."
+      },
+      "endless-return": {
+        "name": "Endless Return",
+        "description": "When badly wounded, heals for {heal}% of attack."
+      }
+    }
+  },
+  "gilgamesh": {
+    "name": "Gilgamesh",
+    "epithet": "King of Uruk",
+    "story": "A proud king who found a true friend in Enkidu. Together they killed Humbaba, guardian of the cedar forest. After Enkidu died, Gilgamesh searched the world for a way to escape death.",
+    "source": "Epic of Gilgamesh",
+    "trivia": "The epic describes him as two-thirds god and one-third man.",
+    "skills": {
+      "axe-of-heroes": {
+        "name": "Axe of Heroes",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "cedar-forest": {
+        "name": "Cedar Forest",
+        "description": "Strikes for {damage}% of attack and lowers the target's defense by {amount}%."
+      },
+      "two-thirds-divine": {
+        "name": "Two-thirds Divine",
+        "description": "At the start of battle, gains {amount}% health."
+      }
+    }
+  },
+  "enkidu": {
+    "name": "Enkidu",
+    "epithet": "Wild man of the steppe",
+    "story": "Shaped from clay by the goddess Aruru to be a match for Gilgamesh. He lived among the animals until he came to Uruk, fought the king, and became his brother.",
+    "source": "Epic of Gilgamesh",
+    "trivia": "Before he came to the city, he freed animals from hunters' traps.",
+    "skills": {
+      "wild-strength": {
+        "name": "Wild Strength",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "brother-in-arms": {
+        "name": "Brother in Arms",
+        "description": "Heals the most wounded ally for {heal}% of attack and raises their attack by {amount}%."
+      },
+      "friend-of-beasts": {
+        "name": "Friend of Beasts",
+        "description": "Each turn, gains {energy} energy."
+      }
+    }
+  },
+  "tiamat": {
+    "name": "Tiamat",
+    "epithet": "The salt sea",
+    "story": "The primeval salt waters, mother of the first gods. When the younger gods killed her consort, she raised an army of eleven monsters. Marduk defeated her and split her body to make the sky and the earth.",
+    "source": "Enūma Eliš",
+    "trivia": "The Tigris and the Euphrates were said to flow from her eyes.",
+    "skills": {
+      "salt-waters": {
+        "name": "Salt Waters",
+        "description": "Every enemy takes {damage}% of attack."
+      },
+      "eleven-monsters": {
+        "name": "Eleven Monsters",
+        "description": "Every enemy takes {damage}% of attack and loses {amount}% defense."
+      },
+      "mother-of-depths": {
+        "name": "Mother of the Depths",
+        "description": "Gains {energy} energy each time she is hit."
+      }
+    }
+  },
+  "cu-chulainn": {
+    "name": "Cú Chulainn",
+    "epithet": "Hound of Ulster",
+    "story": "As a boy he killed the fierce hound of the smith Culann and offered to guard the house in its place, which gave him his name. Alone, he held the border of Ulster against the army of Connacht.",
+    "source": "Táin Bó Cúailnge",
+    "trivia": "In battle a frenzy could twist his body out of human shape.",
+    "skills": {
+      "gae-bolg": {
+        "name": "Gáe Bulg",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "battle-frenzy": {
+        "name": "Battle Frenzy",
+        "description": "Gains {amount}% attack for {turns} turns, but lowers his own defense."
+      },
+      "hound-of-culann": {
+        "name": "Hound of Culann",
+        "description": "Each time he is hit, gains {amount}% attack."
+      }
+    }
+  },
+  "morrigan": {
+    "name": "The Morrígan",
+    "epithet": "Phantom queen",
+    "story": "A goddess of battle and prophecy who appears as a crow over the field. When Cú Chulainn refused her, she attacked him in the shapes of an eel, a wolf and a heifer.",
+    "source": "Táin Bó Cúailnge; Cath Maige Tuired",
+    "trivia": "After the second battle of Mag Tuired she spoke a prophecy of the end of the world.",
+    "skills": {
+      "crow-over-the-field": {
+        "name": "Crow over the Field",
+        "description": "Lowers every enemy's attack by {amount}% for {turns} turns."
+      },
+      "prophecy-of-doom": {
+        "name": "Prophecy of Doom",
+        "description": "Every enemy takes {damage}% of attack, with a {chance}% chance to stun."
+      },
+      "shape-shifter": {
+        "name": "Shape-shifter",
+        "description": "When badly wounded, gains {amount}% speed."
+      }
+    }
+  },
+  "yamata-no-orochi": {
+    "name": "Yamata no Orochi",
+    "epithet": "Serpent of eight forks",
+    "story": "A serpent with eight heads and eight tails, so long it stretched over eight valleys. The storm god Susanoo made it drunk on strong sake and cut it apart, finding a sword in one of its tails.",
+    "source": "Kojiki; Nihon Shoki",
+    "trivia": "Moss and trees grew on its back.",
+    "skills": {
+      "eight-heads": {
+        "name": "Eight Heads",
+        "description": "Every enemy takes {damage}% of attack."
+      },
+      "valley-of-eight": {
+        "name": "Over Eight Valleys",
+        "description": "Every enemy takes {damage}% of attack and burns for {burn}% of attack each turn."
+      },
+      "eight-tails": {
+        "name": "Eight Tails",
+        "description": "At the start of battle, gains a shield worth {shield}% of health."
+      }
+    }
+  },
+  "kappa": {
+    "name": "Kappa",
+    "epithet": "River imp",
+    "story": "A water spirit of rivers and ponds that pulls the careless under. It keeps water in a dish on top of its head, and loses its strength if the water spills.",
+    "source": "Japanese folklore",
+    "trivia": "Kappa are said to be very polite: bow to one and it bows back, spilling its water.",
+    "skills": {
+      "river-pull": {
+        "name": "River Pull",
+        "description": "Strikes for {damage}% of attack and slows the target by {amount}%."
+      },
+      "polite-bow": {
+        "name": "Polite Bow",
+        "description": "Heals for {heal}% of attack and gains a shield worth {shield}% of health."
+      },
+      "water-dish": {
+        "name": "Water Dish",
+        "description": "At the start of battle, gains {amount}% defense."
+      }
+    }
+  },
+  "sun-wukong": {
+    "name": "Sun Wukong",
+    "epithet": "Great Sage Equal to Heaven",
+    "story": "A monkey born from a stone egg on the Mountain of Flowers and Fruit. He learned magic, wrecked the heavenly court, was trapped under a mountain for five hundred years, and later guarded a monk on his journey west.",
+    "source": "Journey to the West",
+    "trivia": "His staff can shrink to the size of a needle, which he keeps behind his ear.",
+    "skills": {
+      "ruyi-staff": {
+        "name": "Ruyi Staff",
+        "description": "Strikes the enemy for {damage}% of attack."
+      },
+      "seventy-two-forms": {
+        "name": "Seventy-two Forms",
+        "description": "Every enemy takes {damage}% of attack, with a {chance}% chance to stun."
+      },
+      "born-of-stone": {
+        "name": "Born of Stone",
+        "description": "At the start of battle, gains {amount}% speed."
+      }
+    }
+  }
+}

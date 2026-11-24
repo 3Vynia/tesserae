@@ -1,0 +1,426 @@
+{
+  "zeus": {
+    "name": "Zeus",
+    "epithet": "El que amontona las nubes",
+    "story": "Hijo menor de Crono, escondido de niño para que su padre no lo devorara. Ya adulto liberó a sus hermanos, derrotó a los titanes con los rayos que forjaron los cíclopes y tomó el cielo como su parte del mundo.",
+    "source": "Hesíodo, Teogonía; Homero, Ilíada",
+    "trivia": "Homero lo llama el que amontona las nubes y lo muestra agitando la égida para desatar tormentas.",
+    "skills": {
+      "thunderbolt": {
+        "name": "Rayo",
+        "description": "Golpea al enemigo con un {damage}% del ataque y tiene un {chance}% de probabilidad de aturdirlo."
+      },
+      "aegis-storm": {
+        "name": "Tormenta de la égida",
+        "description": "Agita la égida sobre el campo: cada enemigo recibe un {damage}% del ataque."
+      },
+      "king-of-olympus": {
+        "name": "Rey del Olimpo",
+        "description": "Al empezar el combate, todos los aliados ganan un {amount}% de ataque."
+      }
+    }
+  },
+  "achilles": {
+    "name": "Aquiles",
+    "epithet": "El de los pies ligeros",
+    "story": "Hijo de la nereida Tetis y del mortal Peleo, el mejor guerrero de los griegos en Troya. Se retiró de la guerra por su enfado con Agamenón y solo volvió cuando Héctor mató a su amigo Patroclo.",
+    "source": "Homero, Ilíada",
+    "trivia": "La historia de su madre sumergiéndolo en la Estigia viene de un poeta posterior, Estacio, no de Homero.",
+    "skills": {
+      "spear-of-pelion": {
+        "name": "Lanza del Pelión",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "wrath": {
+        "name": "Cólera",
+        "description": "Gana un {amount}% de ataque y luego golpea con un {damage}% del ataque."
+      },
+      "dipped-in-styx": {
+        "name": "Sumergido en la Estigia",
+        "description": "Cuando está malherido, gana un escudo del {shield}% de su vida."
+      }
+    }
+  },
+  "patroclus": {
+    "name": "Patroclo",
+    "epithet": "El compañero bondadoso",
+    "story": "El amigo más cercano de Aquiles. Mientras Aquiles se negaba a luchar, Patroclo se puso su armadura para alejar a los troyanos de las naves, avanzó hasta las murallas de Troya y murió a manos de Héctor.",
+    "source": "Homero, Ilíada",
+    "trivia": "Los juegos fúnebres que Aquiles celebró en su honor ocupan casi un canto entero de la Ilíada.",
+    "skills": {
+      "borrowed-armor": {
+        "name": "Armadura prestada",
+        "description": "Gana un escudo del {shield}% de su vida y un {amount}% de defensa."
+      },
+      "charge-at-the-walls": {
+        "name": "Carga contra las murallas",
+        "description": "Cada enemigo recibe un {damage}% del ataque."
+      },
+      "loyal-friend": {
+        "name": "Amigo leal",
+        "description": "En cada turno, cura al aliado más herido un {heal}% del ataque."
+      }
+    }
+  },
+  "medusa": {
+    "name": "Medusa",
+    "epithet": "La gorgona mortal",
+    "story": "La única mortal de las tres hermanas gorgonas; su mirada convertía en piedra a quien la veía. Perseo la decapitó mirando su reflejo en un escudo bruñido.",
+    "source": "Hesíodo, Teogonía; Ovidio, Metamorfosis",
+    "trivia": "Según Hesíodo, el caballo alado Pegaso surgió de su cuerpo al morir.",
+    "skills": {
+      "stone-gaze": {
+        "name": "Mirada de piedra",
+        "description": "Golpea con un {damage}% del ataque y tiene un {chance}% de probabilidad de aturdir."
+      },
+      "hall-of-statues": {
+        "name": "Sala de estatuas",
+        "description": "Ralentiza a cada enemigo un {amount}% y lo golpea con un {damage}% del ataque."
+      },
+      "serpent-hair": {
+        "name": "Cabellera de serpientes",
+        "description": "Gana {energy} de energía cada vez que la golpean."
+      }
+    }
+  },
+  "gaia": {
+    "name": "Gea",
+    "epithet": "La Tierra de amplio pecho",
+    "story": "Uno de los primeros seres en surgir tras el Caos. Dio a luz al cielo estrellado, a las montañas y al mar, y de su unión con el cielo nacieron los titanes.",
+    "source": "Hesíodo, Teogonía",
+    "trivia": "Ayudó a esconder a Zeus recién nacido de Crono en Creta.",
+    "skills": {
+      "bountiful-earth": {
+        "name": "Tierra generosa",
+        "description": "Cura a cada aliado un {heal}% del ataque."
+      },
+      "mother-of-all": {
+        "name": "Madre de todo",
+        "description": "Cura a cada aliado un {heal}% del ataque y lo protege con un escudo del {shield}% de su vida."
+      },
+      "deep-roots": {
+        "name": "Raíces profundas",
+        "description": "Al empezar el combate, gana un {amount}% de defensa."
+      },
+      "first-born": {
+        "name": "Primogénita",
+        "description": "En cada turno, cura a cada aliado un {heal}% del ataque."
+      }
+    }
+  },
+  "thor": {
+    "name": "Thor",
+    "epithet": "Defensor de Midgard",
+    "story": "Hijo de Odín y protector de dioses y personas frente a los gigantes. Lleva el martillo Mjölnir, guantes de hierro para sostenerlo y un cinturón que duplica su fuerza.",
+    "source": "Edda poética, Þrymskviða; Snorri Sturluson, Edda prosaica",
+    "trivia": "Cuando un gigante le robó el martillo, Thor lo recuperó yendo a la boda disfrazado de novia.",
+    "skills": {
+      "hammer-throw": {
+        "name": "Lanzamiento del martillo",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "thunder-over-midgard": {
+        "name": "Trueno sobre Midgard",
+        "description": "Cada enemigo recibe un {damage}% del ataque, con un {chance}% de probabilidad de aturdir."
+      },
+      "belt-of-strength": {
+        "name": "Cinturón de fuerza",
+        "description": "Al empezar el combate, gana un {amount}% de ataque."
+      }
+    }
+  },
+  "odin": {
+    "name": "Odín",
+    "epithet": "El Padre de Todos",
+    "story": "Jefe de los ases, que dio un ojo por un trago del pozo de la sabiduría y pasó nueve noches colgado del árbol del mundo para conseguir las runas. Dos cuervos salen cada día y le traen noticias del mundo.",
+    "source": "Edda poética, Hávamál y Grímnismál; Snorri Sturluson, Edda prosaica",
+    "trivia": "Sus cuervos se llaman Huginn y Muninn: pensamiento y memoria.",
+    "skills": {
+      "ravens-report": {
+        "name": "Noticias de los cuervos",
+        "description": "Golpea al enemigo más débil con un {damage}% del ataque."
+      },
+      "gungnir": {
+        "name": "Gungnir",
+        "description": "Lanza la lanza que nunca falla: {damage}% del ataque a un enemigo."
+      },
+      "all-father": {
+        "name": "Padre de Todos",
+        "description": "Al empezar el combate, cada aliado gana {energy} de energía."
+      }
+    }
+  },
+  "fenrir": {
+    "name": "Fenrir",
+    "epithet": "El lobo encadenado",
+    "story": "Un lobo hijo de Loki que crecía tan deprisa que los dioses lo temían. Lo ataron con una cadena que los enanos hicieron de cosas imposibles, y el dios Tyr perdió la mano entre sus fauces como garantía.",
+    "source": "Snorri Sturluson, Edda prosaica, Gylfaginning",
+    "trivia": "Gleipnir se hizo, entre otras cosas, con el ruido de las pisadas de un gato, la barba de una mujer y las raíces de una montaña.",
+    "skills": {
+      "savage-bite": {
+        "name": "Mordisco feroz",
+        "description": "Golpea con un {damage}% del ataque y reduce la defensa del objetivo un {amount}%."
+      },
+      "breaking-gleipnir": {
+        "name": "Romper Gleipnir",
+        "description": "Gana un {amount}% de ataque y de velocidad durante {turns} turnos."
+      },
+      "growing-hunger": {
+        "name": "Hambre creciente",
+        "description": "En cada turno, gana un {amount}% de ataque."
+      }
+    }
+  },
+  "ymir": {
+    "name": "Ymir",
+    "epithet": "Antepasado de los gigantes",
+    "story": "El primer ser, formado donde el hielo de Niflheim se encontró con las chispas de Muspelheim. Odín y sus hermanos lo mataron e hicieron el mundo con su cuerpo: la tierra con su carne, el mar con su sangre y el cielo con su cráneo.",
+    "source": "Snorri Sturluson, Edda prosaica, Gylfaginning; Edda poética, Völuspá",
+    "trivia": "Lo alimentaba una vaca primigenia, Auðumbla, que lamiendo el hielo salado hizo surgir al primer dios.",
+    "skills": {
+      "rime-breath": {
+        "name": "Aliento de escarcha",
+        "description": "Cada enemigo recibe un {damage}% del ataque y se ralentiza un {amount}%."
+      },
+      "world-from-flesh": {
+        "name": "El mundo de su carne",
+        "description": "Protege a cada aliado con un escudo del {shield}% de su vida y sube su defensa un {amount}%."
+      },
+      "frost-giant": {
+        "name": "Gigante de escarcha",
+        "description": "Al empezar el combate, gana un escudo del {shield}% de su vida."
+      }
+    }
+  },
+  "ra": {
+    "name": "Ra",
+    "epithet": "Sol de los dos horizontes",
+    "story": "El dios sol, que navega por el cielo de día y por el inframundo de noche y renace cada amanecer. En el viaje nocturno debe vencer a la serpiente Apep para volver a salir.",
+    "source": "Libro de los Muertos",
+    "trivia": "Su barca del día y su barca de la noche tenían nombres distintos: Mandjet y Mesektet.",
+    "skills": {
+      "solar-barque": {
+        "name": "Barca solar",
+        "description": "Golpea con un {damage}% del ataque y quema un {burn}% del ataque cada turno."
+      },
+      "noon-blaze": {
+        "name": "Fuego del mediodía",
+        "description": "Cada enemigo recibe un {damage}% del ataque y se quema un {burn}% del ataque cada turno."
+      },
+      "daily-rebirth": {
+        "name": "Renacer diario",
+        "description": "En cada turno, se cura un {heal}% del ataque."
+      }
+    }
+  },
+  "anubis": {
+    "name": "Anubis",
+    "epithet": "Señor de la tierra sagrada",
+    "story": "El guardián con cabeza de chacal de los enterramientos y el embalsamamiento. En la sala del juicio pesa el corazón del difunto frente a la pluma de Maat.",
+    "source": "Libro de los Muertos, capítulo 125",
+    "trivia": "Los chacales rondaban los cementerios del desierto; quizá por eso el guardián de los muertos tomó su forma.",
+    "skills": {
+      "weighing-of-the-heart": {
+        "name": "Pesaje del corazón",
+        "description": "Golpea al enemigo más débil con un {damage}% del ataque."
+      },
+      "guide-of-souls": {
+        "name": "Guía de almas",
+        "description": "Cura a cada aliado un {heal}% del ataque y sube su defensa un {amount}%."
+      },
+      "embalmer": {
+        "name": "Embalsamador",
+        "description": "Cuando un aliado está malherido, lo protege con un escudo del {shield}% de su vida."
+      }
+    }
+  },
+  "apep": {
+    "name": "Apep",
+    "epithet": "La serpiente del caos",
+    "story": "Una serpiente inmensa de oscuridad que ataca cada noche la barca del sol. La rechazan una y otra vez, pero nunca la destruyen del todo.",
+    "source": "Libro de los Muertos, capítulos 7 y 39",
+    "trivia": "Los sacerdotes escribían su nombre en papiro y lo quemaban en un ritual para mantenerla lejos.",
+    "skills": {
+      "coils-of-chaos": {
+        "name": "Anillos del caos",
+        "description": "Golpea con un {damage}% del ataque y tiene un {chance}% de probabilidad de aturdir."
+      },
+      "swallow-the-sun": {
+        "name": "Tragar el sol",
+        "description": "Reduce el ataque de cada enemigo un {amount}% y lo golpea con un {damage}% del ataque."
+      },
+      "endless-return": {
+        "name": "Regreso sin fin",
+        "description": "Cuando está malherida, se cura un {heal}% del ataque."
+      }
+    }
+  },
+  "gilgamesh": {
+    "name": "Gilgamesh",
+    "epithet": "Rey de Uruk",
+    "story": "Un rey orgulloso que encontró en Enkidu un amigo verdadero. Juntos mataron a Humbaba, guardián del bosque de cedros. Tras la muerte de Enkidu, Gilgamesh recorrió el mundo buscando cómo escapar de la muerte.",
+    "source": "Epopeya de Gilgamesh",
+    "trivia": "La epopeya lo describe como dos tercios dios y un tercio hombre.",
+    "skills": {
+      "axe-of-heroes": {
+        "name": "Hacha de los héroes",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "cedar-forest": {
+        "name": "Bosque de cedros",
+        "description": "Golpea con un {damage}% del ataque y reduce la defensa del objetivo un {amount}%."
+      },
+      "two-thirds-divine": {
+        "name": "Dos tercios divino",
+        "description": "Al empezar el combate, gana un {amount}% de vida."
+      }
+    }
+  },
+  "enkidu": {
+    "name": "Enkidu",
+    "epithet": "El hombre salvaje de la estepa",
+    "story": "Modelado en arcilla por la diosa Aruru para ser la medida de Gilgamesh. Vivió entre los animales hasta que llegó a Uruk, luchó con el rey y se convirtió en su hermano.",
+    "source": "Epopeya de Gilgamesh",
+    "trivia": "Antes de llegar a la ciudad, liberaba a los animales de las trampas de los cazadores.",
+    "skills": {
+      "wild-strength": {
+        "name": "Fuerza salvaje",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "brother-in-arms": {
+        "name": "Hermano de armas",
+        "description": "Cura al aliado más herido un {heal}% del ataque y sube su ataque un {amount}%."
+      },
+      "friend-of-beasts": {
+        "name": "Amigo de las bestias",
+        "description": "En cada turno, gana {energy} de energía."
+      }
+    }
+  },
+  "tiamat": {
+    "name": "Tiamat",
+    "epithet": "El mar salado",
+    "story": "Las aguas saladas primigenias, madre de los primeros dioses. Cuando los dioses jóvenes mataron a su consorte, alzó un ejército de once monstruos. Marduk la venció y partió su cuerpo para hacer el cielo y la tierra.",
+    "source": "Enuma Elish",
+    "trivia": "Se decía que el Tigris y el Éufrates brotaban de sus ojos.",
+    "skills": {
+      "salt-waters": {
+        "name": "Aguas saladas",
+        "description": "Cada enemigo recibe un {damage}% del ataque."
+      },
+      "eleven-monsters": {
+        "name": "Once monstruos",
+        "description": "Cada enemigo recibe un {damage}% del ataque y pierde un {amount}% de defensa."
+      },
+      "mother-of-depths": {
+        "name": "Madre de las profundidades",
+        "description": "Gana {energy} de energía cada vez que la golpean."
+      }
+    }
+  },
+  "cu-chulainn": {
+    "name": "Cú Chulainn",
+    "epithet": "El sabueso del Úlster",
+    "story": "De niño mató al feroz perro del herrero Culann y se ofreció a guardar la casa en su lugar, y de ahí le vino el nombre. Él solo defendió la frontera del Úlster frente al ejército de Connacht.",
+    "source": "Táin Bó Cúailnge",
+    "trivia": "En combate, un frenesí podía retorcer su cuerpo hasta perder la forma humana.",
+    "skills": {
+      "gae-bolg": {
+        "name": "Gáe Bulg",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "battle-frenzy": {
+        "name": "Frenesí de batalla",
+        "description": "Gana un {amount}% de ataque durante {turns} turnos, pero baja su propia defensa."
+      },
+      "hound-of-culann": {
+        "name": "Sabueso de Culann",
+        "description": "Cada vez que lo golpean, gana un {amount}% de ataque."
+      }
+    }
+  },
+  "morrigan": {
+    "name": "La Morrígan",
+    "epithet": "La reina fantasma",
+    "story": "Una diosa de la batalla y la profecía que aparece como un cuervo sobre el campo. Cuando Cú Chulainn la rechazó, lo atacó con forma de anguila, de loba y de novilla.",
+    "source": "Táin Bó Cúailnge; Cath Maige Tuired",
+    "trivia": "Tras la segunda batalla de Mag Tuired pronunció una profecía sobre el fin del mundo.",
+    "skills": {
+      "crow-over-the-field": {
+        "name": "Cuervo sobre el campo",
+        "description": "Reduce el ataque de cada enemigo un {amount}% durante {turns} turnos."
+      },
+      "prophecy-of-doom": {
+        "name": "Profecía funesta",
+        "description": "Cada enemigo recibe un {damage}% del ataque, con un {chance}% de probabilidad de aturdir."
+      },
+      "shape-shifter": {
+        "name": "Cambiaformas",
+        "description": "Cuando está malherida, gana un {amount}% de velocidad."
+      }
+    }
+  },
+  "yamata-no-orochi": {
+    "name": "Yamata no Orochi",
+    "epithet": "La serpiente de ocho horcas",
+    "story": "Una serpiente de ocho cabezas y ocho colas, tan larga que se extendía sobre ocho valles. El dios de la tormenta Susanoo la emborrachó con sake fuerte y la despedazó, y en una de sus colas encontró una espada.",
+    "source": "Kojiki; Nihon Shoki",
+    "trivia": "Sobre su lomo crecían musgo y árboles.",
+    "skills": {
+      "eight-heads": {
+        "name": "Ocho cabezas",
+        "description": "Cada enemigo recibe un {damage}% del ataque."
+      },
+      "valley-of-eight": {
+        "name": "Sobre ocho valles",
+        "description": "Cada enemigo recibe un {damage}% del ataque y se quema un {burn}% del ataque cada turno."
+      },
+      "eight-tails": {
+        "name": "Ocho colas",
+        "description": "Al empezar el combate, gana un escudo del {shield}% de su vida."
+      }
+    }
+  },
+  "kappa": {
+    "name": "Kappa",
+    "epithet": "El duende del río",
+    "story": "Un espíritu de ríos y estanques que arrastra al agua a los descuidados. Guarda agua en un plato sobre la cabeza y pierde la fuerza si se le derrama.",
+    "source": "Folclore japonés",
+    "trivia": "Dicen que los kappa son muy educados: si le haces una reverencia, te la devuelve y se le derrama el agua.",
+    "skills": {
+      "river-pull": {
+        "name": "Tirón del río",
+        "description": "Golpea con un {damage}% del ataque y ralentiza al objetivo un {amount}%."
+      },
+      "polite-bow": {
+        "name": "Reverencia educada",
+        "description": "Se cura un {heal}% del ataque y gana un escudo del {shield}% de su vida."
+      },
+      "water-dish": {
+        "name": "Plato de agua",
+        "description": "Al empezar el combate, gana un {amount}% de defensa."
+      }
+    }
+  },
+  "sun-wukong": {
+    "name": "Sun Wukong",
+    "epithet": "Gran Sabio Igual al Cielo",
+    "story": "Un mono nacido de un huevo de piedra en la Montaña de las Flores y los Frutos. Aprendió magia, arrasó la corte celestial, pasó quinientos años atrapado bajo una montaña y después protegió a un monje en su viaje al oeste.",
+    "source": "Viaje al Oeste",
+    "trivia": "Su bastón puede encogerse hasta el tamaño de una aguja, y lo guarda detrás de la oreja.",
+    "skills": {
+      "ruyi-staff": {
+        "name": "Bastón Ruyi",
+        "description": "Golpea al enemigo con un {damage}% del ataque."
+      },
+      "seventy-two-forms": {
+        "name": "Setenta y dos formas",
+        "description": "Cada enemigo recibe un {damage}% del ataque, con un {chance}% de probabilidad de aturdir."
+      },
+      "born-of-stone": {
+        "name": "Nacido de la piedra",
+        "description": "Al empezar el combate, gana un {amount}% de velocidad."
+      }
+    }
+  }
+}
