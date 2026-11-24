@@ -4,12 +4,12 @@ import type { Banner } from '../engine/gacha';
 
 const WEEK = 7 * 24 * 3600 * 1000;
 
-/** Cards shown on a banner's art: the rarest of its featured pantheon, or the primordials. */
-export function bannerCards(banner: Banner): Card[] {
+/** Cards shown on a banner's art: the rarest of its featured pantheon, or of the whole vault. */
+export function bannerCards(banner: Banner, count = 5): Card[] {
   const pool = banner.featured ? CARDS.filter((c) => c.pantheon === banner.featured) : CARDS;
   return [...pool]
     .sort((a, b) => RARITIES.indexOf(b.rarity) - RARITIES.indexOf(a.rarity))
-    .slice(0, 3);
+    .slice(0, count);
 }
 
 /** Milliseconds until a weekly banner rotates; null for the standing banner. */

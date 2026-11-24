@@ -9,6 +9,7 @@
   import Rosette from '../battle/Rosette.svelte';
   import NightSky from '../NightSky.svelte';
   import Ornament from '../Ornament.svelte';
+  import { motion } from '../motion/motion.svelte';
 
   // The illustrated face of a summoning banner, used on the summon altar and the home carousel.
   interface Props {
@@ -28,9 +29,42 @@
   const left = $derived(bannerEndsIn(banner, now));
   const time = $derived(left === null ? null : splitDuration(left));
 
+  // The featured cards orbit on a tilted ellipse, always facing the viewer, so every card is seen
+  // whole in turn. Transforms are written straight to each slot every frame.
+  let orbit = $state<HTMLDivElement>();
+  let paused = false;
+
   onMount(() => {
     const id = setInterval(() => (now = Date.now()), 30_000);
-    return () => clearInterval(id);
+    let raf = 0;
+    let angle = 0;
+    let last = performance.now();
+    const place = () => {
+      const slots = orbit ? [...orbit.querySelectorAll<HTMLElement>('.card-slot')] : [];
+      const n = slots.length;
+      slots.forEach((el, i) => {
+        const a = angle + (i / n) * Math.PI * 2;
+        const depth = (Math.cos(a) + 1) / 2; // 1 in front, 0 behind
+        const x = Math.sin(a) * 14;
+        const y = (1 - depth) * -6;
+        const scale = 0.62 + depth * 0.38;
+        el.style.transform = `translate(-50%, -50%) translate(${x.toFixed(2)}cqi, ${y.toFixed(2)}cqi) scale(${scale.toFixed(3)}) rotateY(${(-Math.sin(a) * 18).toFixed(1)}deg)`;
+        el.style.zIndex = String(Math.round(depth * 100));
+        el.style.filter = `brightness(${(0.55 + depth * 0.45).toFixed(2)})`;
+      });
+    };
+    const frame = (t: number) => {
+      const dt = Math.min(0.05, (t - last) / 1000);
+      last = t;
+      if (!paused && !motion.calm) angle += dt * 0.35;
+      place();
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => {
+      clearInterval(id);
+      cancelAnimationFrame(raf);
+    };
   });
 </script>
 
@@ -46,20 +80,28 @@
   </div>
   <div class="rosette"><Rosette {pantheon} petals={12} /></div>
 
-  <div class="cards">
+  <div
+    class="cards"
+    role="presentation"
+    bind:this={orbit}
+    onpointerenter={() => (paused = true)}
+    onpointerleave={() => (paused = false)}
+    onfocusin={() => (paused = true)}
+    onfocusout={() => (paused = false)}
+  >
     {#if oncard}<span class="hint caps">{t('ui.summon.banner.tapToView')}</span>{/if}
     {#each cards as card, i (card.id)}
       {#if oncard}
         <button
           type="button"
-          class="card-slot s{i} pick"
+          class="card-slot pick"
           onclick={() => oncard(i)}
           aria-label={t('ui.summon.banner.view', { name: cardName(card) })}
         >
           <CardView {card} interactive={false} />
         </button>
       {:else}
-        <div class="card-slot s{i}"><CardView {card} interactive={false} /></div>
+        <div class="card-slot"><CardView {card} interactive={false} /></div>
       {/if}
     {/each}
   </div>
@@ -71,7 +113,7 @@
         {t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${banner.featured}`) })}
       </h2>
       <p class="sub">
-        {t('ui.summon.banner.rateUp', { names: cards.map(cardName).join(' · ') })}
+        {t('ui.summon.banner.rateUp', { names: cards.slice(0, 3).map(cardName).join(' · ') })}
       </p>
     {:else}
       <span class="band"><Ornament pantheon="greek" height={12} /></span>
@@ -141,17 +183,19 @@
   }
   .cards {
     position: absolute;
-    right: 6cqi;
-    bottom: -8cqi;
-    width: 50cqi;
-    height: 100%;
+    left: 50cqi;
+    right: 4cqi;
+    top: 0;
+    bottom: 0;
+    perspective: 900px;
   }
   .card-slot {
     position: absolute;
-    bottom: 0;
-    width: 22cqi;
-    transform-origin: 50% 120%;
-    filter: drop-shadow(0 14px 22px rgb(0 0 0 / 0.65));
+    left: 50%;
+    top: 54%;
+    width: 19cqi;
+    transform: translate(-50%, -50%);
+    will-change: transform;
   }
   .pick {
     padding: 0;
@@ -173,31 +217,14 @@
   }
   @media (hover: hover) and (pointer: fine) {
     .pick:hover {
-      translate: 0 -3cqi;
-      rotate: 0deg;
-      z-index: 4;
+      translate: 0 -2cqi;
     }
-  }
-  .s0 {
-    left: 14cqi;
-    width: 26cqi;
-    z-index: 3;
-    bottom: 4cqi;
-  }
-  .s1 {
-    left: 0;
-    rotate: -12deg;
-    z-index: 2;
-  }
-  .s2 {
-    left: 31cqi;
-    rotate: 12deg;
-    z-index: 1;
   }
   .hint {
     position: absolute;
     right: 0;
-    top: 16cqi;
+    bottom: 3cqi;
+    z-index: 200;
     font-size: max(0.65rem, 1.4cqi);
     color: var(--parchment-dim);
     letter-spacing: 0.08em;

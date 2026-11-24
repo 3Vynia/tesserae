@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { PANTHEONS } from './pantheons';
+import { duelProfileSchema } from './duel';
 
 export const RARITIES = ['mortal', 'hero', 'demigod', 'god', 'primordial'] as const;
 export type Rarity = (typeof RARITIES)[number];
@@ -86,6 +87,8 @@ export const cardSchema = z
       /** Optional file name of real art under public/art; placeholder used when missing. */
       file: z.string().optional(),
     }),
+    /** Stats and abilities on the duel board. */
+    duel: duelProfileSchema,
     frame: z.string().default('standard'),
     effect: z.string().default('none'),
   })

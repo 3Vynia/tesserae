@@ -36,6 +36,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['gaia'], rivals: [] },
+    duel: { cost: 7, attack: 6, health: 6, play: { kind: 'damage', amount: 3, target: 'enemy' } },
     art: { glyph: 'bolt' },
   },
   {
@@ -70,6 +71,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['patroclus'], rivals: [] },
+    duel: { cost: 3, attack: 4, health: 2, keywords: ['swift'] },
     art: { glyph: 'spear' },
   },
   {
@@ -104,6 +106,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['achilles'], rivals: [] },
+    duel: { cost: 2, attack: 2, health: 3, keywords: ['guard'] },
     art: { glyph: 'shield' },
   },
   {
@@ -141,6 +144,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: { cost: 4, attack: 3, health: 4, play: { kind: 'stun', target: 'enemy-unit' } },
     art: { glyph: 'serpent' },
   },
   {
@@ -181,6 +185,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['zeus'], rivals: [] },
+    duel: { cost: 8, attack: 6, health: 9, play: { kind: 'heal', amount: 4, target: 'allies' } },
     art: { glyph: 'mountain' },
   },
 
@@ -217,6 +222,13 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['odin'], rivals: [] },
+    duel: {
+      cost: 6,
+      attack: 5,
+      health: 6,
+      keywords: ['guard'],
+      play: { kind: 'damage', amount: 2, target: 'enemy-unit' },
+    },
     art: { glyph: 'hammer' },
   },
   {
@@ -248,6 +260,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['thor'], rivals: ['fenrir', 'ymir'] },
+    duel: { cost: 6, attack: 4, health: 5, play: { kind: 'draw', amount: 2 } },
     art: { glyph: 'raven' },
   },
   {
@@ -285,6 +298,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['odin'] },
+    duel: { cost: 5, attack: 5, health: 4, keywords: ['swift'] },
     art: { glyph: 'wolf' },
   },
   {
@@ -322,6 +336,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['odin'] },
+    duel: { cost: 8, attack: 7, health: 10, keywords: ['guard'] },
     art: { glyph: 'giant' },
   },
 
@@ -361,6 +376,13 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['apep'] },
+    duel: {
+      cost: 6,
+      attack: 4,
+      health: 5,
+      keywords: ['drain'],
+      play: { kind: 'damage', amount: 2, target: 'enemies' },
+    },
     art: { glyph: 'sun-disk' },
   },
   {
@@ -395,6 +417,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: { cost: 5, attack: 3, health: 5, keywords: ['venom'] },
     art: { glyph: 'jackal' },
   },
   {
@@ -432,6 +455,13 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['ra'] },
+    duel: {
+      cost: 5,
+      attack: 2,
+      health: 7,
+      keywords: ['guard'],
+      play: { kind: 'weaken', amount: 2, target: 'enemy-unit' },
+    },
     art: { glyph: 'serpent' },
   },
 
@@ -468,6 +498,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['enkidu'], rivals: [] },
+    duel: { cost: 4, attack: 4, health: 5 },
     art: { glyph: 'axe' },
   },
   {
@@ -502,6 +533,12 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: ['gilgamesh'], rivals: [] },
+    duel: {
+      cost: 2,
+      attack: 3,
+      health: 2,
+      play: { kind: 'buff', attack: 1, health: 1, target: 'ally-unit' },
+    },
     art: { glyph: 'antler' },
   },
   {
@@ -536,6 +573,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: { cost: 8, attack: 7, health: 8, play: { kind: 'damage', amount: 3, target: 'enemies' } },
     art: { glyph: 'wave' },
   },
 
@@ -572,6 +610,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['morrigan'] },
+    duel: { cost: 3, attack: 2, health: 3, keywords: ['fury'] },
     art: { glyph: 'hound' },
   },
   {
@@ -606,6 +645,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: ['cu-chulainn'] },
+    duel: { cost: 5, attack: 4, health: 4, play: { kind: 'weaken', amount: 1, target: 'enemies' } },
     art: { glyph: 'crow' },
   },
 
@@ -642,6 +682,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: { cost: 6, attack: 4, health: 7, play: { kind: 'damage', amount: 1, target: 'enemies' } },
     art: { glyph: 'serpent' },
   },
   {
@@ -679,6 +720,12 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: {
+      cost: 1,
+      attack: 1,
+      health: 3,
+      play: { kind: 'weaken', amount: 1, target: 'enemy-unit' },
+    },
     art: { glyph: 'turtle' },
   },
 
@@ -715,6 +762,7 @@ const raw: CardInput[] = [
       ],
     },
     relations: { allies: [], rivals: [] },
+    duel: { cost: 4, attack: 3, health: 3, keywords: ['ward', 'swift'] },
     art: { glyph: 'staff' },
   },
 ];
