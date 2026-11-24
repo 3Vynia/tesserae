@@ -4,7 +4,7 @@
   import { t } from '../../i18n/i18n.svelte';
   import { cardName, skillName } from '../../app/card-text';
   import { motion } from '../motion/motion.svelte';
-  import { portal } from '../portal';
+  import { modal, portal } from '../portal';
   import CardArt from '../card/CardArt.svelte';
   import { ELEMENT_TINT } from '../card/art';
   import Rosette from './Rosette.svelte';
@@ -59,6 +59,8 @@
   let stage = $state<HTMLDivElement>();
   const tokens: Record<string, HTMLElement> = {};
   let fx = $state<HTMLDivElement>();
+  let root = $state<HTMLDivElement>();
+  let outcomeBox = $state<HTMLDivElement>();
 
   const side = (s: 'player' | 'enemy') =>
     Object.values(views)
@@ -308,6 +310,8 @@
     await wait(500);
     for (const e of result.events) await step(e);
     finished = true;
+    await tick();
+    outcomeBox?.querySelector<HTMLElement>('button, a')?.focus();
   }
 
   function skip(): void {
@@ -315,6 +319,7 @@
   }
 
   onMount(() => {
+    root?.focus();
     void play();
   });
 </script>
@@ -328,10 +333,13 @@
 
 <div
   use:portal
+  use:modal
   class="battle"
   role="dialog"
   aria-modal="true"
   aria-label={t('ui.battle.stage.label')}
+  tabindex="-1"
+  bind:this={root}
 >
   <div class="stage" bind:this={stage}>
     <header class="top">
@@ -407,7 +415,7 @@
   </div>
 
   {#if finished}
-    <div class="outcome">{@render outcome()}</div>
+    <div class="outcome" bind:this={outcomeBox}>{@render outcome()}</div>
   {/if}
 </div>
 
@@ -417,6 +425,9 @@
     width: 0;
     height: 0;
     overflow: hidden;
+  }
+  .battle:focus {
+    outline: none;
   }
   .battle {
     position: fixed;

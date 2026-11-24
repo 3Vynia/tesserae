@@ -9,7 +9,7 @@
   import CardView from '../card/Card.svelte';
   import Button from '../Button.svelte';
   import { playSummonParticles } from './particles';
-  import { portal } from '../portal';
+  import { modal, portal } from '../portal';
 
   interface Props {
     results: PullResult[];
@@ -84,6 +84,7 @@
 
 <div
   use:portal
+  use:modal
   class="ceremony top-{top}"
   class:many={results.length > 1}
   role="dialog"
@@ -131,7 +132,7 @@
     </ol>
     <div class="actions" bind:this={doneButton}>
       <Button variant="gilt" icon="collection" onclick={() => onclose('vault')}>
-        {t('ui.ceremony.done')}
+        {t('ui.ceremony.done', { count: results.length })}
       </Button>
       <Button variant="quiet" onclick={() => onclose('stay')}>{t('ui.ceremony.again')}</Button>
     </div>
@@ -246,10 +247,6 @@
   }
   .card-wrap {
     width: 100%;
-  }
-  .slot.rarity-god .card-wrap,
-  .slot.rarity-primordial .card-wrap {
-    filter: drop-shadow(0 0 24px color-mix(in srgb, var(--glow) 60%, transparent));
   }
   .status {
     font-size: var(--text-sm);
