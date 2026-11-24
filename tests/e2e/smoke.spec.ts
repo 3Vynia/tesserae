@@ -43,3 +43,16 @@ test('opens the vault, a card and its back', async ({ page }) => {
   await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/#\/collection$/);
 });
+
+test('summons once, skips the ceremony and lands in the vault', async ({ page }) => {
+  await page.goto('/#/summon');
+  await expect(page.getByText('Mortal', { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: '50%' })).toBeVisible();
+  await page.getByRole('button', { name: 'Summon once' }).click();
+  const ceremony = page.getByRole('dialog', { name: 'Summoning' });
+  await expect(ceremony).toBeVisible();
+  await ceremony.getByRole('button', { name: 'Skip' }).click();
+  await ceremony.getByRole('button', { name: 'Set them in the vault' }).click();
+  await expect(page).toHaveURL(/#\/collection$/);
+  await expect(page.locator('#hud-starlight')).toContainText('1,440');
+});
