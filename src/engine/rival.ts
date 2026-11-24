@@ -69,7 +69,7 @@ function chooseTarget(
   }
 }
 
-/** The play the AI would make now, if any card is worth playing. */
+/** The play the rival would make now, if any card is worth playing. */
 function nextPlay(duel: Duel, side: Side): Action | null {
   const options = playable(duel, side).sort((a, b) => b.cost - a.cost);
   for (const card of options) {
@@ -93,7 +93,7 @@ function nextPlay(duel: Duel, side: Side): Action | null {
   return null;
 }
 
-/** The attack the AI would make now, if any figure is ready. */
+/** The attack the rival would make now, if any figure is ready. */
 function nextAttack(duel: Duel, side: Side): Action | null {
   const seat = duel.state.seats[side];
   const attacker = seat.board.filter((u) => u.attacks > 0).sort((a, b) => b.attack - a.attack)[0];
@@ -122,19 +122,19 @@ function nextAttack(duel: Duel, side: Side): Action | null {
 }
 
 /**
- * The AI's next action for the side whose turn it is: play cards first (biggest first), then
+ * The rival's next action for the side whose turn it is: play cards first (biggest first), then
  * attack, then end the turn. Call repeatedly; each call returns one action.
  */
-export function aiNextAction(duel: Duel): Action {
+export function rivalNextAction(duel: Duel): Action {
   const side = duel.state.active;
   return nextPlay(duel, side) ?? nextAttack(duel, side) ?? { type: 'end' };
 }
 
 /** Plays the whole turn for the side whose turn it is, then ends it. */
-export function aiTurn(duel: Duel): DuelEvent[] {
+export function rivalTurn(duel: Duel): DuelEvent[] {
   const events: DuelEvent[] = [];
   for (let i = 0; i < 60 && !duel.state.winner; i++) {
-    const action = aiNextAction(duel);
+    const action = rivalNextAction(duel);
     events.push(...act(duel, action));
     if (action.type === 'end') break;
   }

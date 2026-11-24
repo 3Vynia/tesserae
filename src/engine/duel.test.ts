@@ -16,7 +16,7 @@ import {
   type Duel,
   type Unit,
 } from './duel';
-import { aiTurn } from './duel-ai';
+import { rivalTurn } from './rival';
 
 const rites = RITES.map((r) => r.id);
 const deckOf = (ids: string[]) =>
@@ -223,13 +223,13 @@ describe('combat', () => {
   });
 });
 
-describe('ai', () => {
+describe('rival', () => {
   it('plays whole games against itself to a winner, deterministically', () => {
     for (const seed of ['a', 'b', 'c', 'd', 'e']) {
       const duel = fresh(seed, heavy, starter);
       let turns = 0;
       while (!duel.state.winner && turns < 200) {
-        aiTurn(duel);
+        rivalTurn(duel);
         turns++;
       }
       expect(duel.state.winner).not.toBeNull();
@@ -240,7 +240,7 @@ describe('ai', () => {
     let wins = 0;
     for (let i = 0; i < 20; i++) {
       const duel = fresh(`s${i}`, strong, starter);
-      while (!duel.state.winner) aiTurn(duel);
+      while (!duel.state.winner) rivalTurn(duel);
       if (duel.state.winner === 'player') wins++;
     }
     expect(wins).toBeGreaterThan(14);

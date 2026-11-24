@@ -17,7 +17,7 @@
     type Target,
     type Unit,
   } from '../../engine/duel';
-  import { aiNextAction } from '../../engine/duel-ai';
+  import { rivalNextAction } from '../../engine/rival';
   import { t } from '../../i18n/i18n.svelte';
   import { cardName } from '../../app/card-text';
   import { effectText, entryName, keywordName } from '../../app/duel-text';
@@ -224,7 +224,7 @@
       // The opponent's turn plays out one action at a time.
       while (duel.state.active === 'enemy' && !duel.state.winner) {
         await sleep(450 * speed());
-        await play(act(duel, aiNextAction(duel)));
+        await play(act(duel, rivalNextAction(duel)));
       }
     } finally {
       busy = false;

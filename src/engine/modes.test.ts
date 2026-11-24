@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { CARDS, CARDS_BY_ID } from '../data/cards';
 import { BOSSES } from '../data/stages';
 import { createDuel, DECK_SIZE } from './duel';
-import { aiTurn } from './duel-ai';
+import { rivalTurn } from './rival';
 import {
   allStages,
   bossEncounter,
@@ -71,7 +71,7 @@ describe('modes', () => {
         CARDS_BY_ID,
       );
       let turns = 0;
-      while (!duel.state.winner && turns++ < 300) aiTurn(duel);
+      while (!duel.state.winner && turns++ < 300) rivalTurn(duel);
       expect(duel.state.winner, e.id).not.toBeNull();
     }
   });
