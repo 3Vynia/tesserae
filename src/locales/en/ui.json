@@ -30,29 +30,7 @@
     "japanese": "Japanese"
   },
   "home": {
-    "tagline": "Gods, heroes and monsters of the old myths, set tile by tile into a vault of night.",
-    "promise": "Free to play, start to finish. Nothing is sold, nothing is tracked, and it all works offline.",
-    "atlas": {
-      "heading": "{count, plural, one {One tradition} other {# traditions}}",
-      "body": "Every pantheon has its own corner of the vault and its own border. Cards follow the myths as they were first written down, and each one names its source."
-    },
-    "ways": {
-      "heading": "How the vault fills",
-      "collect": {
-        "title": "Collect",
-        "body": "Each card you earn lights its tile. The gaps stay dark until you find what belongs there."
-      },
-      "summon": {
-        "title": "Summon",
-        "body": "Spend the starlight you earn in play. Every banner prints its rates, and bad luck has a ceiling."
-      },
-      "battle": {
-        "title": "Battle",
-        "body": "Choose four or five, set the formation, and watch the fight play out turn by turn."
-      },
-      "soon": "Every part of the game is open. New figures and pantheons join the vault over time."
-    },
-    "enter": "Enter the vault"
+    "tagline": "Gods, heroes and monsters of the old myths, set tile by tile into a vault of night."
   },
   "settings": {
     "heading": "Settings",
@@ -70,7 +48,8 @@
     "privacy": {
       "heading": "Your data",
       "body": "Tesserae never connects to a server. Your collection lives in this browser, and only you can move it."
-    }
+    },
+    "about": "About"
   },
   "footer": {
     "license": "Free and open source under the MIT license.",
@@ -117,7 +96,6 @@
   "collection": {
     "heading": "The vault",
     "progress": "{owned} of {total} tiles lit",
-    "intro": "Every card you own is a lit tile. Dark tiles are figures still waiting to be found.",
     "group": "{owned} of {total}",
     "unwritten": "Still being set: {list}.",
     "tileOwned": "{summary} In your collection.",
@@ -154,7 +132,6 @@
   },
   "summon": {
     "heading": "Summon",
-    "intro": "Spend starlight to call figures out of the myths. The odds are printed here and never change behind your back.",
     "banner": {
       "label": "Banners",
       "standing": "The night vault",
@@ -182,7 +159,6 @@
       "empty": "Nothing summoned yet. Your pulls will be listed here, newest first."
     },
     "quests": {
-      "heading": "Today’s quests",
       "resets": "New quests every day at midnight.",
       "claim": "Claim {reward, number}",
       "claimed": "Claimed",
@@ -210,7 +186,6 @@
   },
   "battle": {
     "heading": "Battle",
-    "intro": "Set four or five cards in formation and let the fight play out on its own.",
     "modes": {
       "label": "Mode",
       "campaign": "Campaign",
@@ -222,7 +197,6 @@
       "roots-of-the-world": "Roots of the World"
     },
     "stageName": "Stage {id}",
-    "locked": "Win the previous stage to open this one.",
     "cleared": "Cleared",
     "level": "Enemies at level {level}",
     "tower": {
@@ -297,5 +271,12 @@
     "inca": "Inca",
     "chinese": "Chinese",
     "japanese": "Japanese"
+  },
+  "hub": {
+    "label": "Where to",
+    "quests": "Daily quests",
+    "pulls": "{count, plural, =0 {Earn starlight to summon} one {# summon ready} other {# summons ready}}",
+    "next": "Next: stage {id}",
+    "allClear": "Every stage cleared"
   }
 }

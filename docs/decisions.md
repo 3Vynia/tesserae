@@ -187,3 +187,21 @@ page inert while open, then return focus where it was. The card detail uses a na
 In development builds only, `?starlight` in the URL sets the balance to five million
 (`?starlight=200` sets an exact amount) to test summons and progression. The code is removed from
 production builds by Vite, so the published game has no way to add starlight.
+
+## From web page to game screens
+
+The first build read as a website: a top bar of text links, a footer, page titles with
+explanatory paragraphs and a scrolling landing page. The shell is now built like a game:
+
+- A floating HUD (crest, starlight, settings) and a dock of four large tablets at the bottom
+  (Home, Vault, Summon, Battle). No footer; license and source live under Settings.
+- Home is a hub, not a landing page: the oculus fills the screen, three portal cards in a fan lead
+  to the vault, the summoning altar and the battles, each showing live progress, and the daily
+  quests sit beside them.
+- Every scene opens with an engraved title plate instead of a heading and a paragraph. Panels use
+  a shared frame with gold corner pieces.
+- The campaign is a constellation: each stage is a star on a path, gold when cleared, glowing when
+  open, dim when locked.
+
+The settling curve lost its overshoot (`--ease-settle` is now an exponential ease-out): the
+small bounce read as dated next to the rest of the motion.

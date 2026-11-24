@@ -25,7 +25,7 @@ test('loads offline-only and switches language', async ({ page, baseURL }) => {
 
 test('opens the vault, a card and its back', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Enter the vault' }).click();
+  await page.getByRole('link', { name: /tiles lit/ }).click();
   await expect(page.getByRole('heading', { name: 'The vault', level: 1 })).toBeVisible();
   await expect(page.getByText('4 of 20 tiles lit')).toBeVisible();
 

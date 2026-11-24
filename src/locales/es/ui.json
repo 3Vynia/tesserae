@@ -30,29 +30,7 @@
     "japanese": "Japonés"
   },
   "home": {
-    "tagline": "Dioses, héroes y monstruos de los mitos antiguos, engastados tesela a tesela en una bóveda de noche.",
-    "promise": "Gratis de principio a fin. No se vende nada, no se rastrea nada y todo funciona sin conexión.",
-    "atlas": {
-      "heading": "{count, plural, one {Una tradición} other {# tradiciones}}",
-      "body": "Cada panteón tiene su rincón en la bóveda y su propia cenefa. Las cartas siguen los mitos tal como se pusieron por escrito, y cada una cita su fuente."
-    },
-    "ways": {
-      "heading": "Cómo se llena la bóveda",
-      "collect": {
-        "title": "Colecciona",
-        "body": "Cada carta que ganas enciende su tesela. Los huecos siguen a oscuras hasta que encuentras lo que les corresponde."
-      },
-      "summon": {
-        "title": "Invoca",
-        "body": "Gasta la luz de estrellas que ganas jugando. Cada estandarte muestra sus probabilidades, y la mala suerte tiene un límite."
-      },
-      "battle": {
-        "title": "Combate",
-        "body": "Elige cuatro o cinco, coloca la formación y mira cómo se desarrolla la lucha turno a turno."
-      },
-      "soon": "Todas las partes del juego están abiertas. Con el tiempo llegarán nuevas figuras y panteones a la bóveda."
-    },
-    "enter": "Entrar en la bóveda"
+    "tagline": "Dioses, héroes y monstruos de los mitos antiguos, engastados tesela a tesela en una bóveda de noche."
   },
   "settings": {
     "heading": "Ajustes",
@@ -70,7 +48,8 @@
     "privacy": {
       "heading": "Tus datos",
       "body": "Tesserae nunca se conecta a un servidor. Tu colección vive en este navegador y solo tú puedes moverla."
-    }
+    },
+    "about": "Acerca de"
   },
   "footer": {
     "license": "Libre y de código abierto bajo la licencia MIT.",
@@ -117,7 +96,6 @@
   "collection": {
     "heading": "La bóveda",
     "progress": "{owned} de {total} teselas encendidas",
-    "intro": "Cada carta que tienes es una tesela encendida. Las oscuras son figuras que aún esperan a que las encuentres.",
     "group": "{owned} de {total}",
     "unwritten": "Aún se están engastando: {list}.",
     "tileOwned": "{summary} En tu colección.",
@@ -154,7 +132,6 @@
   },
   "summon": {
     "heading": "Invocar",
-    "intro": "Gasta luz de estrellas para llamar a figuras de los mitos. Las probabilidades están aquí escritas y nunca cambian a tus espaldas.",
     "banner": {
       "label": "Estandartes",
       "standing": "La bóveda nocturna",
@@ -182,7 +159,6 @@
       "empty": "Todavía no has invocado nada. Aquí aparecerán tus tiradas, de la más reciente a la más antigua."
     },
     "quests": {
-      "heading": "Misiones de hoy",
       "resets": "Misiones nuevas cada día a medianoche.",
       "claim": "Reclamar {reward, number}",
       "claimed": "Reclamada",
@@ -210,7 +186,6 @@
   },
   "battle": {
     "heading": "Combate",
-    "intro": "Coloca cuatro o cinco cartas en formación y deja que la lucha se desarrolle sola.",
     "modes": {
       "label": "Modo",
       "campaign": "Campaña",
@@ -222,7 +197,6 @@
       "roots-of-the-world": "Las raíces del mundo"
     },
     "stageName": "Fase {id}",
-    "locked": "Gana la fase anterior para abrir esta.",
     "cleared": "Superada",
     "level": "Enemigos de nivel {level}",
     "tower": {
@@ -297,5 +271,12 @@
     "inca": "inca",
     "chinese": "chino",
     "japanese": "japonés"
+  },
+  "hub": {
+    "label": "Adónde ir",
+    "quests": "Misiones diarias",
+    "pulls": "{count, plural, =0 {Gana luz de estrellas para invocar} one {# invocación lista} other {# invocaciones listas}}",
+    "next": "Siguiente: fase {id}",
+    "allClear": "Todas las fases superadas"
   }
 }
