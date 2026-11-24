@@ -7,38 +7,57 @@
 html {
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--gold-deep) var(--ink);
+  scrollbar-width: thin;
+  accent-color: var(--gold);
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--ink-900);
+  background: var(--ink);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.55;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  font-variant-numeric: oldstyle-nums proportional-nums;
   overflow-wrap: break-word;
-  hyphens: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--parchment);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-  color: var(--parchment-100);
-  margin: 0 0 var(--space-3);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  color: var(--text-heading);
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  max-width: var(--measure);
+  text-wrap: pretty;
 }
 
 a {
-  color: var(--gold-300);
+  color: var(--gold-pale);
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
 }
 
 :focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
+  border-radius: 1px;
 }
 
 button,
@@ -46,6 +65,11 @@ select,
 input {
   font: inherit;
   color: inherit;
+}
+
+.caps {
+  font-family: var(--font-caps);
+  letter-spacing: var(--tracking-caps);
 }
 
 .visually-hidden:not(:focus):not(:active) {
@@ -57,13 +81,31 @@ input {
   white-space: nowrap;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+/* Page transitions (View Transitions API). Old page leaves quickly, new page rises. */
+::view-transition-old(page) {
+  animation: page-out var(--dur-base) var(--ease-out) both;
+}
+::view-transition-new(page) {
+  animation: page-in var(--dur-sheet) var(--ease-out) both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+}
+[data-motion='calm']::view-transition-new(page) {
+  animation-name: page-fade;
+}
+@keyframes page-fade {
+  from {
+    opacity: 0;
   }
 }

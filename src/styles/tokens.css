@@ -1,49 +1,104 @@
+/* Design tokens. Rationale in docs/design/direction.md and docs/design/motion.md. */
 :root {
-  /* ink and night */
-  --ink-950: #05070f;
-  --ink-900: #070a14;
-  --night-900: #0b1128;
-  --night-800: #111a3a;
-  --night-700: #1a2652;
-  --night-600: #263670;
+  /* color: grounds */
+  --ink: #070a14;
+  --ink-deep: #04060d;
+  --vault: #0e1834;
+  --lapis: #1d2c63;
+  --lapis-bright: #2b3f86;
 
-  /* gold leaf */
-  --gold-500: #c49a3c;
-  --gold-400: #d8b45a;
-  --gold-300: #e9cf8a;
-  --gold-200: #f3e3b4;
+  /* color: metals and paper */
+  --gold: #d4ad55;
+  --gold-pale: #ecd496;
+  --gold-deep: #8a6f33;
+  --parchment: #f1e6cc;
+  --parchment-dim: #d9cba8;
+  --vellum: #b9ae95;
 
-  /* parchment */
-  --parchment-100: #f6ecd2;
-  --parchment-200: #ebdcb6;
-  --parchment-400: #c9b48a;
+  /* color: semantic */
+  --text: var(--parchment);
+  --text-muted: var(--vellum);
+  --text-heading: var(--gold-pale);
+  --accent: var(--gold);
+  --danger: #e8957a;
+  --success: #86c4a6;
+  --rule: rgb(212 173 85 / 0.3);
+  --rule-strong: rgb(212 173 85 / 0.6);
+  --focus: var(--gold-pale);
+  --selection: rgb(212 173 85 / 0.35);
 
-  --text: #ebe3cf;
-  --text-muted: #a8a28f;
-  --line: rgb(216 180 90 / 0.28);
-  --focus: #f3e3b4;
+  /* color: rarity */
+  --rarity-mortal: #c49a74;
+  --rarity-hero: #b4c8dc;
+  --rarity-demigod: #86c4a6;
+  --rarity-god: #d4ad55;
+  --rarity-primordial: #e6dcf0;
 
-  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  /* type */
+  --font-display: 'IM Fell English', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-caps: 'IM Fell English SC', 'IM Fell English', Georgia, serif;
   --font-body: 'Alegreya Variable', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
 
-  --radius-s: 4px;
-  --radius-m: 8px;
+  /* classic typographic scale (12 14 16 18 21 24 36 48 60 72 px) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.3125rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: clamp(1.75rem, 1.2rem + 2.2vw, 2.25rem);
+  --text-4xl: clamp(2.25rem, 1.4rem + 3.6vw, 3rem);
+  --text-5xl: clamp(2.75rem, 1.5rem + 5.4vw, 3.75rem);
+  --text-6xl: clamp(3.25rem, 1.6rem + 7vw, 4.5rem);
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-body: 1.6;
+  --tracking-caps: 0.06em;
+  --measure: 68ch;
+
+  /* space (4 px base) */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
 
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 160ms;
-  --dur-med: 320ms;
-}
+  /* radii: architecture, not pillows */
+  --radius-tile: 2px;
+  --radius-control: 4px;
+  --radius-sheet: 6px;
 
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --dur-fast: 0ms;
-    --dur-med: 0ms;
-  }
+  /* elevation: offset shadows with soft blur */
+  --shadow-1: 0 1px 0 rgb(0 0 0 / 0.45), 0 2px 6px -2px rgb(0 0 0 / 0.5);
+  --shadow-2: 0 6px 18px -8px rgb(0 0 0 / 0.65), 0 2px 4px -1px rgb(0 0 0 / 0.4);
+  --shadow-3: 0 24px 60px -18px rgb(0 0 0 / 0.8), 0 8px 16px -8px rgb(0 0 0 / 0.5);
+  --bevel: inset 0 1px 0 rgb(255 255 255 / 0.06), inset 0 -1px 0 rgb(0 0 0 / 0.5);
+
+  /* z-index */
+  --z-sky: -1;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-sheet: 300;
+  --z-overlay: 400;
+  --z-ceremony: 500;
+  --z-toast: 600;
+
+  /* motion */
+  --dur-press: 120ms;
+  --dur-quick: 180ms;
+  --dur-base: 240ms;
+  --dur-sheet: 420ms;
+  --dur-flip: 700ms;
+  --dur-ceremony: 1200ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-settle: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --stagger-list: 40ms;
+  --stagger-wave: 18ms;
 }
