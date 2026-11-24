@@ -52,7 +52,7 @@ test('summons once, skips the ceremony and lands in the vault', async ({ page })
   const ceremony = page.getByRole('dialog', { name: 'Summoning' });
   await expect(ceremony).toBeVisible();
   // The ceremony reveals on its own after a moment; waiting for it avoids racing the skip button.
-  await ceremony.getByRole('button', { name: 'Set them in the vault' }).click();
+  await ceremony.getByRole('button', { name: /Set (it|them) in the vault/ }).click();
   await expect(page).toHaveURL(/#\/collection$/);
   await expect(page.locator('#hud-starlight')).toContainText('1,440');
 });

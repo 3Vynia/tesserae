@@ -202,8 +202,8 @@
   "ceremony": {
     "label": "Summoning",
     "skip": "Skip",
-    "done": "Set them in the vault",
-    "again": "Stay and summon again",
+    "done": "{count, plural, one {Set it in the vault} other {Set them in the vault}}",
+    "again": "Summon again",
     "new": "New",
     "copy": "Another copy",
     "result": "{name}, {rarity}. {status}"
@@ -222,7 +222,7 @@
       "roots-of-the-world": "Roots of the World"
     },
     "stageName": "Stage {id}",
-    "locked": "Win the stage before it to open this one.",
+    "locked": "Win the previous stage to open this one.",
     "cleared": "Cleared",
     "level": "Enemies at level {level}",
     "tower": {
@@ -245,8 +245,8 @@
       "remove": "Take {name} off the team",
       "place": "Place {name} in the formation",
       "full": "The formation is full. Take a card off first.",
-      "synergy": "{count} {pantheon}: +{attack}% attack",
-      "synergyHealth": "{count} {pantheon}: +{attack}% attack, +{health}% health",
+      "synergy": "{pantheon} ×{count}: +{attack}% attack",
+      "synergyHealth": "{pantheon} ×{count}: +{attack}% attack, +{health}% health",
       "noSynergy": "No shared tradition yet. Two or more cards from one pantheon fight better together.",
       "invalid": "A team needs four or five different cards."
     },
@@ -282,5 +282,20 @@
     },
     "opponents": "Opponents",
     "lockedShort": "Locked"
+  },
+  "pantheonInline": {
+    "greek": "Greek",
+    "roman": "Roman",
+    "norse": "Norse",
+    "egyptian": "Egyptian",
+    "mesopotamian": "Mesopotamian",
+    "celtic": "Celtic",
+    "slavic": "Slavic",
+    "persian": "Persian",
+    "aztec": "Aztec",
+    "maya": "Maya",
+    "inca": "Inca",
+    "chinese": "Chinese",
+    "japanese": "Japanese"
   }
 }

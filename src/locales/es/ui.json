@@ -202,8 +202,8 @@
   "ceremony": {
     "label": "Invocación",
     "skip": "Saltar",
-    "done": "Engastarlas en la bóveda",
-    "again": "Quedarme e invocar de nuevo",
+    "done": "{count, plural, one {Engastarla en la bóveda} other {Engastarlas en la bóveda}}",
+    "again": "Invocar de nuevo",
     "new": "Nueva",
     "copy": "Otra copia",
     "result": "{name}, {rarity}. {status}"
@@ -245,8 +245,8 @@
       "remove": "Quitar a {name} del equipo",
       "place": "Poner a {name} en la formación",
       "full": "La formación está completa. Quita una carta antes.",
-      "synergy": "{count} {pantheon}: +{attack}% de ataque",
-      "synergyHealth": "{count} {pantheon}: +{attack}% de ataque, +{health}% de vida",
+      "synergy": "{pantheon} ×{count}: +{attack} % de ataque",
+      "synergyHealth": "{pantheon} ×{count}: +{attack} % de ataque, +{health} % de vida",
       "noSynergy": "Aún no compartes tradición. Dos o más cartas de un mismo panteón luchan mejor juntas.",
       "invalid": "Un equipo necesita cuatro o cinco cartas distintas."
     },
@@ -282,5 +282,20 @@
     },
     "opponents": "Rivales",
     "lockedShort": "Cerrada"
+  },
+  "pantheonInline": {
+    "greek": "griego",
+    "roman": "romano",
+    "norse": "nórdico",
+    "egyptian": "egipcio",
+    "mesopotamian": "mesopotámico",
+    "celtic": "celta",
+    "slavic": "eslavo",
+    "persian": "persa",
+    "aztec": "azteca",
+    "maya": "maya",
+    "inca": "inca",
+    "chinese": "chino",
+    "japanese": "japonés"
   }
 }

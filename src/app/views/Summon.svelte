@@ -95,11 +95,11 @@
             {#if b.featured}
               <Ornament pantheon={b.featured} height={12} />
               <span class="banner-title">
-                {t('ui.summon.banner.featured', { pantheon: t(`ui.pantheon.${b.featured}`) })}
+                {t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${b.featured}`) })}
               </span>
               <span class="banner-body">
                 {t('ui.summon.banner.featuredBody', {
-                  pantheon: t(`ui.pantheon.${b.featured}`),
+                  pantheon: t(`ui.pantheonInline.${b.featured}`),
                 })}
               </span>
               <span class="glyphs" aria-hidden="true">
