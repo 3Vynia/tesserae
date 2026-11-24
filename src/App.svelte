@@ -8,6 +8,7 @@
   import Settings from './app/views/Settings.svelte';
   import Collection from './app/views/Collection.svelte';
   import Summon from './app/views/Summon.svelte';
+  import Battle from './app/views/Battle.svelte';
   import Starlight from './ui/hud/Starlight.svelte';
   import { game } from './app/save.svelte';
   import { onMount } from 'svelte';
@@ -16,12 +17,14 @@
     home: Home,
     collection: Collection,
     summon: Summon,
+    battle: Battle,
     settings: Settings,
   } satisfies Record<Route, unknown>;
   const icons: Record<Route, IconName> = {
     home: 'home',
     collection: 'collection',
     summon: 'summon',
+    battle: 'battle',
     settings: 'settings',
   };
 

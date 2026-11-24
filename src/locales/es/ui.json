@@ -11,7 +11,8 @@
     "home": "Inicio",
     "settings": "Ajustes",
     "collection": "Colección",
-    "summon": "Invocar"
+    "summon": "Invocar",
+    "battle": "Combate"
   },
   "pantheon": {
     "greek": "Griego",
@@ -49,7 +50,7 @@
         "title": "Combate",
         "body": "Elige cuatro o cinco, coloca la formación y mira cómo se desarrolla la lucha turno a turno."
       },
-      "soon": "La invocación y los combates se abrirán en las próximas versiones. La bóveda se está engastando tesela a tesela."
+      "soon": "Todas las partes del juego están abiertas. Con el tiempo llegarán nuevas figuras y panteones a la bóveda."
     },
     "enter": "Entrar en la bóveda"
   },
@@ -192,7 +193,9 @@
         "open-three": "Abre tres cartas en la bóveda",
         "read-a-myth": "Da la vuelta a una carta y lee su mito",
         "read-three-myths": "Lee tres mitos",
-        "visit-vault": "Visita la bóveda"
+        "visit-vault": "Visita la bóveda",
+        "win-battle": "Gana un combate",
+        "win-three-battles": "Gana tres combates"
       }
     }
   },
@@ -204,5 +207,80 @@
     "new": "Nueva",
     "copy": "Otra copia",
     "result": "{name}, {rarity}. {status}"
+  },
+  "battle": {
+    "heading": "Combate",
+    "intro": "Coloca cuatro o cinco cartas en formación y deja que la lucha se desarrolle sola.",
+    "modes": {
+      "label": "Modo",
+      "campaign": "Campaña",
+      "tower": "Torre",
+      "boss": "Jefes"
+    },
+    "chapters": {
+      "shores-of-troy": "Las playas de Troya",
+      "roots-of-the-world": "Las raíces del mundo"
+    },
+    "stageName": "Fase {id}",
+    "locked": "Gana la fase anterior para abrir esta.",
+    "cleared": "Superada",
+    "level": "Enemigos de nivel {level}",
+    "tower": {
+      "floor": "Piso {floor}",
+      "body": "Cada piso es más difícil que el anterior. La torre recuerda hasta dónde subiste."
+    },
+    "boss": {
+      "body": "Un solo enemigo, muchas veces más fuerte de lo normal.",
+      "defeated": "Derrotado"
+    },
+    "reward": "{reward, number} de luz de estrellas",
+    "firstWin": "por la primera victoria",
+    "team": {
+      "heading": "Formación",
+      "front": "Primera fila",
+      "back": "Segunda fila",
+      "empty": "Vacío",
+      "hint": "Elige una carta para ponerla en el primer hueco libre; elige una carta colocada para quitarla. La primera fila recibe los golpes antes.",
+      "pick": "Tus cartas",
+      "remove": "Quitar a {name} del equipo",
+      "place": "Poner a {name} en la formación",
+      "full": "La formación está completa. Quita una carta antes.",
+      "synergy": "{count} {pantheon}: +{attack}% de ataque",
+      "synergyHealth": "{count} {pantheon}: +{attack}% de ataque, +{health}% de vida",
+      "noSynergy": "Aún no compartes tradición. Dos o más cartas de un mismo panteón luchan mejor juntas.",
+      "invalid": "Un equipo necesita cuatro o cinco cartas distintas."
+    },
+    "fight": "Luchar",
+    "stage": {
+      "label": "Combate",
+      "round": "Ronda {round}",
+      "order": "Orden de turno",
+      "speed": "Velocidad {speed}×",
+      "skip": "Saltar al final",
+      "hp": "{hp} de {max} de vida",
+      "strong": "Ventaja",
+      "weak": "Desventaja",
+      "crit": "Crítico",
+      "stunned": "Aturdido",
+      "log": {
+        "skill": "{actor} usa {skill}.",
+        "basic": "{actor} ataca a {target}.",
+        "defeat": "{target} cae.",
+        "round": "Ronda {round}."
+      }
+    },
+    "result": {
+      "victory": "Victoria",
+      "defeat": "Derrota",
+      "draw": "Se acabó el tiempo",
+      "reward": "+{reward, number} de luz de estrellas",
+      "xp": "Cada carta del equipo ganó {xp} de experiencia.",
+      "levelUp": "{name} llegó al nivel {level}.",
+      "again": "Luchar otra vez",
+      "next": "Siguiente fase",
+      "back": "Volver a la formación"
+    },
+    "opponents": "Rivales",
+    "lockedShort": "Cerrada"
   }
 }

@@ -1,6 +1,6 @@
 import { flushSync } from 'svelte';
 
-export const ROUTES = ['home', 'collection', 'summon', 'settings'] as const;
+export const ROUTES = ['home', 'collection', 'summon', 'battle', 'settings'] as const;
 export type Route = (typeof ROUTES)[number];
 
 interface Location {

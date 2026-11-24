@@ -11,7 +11,8 @@
     "home": "Home",
     "settings": "Settings",
     "collection": "Collection",
-    "summon": "Summon"
+    "summon": "Summon",
+    "battle": "Battle"
   },
   "pantheon": {
     "greek": "Greek",
@@ -49,7 +50,7 @@
         "title": "Battle",
         "body": "Choose four or five, set the formation, and watch the fight play out turn by turn."
       },
-      "soon": "Summoning and battles open over the coming updates. The vault is being set tile by tile."
+      "soon": "Every part of the game is open. New figures and pantheons join the vault over time."
     },
     "enter": "Enter the vault"
   },
@@ -192,7 +193,9 @@
         "open-three": "Open three cards in the vault",
         "read-a-myth": "Turn a card over and read its myth",
         "read-three-myths": "Read three myths",
-        "visit-vault": "Visit the vault"
+        "visit-vault": "Visit the vault",
+        "win-battle": "Win a battle",
+        "win-three-battles": "Win three battles"
       }
     }
   },
@@ -204,5 +207,80 @@
     "new": "New",
     "copy": "Another copy",
     "result": "{name}, {rarity}. {status}"
+  },
+  "battle": {
+    "heading": "Battle",
+    "intro": "Set four or five cards in formation and let the fight play out on its own.",
+    "modes": {
+      "label": "Mode",
+      "campaign": "Campaign",
+      "tower": "Tower",
+      "boss": "Bosses"
+    },
+    "chapters": {
+      "shores-of-troy": "Shores of Troy",
+      "roots-of-the-world": "Roots of the World"
+    },
+    "stageName": "Stage {id}",
+    "locked": "Win the stage before it to open this one.",
+    "cleared": "Cleared",
+    "level": "Enemies at level {level}",
+    "tower": {
+      "floor": "Floor {floor}",
+      "body": "Each floor is harder than the last. The tower remembers how high you climbed."
+    },
+    "boss": {
+      "body": "One enemy, many times stronger than usual.",
+      "defeated": "Defeated"
+    },
+    "reward": "{reward, number} starlight",
+    "firstWin": "for the first win",
+    "team": {
+      "heading": "Formation",
+      "front": "Front row",
+      "back": "Back row",
+      "empty": "Empty",
+      "hint": "Pick a card to place it in the first empty slot; pick a placed card to take it off. The front row is hit first.",
+      "pick": "Your cards",
+      "remove": "Take {name} off the team",
+      "place": "Place {name} in the formation",
+      "full": "The formation is full. Take a card off first.",
+      "synergy": "{count} {pantheon}: +{attack}% attack",
+      "synergyHealth": "{count} {pantheon}: +{attack}% attack, +{health}% health",
+      "noSynergy": "No shared tradition yet. Two or more cards from one pantheon fight better together.",
+      "invalid": "A team needs four or five different cards."
+    },
+    "fight": "Fight",
+    "stage": {
+      "label": "Battle",
+      "round": "Round {round}",
+      "order": "Turn order",
+      "speed": "Speed {speed}×",
+      "skip": "Skip to the end",
+      "hp": "{hp} of {max} health",
+      "strong": "Strong",
+      "weak": "Weak",
+      "crit": "Critical",
+      "stunned": "Stunned",
+      "log": {
+        "skill": "{actor} uses {skill}.",
+        "basic": "{actor} attacks {target}.",
+        "defeat": "{target} falls.",
+        "round": "Round {round}."
+      }
+    },
+    "result": {
+      "victory": "Victory",
+      "defeat": "Defeat",
+      "draw": "Time ran out",
+      "reward": "+{reward, number} starlight",
+      "xp": "Each card in the team gained {xp} experience.",
+      "levelUp": "{name} reached level {level}.",
+      "again": "Fight again",
+      "next": "Next stage",
+      "back": "Back to the formation"
+    },
+    "opponents": "Opponents",
+    "lockedShort": "Locked"
   }
 }

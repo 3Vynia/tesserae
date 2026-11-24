@@ -24,12 +24,13 @@ function build(locale: string) {
   });
 }
 
-let translator = $state(build(initialLocale()));
+const startLocale = initialLocale();
+let translator = $state(build(startLocale));
 
 function applyDocumentLang(locale: string): void {
   if (typeof document !== 'undefined') document.documentElement.lang = locale;
 }
-applyDocumentLang(translator.locale);
+applyDocumentLang(startLocale);
 
 export const i18n = {
   get locale(): string {
