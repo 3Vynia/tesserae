@@ -138,7 +138,10 @@
       "standingBody": "Cualquier figura de la bóveda puede responder.",
       "featured": "Semana {pantheon}",
       "featuredBody": "La mitad de los resultados Semidiós, Dios y Primordial vienen de la tradición {pantheon}.",
-      "ends": "Cambia en {days, plural, one {# día} other {# días}}"
+      "rateUp": "Probabilidad aumentada: {names}",
+      "timer": "Termina en {days} d {hours} h {minutes} min",
+      "always": "Siempre abierto",
+      "seal": "Más prob."
     },
     "rates": {
       "heading": "Probabilidades",
@@ -148,11 +151,11 @@
     "pity": {
       "heading": "Garantías",
       "demigod": "Semidiós o superior en {count, plural, one {# tirada} other {# tiradas}} como mucho",
-      "god": "Dios o superior en {count, plural, one {# tirada} other {# tiradas}} como mucho"
+      "god": "Dios o superior en {count, plural, one {# tirada} other {# tiradas}} como mucho",
+      "godShort": "{count, plural, one {tirada} other {tiradas}} para un Dios seguro"
     },
-    "one": "Invocar una vez",
-    "ten": "Invocar diez",
-    "cost": "{cost, number} de luz de estrellas",
+    "one": "Invocar ×1",
+    "ten": "Invocar ×10",
     "short": "Te faltan {missing, number} de luz de estrellas. Las misiones diarias dan más.",
     "history": {
       "heading": "Invocaciones recientes",
@@ -173,7 +176,8 @@
         "win-battle": "Gana un combate",
         "win-three-battles": "Gana tres combates"
       }
-    }
+    },
+    "details": "Detalles"
   },
   "ceremony": {
     "label": "Invocación",

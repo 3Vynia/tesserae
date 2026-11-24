@@ -48,7 +48,7 @@ test('summons once, skips the ceremony and lands in the vault', async ({ page })
   await page.goto('/#/summon');
   await expect(page.getByText('Mortal', { exact: true }).first()).toBeVisible();
   await expect(page.getByRole('cell', { name: '50%' })).toBeVisible();
-  await page.getByRole('button', { name: 'Summon once' }).click();
+  await page.getByRole('button', { name: /Summon ×1/ }).click();
   const ceremony = page.getByRole('dialog', { name: 'Summoning' });
   await expect(ceremony).toBeVisible();
   // The ceremony reveals on its own after a moment; waiting for it avoids racing the skip button.

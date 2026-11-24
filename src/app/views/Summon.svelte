@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CARDS } from '../../data/cards';
+  import { CARDS, CARDS_BY_ID } from '../../data/cards';
   import { RARITIES, type Rarity } from '../../data/schema';
   import {
     bannersFor,
@@ -13,41 +13,34 @@
     type PullResult,
   } from '../../engine/gacha';
   import { dayKey, track } from '../../engine/quests';
-  import { fmtDate, t } from '../../i18n/i18n.svelte';
+  import { fmtDate, fmtNumber, t } from '../../i18n/i18n.svelte';
   import { game } from '../save.svelte';
   import { arrivals } from '../arrivals.svelte';
   import { router } from '../router.svelte';
   import { cardName } from '../card-text';
-  import { CARDS_BY_ID } from '../../data/cards';
-  import Button from '../../ui/Button.svelte';
+  import { bannerCards } from '../banners';
   import Icon from '../../ui/icons/Icon.svelte';
-  import Ornament from '../../ui/Ornament.svelte';
   import Ceremony from '../../ui/summon/Ceremony.svelte';
-  import SceneTitle from '../../ui/game/SceneTitle.svelte';
-  import Frame from '../../ui/game/Frame.svelte';
-  import { GLYPHS } from '../../ui/card/art';
+  import BannerArt from '../../ui/summon/BannerArt.svelte';
+  import Sheet from '../../ui/game/Sheet.svelte';
+  import CardArt from '../../ui/card/CardArt.svelte';
 
   const now = Date.now();
   const [standing, ...others] = bannersFor(now, CARDS) as [Banner, ...Banner[]];
-  const banners = [standing, ...others];
-  const WEEK = 7 * 24 * 3600 * 1000;
-  const daysLeft = Math.max(1, Math.ceil((WEEK - (now % WEEK)) / (24 * 3600 * 1000)));
+  // The weekly banner leads, like a featured event.
+  const banners = [...others, standing];
 
-  let bannerId = $state(standing.id);
+  let bannerId = $state(banners[0]?.id ?? standing.id);
   let ceremony = $state<{ results: PullResult[]; seed: string } | null>(null);
+  let sheet = $state<'details' | 'history' | null>(null);
   const banner = $derived(banners.find((b) => b.id === bannerId) ?? standing);
   const ready = $derived(game.status === 'ready');
   const starlight = $derived(ready ? game.save.starlight : 0);
   const pity = $derived(
     ready ? pityStatus(game.save, banner.id) : { demigod: DEMIGOD_PITY, god: GOD_PITY },
   );
+  const history = $derived(ready ? game.save.pulls.history.slice(0, 40) : []);
   const today = dayKey(now);
-  const history = $derived(ready ? game.save.pulls.history.slice(0, 12) : []);
-
-  const featuredCards = (b: Banner) =>
-    b.featured
-      ? CARDS.filter((c) => c.pantheon === b.featured && RARITIES.indexOf(c.rarity) >= 2)
-      : CARDS.filter((c) => RARITIES.indexOf(c.rarity) >= 4);
 
   function summon(count: number): void {
     let outcome: ReturnType<typeof pull> | undefined;
@@ -70,274 +63,324 @@
   }
 
   const missing = (count: number) => Math.max(0, PULL_COST * count - starlight);
+  const tabTitle = (b: Banner) =>
+    b.featured
+      ? t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${b.featured}`) })
+      : t('ui.summon.banner.standing');
 </script>
 
-<div class="summon">
-  <SceneTitle title={t('ui.summon.heading')} />
+<div class="altar">
+  <h1 class="visually-hidden">{t('ui.summon.heading')}</h1>
 
-  <div class="layout">
-    <section class="altar" aria-labelledby="banners-heading">
-      <h2 id="banners-heading" class="visually-hidden">{t('ui.summon.banner.label')}</h2>
-      <div class="banners" role="radiogroup" aria-labelledby="banners-heading">
-        {#each banners as b (b.id)}
-          {@const featured = featuredCards(b)}
-          <label class="banner" class:selected={b.id === bannerId}>
-            <input type="radio" name="banner" value={b.id} bind:group={bannerId} />
-            {#if b.featured}
-              <Ornament pantheon={b.featured} height={12} />
-              <span class="banner-title">
-                {t('ui.summon.banner.featured', { pantheon: t(`ui.pantheonInline.${b.featured}`) })}
-              </span>
-              <span class="banner-body">
-                {t('ui.summon.banner.featuredBody', {
-                  pantheon: t(`ui.pantheonInline.${b.featured}`),
-                })}
-              </span>
-              <span class="glyphs" aria-hidden="true">
-                {#each featured as c (c.id)}
-                  <svg viewBox="0 0 64 64"><path d={GLYPHS[c.art.glyph] ?? ''} /></svg>
-                {/each}
-              </span>
-              <span class="ends">{t('ui.summon.banner.ends', { days: daysLeft })}</span>
-            {:else}
-              <span class="banner-title">{t('ui.summon.banner.standing')}</span>
-              <span class="banner-body">{t('ui.summon.banner.standingBody')}</span>
-              <span class="glyphs" aria-hidden="true">
-                {#each featured as c (c.id)}
-                  <svg viewBox="0 0 64 64"><path d={GLYPHS[c.art.glyph] ?? ''} /></svg>
-                {/each}
-              </span>
-            {/if}
-          </label>
+  <div class="tabs" role="tablist" aria-label={t('ui.summon.banner.label')}>
+    {#each banners as b (b.id)}
+      {@const lead = bannerCards(b)[0]}
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        aria-selected={b.id === bannerId}
+        aria-controls="banner-panel"
+        onclick={() => (bannerId = b.id)}
+      >
+        <span class="thumb">
+          {#if lead}<CardArt card={lead} />{/if}
+        </span>
+        <span class="tab-title">{tabTitle(b)}</span>
+        {#if b.featured}<span class="tag caps">{t('ui.summon.banner.seal')}</span>{/if}
+      </button>
+    {/each}
+  </div>
+
+  <div class="stage" id="banner-panel" role="tabpanel" aria-label={tabTitle(banner)}>
+    {#key banner.id}
+      <div class="banner-swap"><BannerArt {banner} /></div>
+    {/key}
+
+    <div class="console">
+      <div class="info-buttons">
+        <button type="button" class="pill" onclick={() => (sheet = 'details')}>
+          <Icon name="info" size={18} />{t('ui.summon.details')}
+        </button>
+        <button type="button" class="pill" onclick={() => (sheet = 'history')}>
+          <Icon name="history" size={18} />{t('ui.summon.history.heading')}
+        </button>
+      </div>
+
+      <p class="pity">
+        <span class="pity-num">{pity.god}</span>
+        <span>{t('ui.summon.pity.godShort', { count: pity.god })}</span>
+      </p>
+
+      <div class="pulls">
+        {#each [1, 10] as count (count)}
+          <button
+            type="button"
+            class="pull-btn"
+            class:ten={count === 10}
+            disabled={!ready || missing(count) > 0}
+            onclick={() => summon(count)}
+          >
+            <span class="pull-label caps">
+              {count === 1 ? t('ui.summon.one') : t('ui.summon.ten')}
+            </span>
+            <span class="pull-cost">
+              <Icon name="starlight" size={16} />{fmtNumber(PULL_COST * count)}
+            </span>
+          </button>
         {/each}
       </div>
-
-      <div class="pull">
-        <div class="buttons">
-          {#each [1, 10] as count (count)}
-            <div class="pull-option">
-              <Button
-                variant={count === 1 ? 'engraved' : 'gilt'}
-                icon="summon"
-                disabled={!ready || missing(count) > 0}
-                onclick={() => summon(count)}
-              >
-                {count === 1 ? t('ui.summon.one') : t('ui.summon.ten')}
-              </Button>
-              <span class="cost">{t('ui.summon.cost', { cost: PULL_COST * count })}</span>
-            </div>
-          {/each}
-        </div>
-        {#if ready && missing(1) > 0}
-          <p class="short" role="status">{t('ui.summon.short', { missing: missing(1) })}</p>
-        {/if}
-      </div>
-    </section>
-
-    <div class="odds-panel">
-      <Frame tone="ink">
-        <div class="odds">
-          <section aria-labelledby="rates-heading">
-            <h3 id="rates-heading" class="caps">{t('ui.summon.rates.heading')}</h3>
-            <table class="rates">
-              <tbody>
-                {#each RARITIES as rarity (rarity)}
-                  <tr>
-                    <th scope="row" style:--pip="var(--rarity-{rarity})">
-                      <i class="pip" aria-hidden="true"></i>{t(`ui.rarity.${rarity}`)}
-                    </th>
-                    <td>{t('ui.summon.rates.value', { rate: RATES[rarity as Rarity] })}</td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
-            <p class="note">{t('ui.summon.rates.note')}</p>
-          </section>
-
-          <section aria-labelledby="pity-heading">
-            <h3 id="pity-heading" class="caps">{t('ui.summon.pity.heading')}</h3>
-            {#each [{ kind: 'demigod', left: pity.demigod, max: DEMIGOD_PITY }, { kind: 'god', left: pity.god, max: GOD_PITY }] as meter (meter.kind)}
-              <div class="meter">
-                <p>{t(`ui.summon.pity.${meter.kind}`, { count: meter.left })}</p>
-                <span class="track" aria-hidden="true">
-                  <span class="fill" style:transform="scaleX({1 - meter.left / meter.max})"></span>
-                </span>
-              </div>
-            {/each}
-          </section>
-        </div>
-      </Frame>
     </div>
-
-    <div class="history-panel">
-      <Frame tone="ink">
-        <section aria-labelledby="history-heading">
-          <h2 id="history-heading" class="side-title">
-            <Icon name="history" size={22} />{t('ui.summon.history.heading')}
-          </h2>
-          {#if history.length === 0}
-            <p class="note">{t('ui.summon.history.empty')}</p>
-          {:else}
-            <ol class="history">
-              {#each history as entry, i (i)}
-                {@const card = CARDS_BY_ID.get(entry.card)}
-                <li style:--pip="var(--rarity-{entry.rarity})">
-                  <i class="pip" aria-hidden="true"></i>
-                  <span>{card ? cardName(card) : entry.card}</span>
-                  <span class="when">
-                    {fmtDate(entry.at, { dateStyle: 'short', timeStyle: 'short' })}
-                  </span>
-                </li>
-              {/each}
-            </ol>
-          {/if}
-        </section>
-      </Frame>
-    </div>
+    {#if ready && missing(1) > 0}
+      <p class="short" role="status">{t('ui.summon.short', { missing: missing(1) })}</p>
+    {/if}
   </div>
 </div>
+
+{#if sheet === 'details'}
+  <Sheet title={t('ui.summon.details')} onclose={() => (sheet = null)}>
+    <h3 class="sheet-h caps">{t('ui.summon.rates.heading')}</h3>
+    <table class="rates">
+      <tbody>
+        {#each RARITIES as rarity (rarity)}
+          <tr>
+            <th scope="row" style:--pip="var(--rarity-{rarity})">
+              <i class="pip" aria-hidden="true"></i>{t(`ui.rarity.${rarity}`)}
+            </th>
+            <td>{t('ui.summon.rates.value', { rate: RATES[rarity as Rarity] })}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+    <p class="note">{t('ui.summon.rates.note')}</p>
+    <h3 class="sheet-h caps">{t('ui.summon.pity.heading')}</h3>
+    <p>{t('ui.summon.pity.demigod', { count: pity.demigod })}</p>
+    <p>{t('ui.summon.pity.god', { count: pity.god })}</p>
+    {#if banner.featured}
+      <h3 class="sheet-h caps">{t('ui.summon.banner.seal')}</h3>
+      <p>
+        {t('ui.summon.banner.featuredBody', {
+          pantheon: t(`ui.pantheonInline.${banner.featured}`),
+        })}
+      </p>
+    {/if}
+  </Sheet>
+{:else if sheet === 'history'}
+  <Sheet title={t('ui.summon.history.heading')} onclose={() => (sheet = null)}>
+    {#if history.length === 0}
+      <p class="note">{t('ui.summon.history.empty')}</p>
+    {:else}
+      <ol class="history">
+        {#each history as entry, i (i)}
+          {@const card = CARDS_BY_ID.get(entry.card)}
+          <li style:--pip="var(--rarity-{entry.rarity})">
+            <i class="pip" aria-hidden="true"></i>
+            <span>{card ? cardName(card) : entry.card}</span>
+            <span class="when">
+              {fmtDate(entry.at, { dateStyle: 'short', timeStyle: 'short' })}
+            </span>
+          </li>
+        {/each}
+      </ol>
+    {/if}
+  </Sheet>
+{/if}
 
 {#if ceremony}
   <Ceremony results={ceremony.results} seed={ceremony.seed} onclose={finish} />
 {/if}
 
 <style>
-  .summon {
-    padding: var(--space-4) var(--gutter) var(--space-6);
-  }
-  .layout {
-    display: grid;
-    grid-template-columns: minmax(14rem, 17rem) minmax(0, 1fr) minmax(14rem, 17rem);
-    grid-template-areas: 'odds altar history';
-    gap: var(--space-6);
-    align-items: start;
-  }
   .altar {
-    grid-area: altar;
-  }
-  .odds-panel {
-    grid-area: odds;
-  }
-  .history-panel {
-    grid-area: history;
-  }
-  .pull {
     display: grid;
-    justify-items: center;
-    text-align: center;
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+    gap: var(--space-5);
+    max-width: 82rem;
+    margin-inline: auto;
+    padding: var(--space-2) var(--gutter) var(--space-6);
   }
-  .buttons {
-    justify-content: center;
-  }
-  .pull-option {
-    justify-items: center;
-  }
-  .pull :global(.btn) {
-    min-height: 56px;
-    padding-inline: var(--space-6);
-    font-size: var(--text-xl);
-  }
-  .banners {
+  .tabs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-    gap: var(--space-4);
+    gap: var(--space-3);
+    align-content: start;
   }
-  .banner {
+  .tab {
     position: relative;
     display: grid;
-    gap: var(--space-2);
-    align-content: start;
-    padding: var(--space-5);
-    min-height: 13rem;
+    grid-template-columns: 56px 1fr;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2);
     border: 1px solid var(--rule);
-    border-radius: var(--radius-sheet) var(--radius-sheet) 50% 50% / var(--radius-sheet)
-      var(--radius-sheet) 14% 14%;
-    background:
-      radial-gradient(circle at 50% 0, rgb(43 63 134 / 0.5), transparent 70%), var(--vault);
+    border-radius: 12px;
+    background: rgb(7 10 20 / 0.85);
+    color: var(--parchment-dim);
+    text-align: start;
     cursor: pointer;
     transition:
       border-color var(--dur-quick) ease,
-      transform var(--dur-press) var(--ease-out);
+      transform var(--dur-press) var(--ease-out),
+      translate var(--dur-base) var(--ease-out);
   }
-  .banner:active {
-    transform: scale(0.98);
+  .tab:active {
+    transform: scale(0.97);
   }
-  .banner.selected {
+  .tab[aria-selected='true'] {
     border-color: var(--gold);
-    box-shadow: var(--bevel), var(--shadow-2);
-  }
-  .banner:has(input:focus-visible) {
-    outline: 2px solid var(--focus);
-    outline-offset: 3px;
-  }
-  .banner input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .banner-title {
-    font-family: var(--font-display);
-    font-size: var(--text-3xl);
     color: var(--gold-pale);
-    line-height: var(--leading-tight);
+    translate: 6px 0;
+    background: linear-gradient(90deg, rgb(43 63 134 / 0.6), rgb(7 10 20 / 0.9));
   }
-  .banner-body {
+  .thumb {
+    position: relative;
+    width: 56px;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 2px var(--gold);
+  }
+  .tab-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1.15;
+  }
+  .tag {
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: var(--text-xs);
+  }
+  .stage {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .banner-swap {
+    animation: swap 420ms var(--ease-out) both;
+  }
+  @keyframes swap {
+    from {
+      opacity: 0;
+      transform: translateX(18px);
+    }
+  }
+  .console {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .info-buttons {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: rgb(7 10 20 / 0.85);
+    color: var(--gold-pale);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    cursor: pointer;
+    transition: transform var(--dur-press) var(--ease-out);
+  }
+  .pill:active {
+    transform: scale(0.96);
+  }
+  .pity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    justify-self: center;
     color: var(--parchment-dim);
     font-size: var(--text-md);
   }
-  .glyphs {
-    display: flex;
-    gap: var(--space-2);
-    margin-top: var(--space-2);
-  }
-  .glyphs svg {
-    width: 34px;
-    height: 34px;
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .ends {
-    font-size: var(--text-sm);
-    font-style: italic;
-    color: var(--text-muted);
-  }
-  .pull {
-    margin: var(--space-6) 0;
-  }
-  .buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-5);
-  }
-  .pull-option {
+  .pity-num {
     display: grid;
-    gap: var(--space-1);
-    justify-items: start;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--gold-pale);
+    font-variant-numeric: lining-nums;
   }
-  .cost {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
+  .pulls {
+    display: flex;
+    gap: var(--space-3);
+  }
+  .pull-btn {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    min-width: 11rem;
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #1d2c63, #0e1834);
+    color: var(--gold-pale);
+    cursor: pointer;
+    box-shadow:
+      inset 0 1px 0 rgb(255 244 210 / 0.25),
+      var(--shadow-2);
+    transition:
+      transform var(--dur-press) var(--ease-out),
+      filter var(--dur-quick) ease;
+  }
+  .pull-btn.ten {
+    background: linear-gradient(180deg, var(--gold-pale), var(--gold) 55%, #b98f3e);
+    color: var(--ink);
+    border-color: var(--gold-pale);
+  }
+  .pull-btn:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+  .pull-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .pull-label {
+    font-size: var(--text-xl);
+    letter-spacing: 0.06em;
+  }
+  .pull-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--text-md);
+    font-variant-numeric: lining-nums;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pull-btn:hover:not(:disabled) {
+      filter: brightness(1.12);
+    }
+    .tab:not([aria-selected='true']):hover {
+      border-color: var(--rule-strong);
+    }
   }
   .short {
-    margin-top: var(--space-3);
-    color: var(--gold-pale);
+    justify-self: end;
     font-style: italic;
+    color: var(--gold-pale);
   }
-  .odds {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-    gap: var(--space-6);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--rule);
-  }
-  h3 {
+  .sheet-h {
+    margin: var(--space-5) 0 var(--space-2);
     font-size: var(--text-lg);
     font-weight: 400;
     color: var(--gold);
-    margin-bottom: var(--space-3);
+  }
+  .sheet-h:first-child {
+    margin-top: 0;
   }
   .rates {
     width: 100%;
@@ -353,7 +396,6 @@
   }
   .rates td {
     text-align: end;
-    color: var(--parchment);
   }
   .pip {
     display: inline-block;
@@ -367,35 +409,6 @@
     margin-top: var(--space-2);
     font-size: var(--text-sm);
     color: var(--text-muted);
-  }
-  .meter {
-    display: grid;
-    gap: var(--space-2);
-    margin-bottom: var(--space-4);
-  }
-  .track {
-    display: block;
-    height: 4px;
-    background: var(--lapis);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .fill {
-    display: block;
-    height: 100%;
-    background: var(--gold);
-    transform-origin: left;
-    transition: transform var(--dur-sheet) var(--ease-out);
-  }
-  .side-title {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-4);
-  }
-  .side-title :global(.icon) {
-    color: var(--gold);
   }
   .history {
     list-style: none;
@@ -414,16 +427,41 @@
     color: var(--text-muted);
     font-variant-numeric: lining-nums;
   }
-  @media (max-width: 1100px) {
-    .layout {
-      grid-template-columns: 1fr 1fr;
-      grid-template-areas: 'altar altar' 'odds history';
+  @media (max-width: 900px) {
+    .altar {
+      grid-template-columns: 1fr;
+    }
+    .tabs {
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(12rem, 1fr);
+      overflow-x: auto;
+      padding-top: 10px;
+    }
+    .tab[aria-selected='true'] {
+      translate: 0 -4px;
+    }
+    .console {
+      grid-template-columns: 1fr;
+      justify-items: center;
     }
   }
-  @media (max-width: 680px) {
-    .layout {
-      grid-template-columns: 1fr;
-      grid-template-areas: 'altar' 'odds' 'history';
+  @media (max-width: 520px) {
+    .pulls {
+      width: 100%;
+    }
+    .pull-btn {
+      min-width: 0;
+      flex: 1;
+      padding-inline: var(--space-3);
+    }
+  }
+  :global([data-motion='calm']) .banner-swap {
+    animation-name: fade;
+    animation-duration: var(--dur-base);
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
     }
   }
 </style>

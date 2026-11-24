@@ -138,7 +138,10 @@
       "standingBody": "Every figure in the vault can answer.",
       "featured": "{pantheon} week",
       "featuredBody": "Half of the Demigod, God and Primordial results come from the {pantheon} tradition.",
-      "ends": "Changes in {days, plural, one {# day} other {# days}}"
+      "rateUp": "Rate up: {names}",
+      "timer": "Ends in {days}d {hours}h {minutes}m",
+      "always": "Always open",
+      "seal": "Rate up"
     },
     "rates": {
       "heading": "Drop rates",
@@ -148,11 +151,11 @@
     "pity": {
       "heading": "Guarantees",
       "demigod": "Demigod or better within {count, plural, one {# pull} other {# pulls}}",
-      "god": "God or better within {count, plural, one {# pull} other {# pulls}}"
+      "god": "God or better within {count, plural, one {# pull} other {# pulls}}",
+      "godShort": "{count, plural, one {pull} other {pulls}} to a guaranteed God"
     },
-    "one": "Summon once",
-    "ten": "Summon ten",
-    "cost": "{cost, number} starlight",
+    "one": "Summon ×1",
+    "ten": "Summon ×10",
     "short": "You need {missing, number} more starlight. Daily quests give more.",
     "history": {
       "heading": "Recent summons",
@@ -173,7 +176,8 @@
         "win-battle": "Win a battle",
         "win-three-battles": "Win three battles"
       }
-    }
+    },
+    "details": "Details"
   },
   "ceremony": {
     "label": "Summoning",
