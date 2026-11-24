@@ -91,3 +91,49 @@ care because parts of them are still practiced:
   religion, so its divine beings (Ahura Mazda, the Amesha Spentas) are excluded.
 
 When in doubt a figure is left out and listed here.
+
+## Visual direction: the starry vault
+
+The full direction lives in `DESIGN.md` and `docs/design/`. Product context is in `PRODUCT.md`.
+The brief pinned the world (ink, midnight blue, gold leaf, parchment, constellations, a mosaic per
+pantheon), so no competing directions were explored beyond the ones listed in
+`docs/design/direction.md`.
+
+## Fonts changed to IM Fell English and Alegreya
+
+Cormorant Garamond was replaced by IM Fell English (display) and its small caps cut (labels). The
+Fell types belong to the same century as the engraved star atlases the interface borrows from,
+and their ink spread gives character at large sizes. Alegreya stays for reading. All are OFL and
+bundled.
+
+## Motion without GSAP or PixiJS
+
+The original baseline listed GSAP and PixiJS. Everything so far is CSS transitions, CSS
+animations, the Web Animations API, a 40-line spring and one canvas. These run on the compositor
+for transform and opacity, cost nothing in bundle size and are enough for the planned
+ceremonies. PixiJS stays an option for the pull and battle particle effects if a 2D canvas cannot
+hold 60 fps within the particle budget; that will be measured, not assumed.
+
+## Procedural clouds for the home oculus
+
+The home sky is rendered in the browser from seeded fractal noise with directional lighting, in a
+Web Worker (`src/ui/sky/clouds.worker.ts`) with a main-thread fallback. Two layers of 768 and 1024
+px take about one second together on a desktop, start after the first paint, and fade in. No
+image files are shipped and nothing is fetched. Regular sun rays were tried and removed: they
+read as a generic sunburst and echo a flag with militarist associations.
+
+## Motion setting
+
+Settings offer Follow device, Full and Calm. Calm (or the system reduced-motion preference when
+following the device) sets `data-motion="calm"` on the root element; components swap movement for
+fades instead of switching animation off, so no state change becomes invisible.
+
+## Page transitions
+
+Route changes use the View Transitions API (`document.startViewTransition`) with a short fade and
+rise. Browsers without it swap instantly.
+
+## Detector and tool folders
+
+Design and screenshot helper scripts live outside the repository. ESLint and Prettier ignore
+dot-folders at the root (except `.github/`) so local tool folders never break the checks.

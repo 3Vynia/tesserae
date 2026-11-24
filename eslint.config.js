@@ -5,7 +5,7 @@ import globals from 'globals';
 import svelteConfig from './svelte.config.js';
 
 export default ts.config(
-  { ignores: ['dist/', 'coverage/', 'playwright-report/', 'test-results/'] },
+  { ignores: ['dist/', 'coverage/', 'playwright-report/', 'test-results/', '.*/'] },
   js.configs.recommended,
   ...ts.configs.strict,
   ...svelte.configs.recommended,

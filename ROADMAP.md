@@ -62,3 +62,13 @@ Each phase ends with lint, type check, translation check, tests and build passin
 ## Open items
 
 - Donation link for the README (needs an account chosen by the maintainer).
+
+## Visual layer
+
+- [x] Product context, visual direction, motion language and component inventory (`DESIGN.md`,
+      `docs/design/`)
+- [x] Tokens, fonts, engraved icon set, ornaments for all 13 pantheons
+- [x] Home oculus with procedural clouds, settings with motion preference, page transitions
+- [ ] Collection mosaic with filters, card detail with flip
+- [ ] Pull ceremony
+- [ ] Battle stage
