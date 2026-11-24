@@ -46,8 +46,9 @@ test('opens the vault, a card and its back', async ({ page }) => {
 
 test('summons once, skips the ceremony and lands in the vault', async ({ page }) => {
   await page.goto('/#/summon');
-  await expect(page.getByText('Mortal', { exact: true }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Details' }).click();
   await expect(page.getByRole('cell', { name: '50%' })).toBeVisible();
+  await page.keyboard.press('Escape');
   await page.getByRole('button', { name: /Summon ×1/ }).click();
   const ceremony = page.getByRole('dialog', { name: 'Summoning' });
   await expect(ceremony).toBeVisible();
