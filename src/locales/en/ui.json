@@ -4,42 +4,72 @@
   },
   "app": {
     "title": "Tesserae",
-    "tagline": "Gather the gods, heroes and monsters of the ancient world, one tile at a time.",
     "skipToContent": "Skip to content"
   },
   "nav": {
     "label": "Main",
-    "home": "Home",
+    "home": "Vault",
     "settings": "Settings"
   },
+  "pantheon": {
+    "greek": "Greek",
+    "roman": "Roman",
+    "norse": "Norse",
+    "egyptian": "Egyptian",
+    "mesopotamian": "Mesopotamian",
+    "celtic": "Celtic",
+    "slavic": "Slavic",
+    "persian": "Persian",
+    "aztec": "Aztec",
+    "maya": "Maya",
+    "inca": "Inca",
+    "chinese": "Chinese",
+    "japanese": "Japanese"
+  },
   "home": {
-    "heading": "A mosaic of myths",
-    "intro": "Every card is a tile. Earn them by playing, raise them, and send them into battle. Nothing here is for sale.",
-    "pillars": {
+    "tagline": "Gods, heroes and monsters of the old myths, set tile by tile into a vault of night.",
+    "promise": "Free to play, start to finish. Nothing is sold, nothing is tracked, and it all works offline.",
+    "atlas": {
+      "heading": "{count, plural, one {One tradition} other {# traditions}}",
+      "body": "Every pantheon has its own corner of the vault and its own border. Cards follow the myths as they were first written down, and each one names its source."
+    },
+    "ways": {
+      "heading": "How the vault fills",
       "collect": {
         "title": "Collect",
-        "body": "Light up the night sky, pantheon by pantheon."
+        "body": "Each card you earn lights its tile. The gaps stay dark until you find what belongs there."
       },
       "summon": {
         "title": "Summon",
-        "body": "Spend what you earn in play. Drop rates are always visible."
+        "body": "Spend the starlight you earn in play. Every banner prints its rates, and bad luck has a ceiling."
       },
       "battle": {
         "title": "Battle",
-        "body": "Build a team of four or five and let fate turn the wheel."
-      }
-    },
-    "upcoming": "Coming soon",
-    "pantheons": "{count, plural, one {# pantheon} other {# pantheons}} awaiting"
+        "body": "Choose four or five, set the formation, and watch the fight play out turn by turn."
+      },
+      "soon": "These open over the coming updates. The vault is being set tile by tile."
+    }
   },
   "settings": {
     "heading": "Settings",
     "language": "Language",
-    "languageHint": "Detected from your browser on first launch. Stored only on this device.",
-    "privacy": "Tesserae makes no network requests and keeps your progress in this browser."
+    "languageHint": "Picked from your browser the first time. Saved on this device only.",
+    "motion": {
+      "legend": "Motion",
+      "system": "Follow device",
+      "systemHint": "Uses your system’s reduced motion setting.",
+      "full": "Full",
+      "fullHint": "Every ceremony, sheen and drifting cloud.",
+      "calm": "Calm",
+      "calmHint": "Fades instead of movement. Nothing is skipped."
+    },
+    "privacy": {
+      "heading": "Your data",
+      "body": "Tesserae never connects to a server. Your collection lives in this browser, and only you can move it."
+    }
   },
   "footer": {
     "license": "Free and open source under the MIT license.",
-    "source": "Source code"
+    "source": "Read the source"
   }
 }

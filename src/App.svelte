@@ -1,37 +1,68 @@
 <script lang="ts">
   import { router, ROUTES, type Route } from './app/router.svelte';
   import { t } from './i18n/i18n.svelte';
+  import Icon from './ui/icons/Icon.svelte';
   import NightSky from './ui/NightSky.svelte';
+  import type { IconName } from './ui/icons/paths';
   import Home from './app/views/Home.svelte';
   import Settings from './app/views/Settings.svelte';
 
   const views = { home: Home, settings: Settings } satisfies Record<Route, unknown>;
+  const icons: Record<Route, IconName> = { home: 'home', settings: 'settings' };
   const View = $derived(views[router.route]);
+
+  let nav = $state<HTMLUListElement>();
+  let thread = $state<HTMLSpanElement>();
+
+  // The gold thread under the current link slides to its new place.
+  $effect(() => {
+    const route = router.route;
+    const link = nav?.querySelector<HTMLElement>(`[data-route="${route}"]`);
+    if (!link || !thread || !nav) return;
+    const box = link.getBoundingClientRect();
+    const base = nav.getBoundingClientRect();
+    thread.style.transform = `translateX(${box.left - base.left}px) scaleX(${box.width})`;
+  });
 </script>
 
 <a class="skip visually-hidden" href="#main">{t('ui.app.skipToContent')}</a>
-<NightSky />
+<NightSky stars={110} constellations={false} />
 
-<header class="bar">
-  <a class="brand" href={router.href('home')}>{t('ui.app.title')}</a>
+<header class="bar" class:over-portal={router.route === 'home'}>
+  <a class="brand" href={router.href('home')} aria-label={t('ui.app.title')}>
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+      <rect x="2" y="2" width="10" height="10" rx="1" />
+      <rect x="14" y="2" width="10" height="10" rx="1" class="lit" />
+      <rect x="2" y="14" width="10" height="10" rx="1" class="lit" />
+      <rect x="14" y="14" width="10" height="10" rx="1" />
+      <path d="M19 4.5l.9 2.1 2.1.9-2.1.9L19 10.5l-.9-2.1-2.1-.9 2.1-.9z" class="star" />
+    </svg>
+    <span>{t('ui.app.title')}</span>
+  </a>
   <nav aria-label={t('ui.nav.label')}>
-    <ul>
+    <ul bind:this={nav}>
       {#each ROUTES as route (route)}
         <li>
-          <a href={router.href(route)} aria-current={router.route === route ? 'page' : undefined}>
-            {t(`ui.nav.${route}`)}
+          <a
+            href={router.href(route)}
+            data-route={route}
+            aria-current={router.route === route ? 'page' : undefined}
+          >
+            <Icon name={icons[route]} size={20} />
+            <span>{t(`ui.nav.${route}`)}</span>
           </a>
         </li>
       {/each}
+      <span class="thread" bind:this={thread} aria-hidden="true"></span>
     </ul>
   </nav>
 </header>
 
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="page route-{router.route}">
   <View />
 </main>
 
-<footer>
+<footer class="foot">
   <p>
     {t('ui.footer.license')}
     <a href="https://github.com/3Vynia/tesserae" rel="noopener noreferrer">
@@ -46,69 +77,104 @@
     top: var(--space-2);
     left: var(--space-2);
     padding: var(--space-2) var(--space-4);
-    background: var(--night-800);
-    z-index: 10;
+    background: var(--vault);
+    z-index: var(--z-toast);
   }
   .bar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-6);
-    border-bottom: 1px solid var(--line);
-    background: rgb(5 7 15 / 0.6);
-    backdrop-filter: blur(6px);
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    gap: var(--space-2) var(--space-4);
+    padding: var(--space-2) var(--gutter);
+    background: linear-gradient(180deg, var(--ink) 0, rgb(7 10 20 / 0.92) 100%);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar.over-portal {
+    position: absolute;
+    inset-inline: 0;
+    background: linear-gradient(180deg, rgb(7 10 20 / 0.7), transparent) no-repeat;
+    border-bottom-color: transparent;
   }
   .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
     font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-size: var(--text-2xl);
+    letter-spacing: 0.08em;
+    color: var(--gold-pale);
     text-decoration: none;
-    color: var(--gold-300);
   }
-  nav ul {
+  .brand rect {
+    fill: var(--lapis);
+    stroke: var(--gold);
+    stroke-width: 1;
+  }
+  .brand rect.lit {
+    fill: var(--gold);
+  }
+  .brand .star {
+    fill: var(--gold-pale);
+  }
+  ul {
+    position: relative;
     display: flex;
-    flex-wrap: wrap;
     gap: var(--space-1);
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
   }
   nav a {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-2);
     min-height: 44px;
     padding: 0 var(--space-3);
-    color: var(--text);
+    font-family: var(--font-caps);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-caps);
+    color: var(--parchment-dim);
     text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition:
-      color var(--dur-fast),
-      border-color var(--dur-fast);
+    transition: color var(--dur-quick) ease;
   }
-  nav a:hover,
   nav a[aria-current='page'] {
-    color: var(--gold-300);
-    border-color: var(--gold-400);
+    color: var(--gold-pale);
   }
-  main {
-    width: min(72rem, 100% - 2rem);
-    margin: 0 auto;
+  .thread {
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 1px;
+    height: 1px;
+    background: var(--gold);
+    transform-origin: left;
+    transition: transform var(--dur-base) var(--ease-out);
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    nav a:hover {
+      color: var(--gold-pale);
+    }
+  }
+  :global([data-motion='calm']) .thread {
+    transition: none;
+  }
+  .page {
+    view-transition-name: page;
     min-height: 70dvh;
   }
-  main:focus {
+  .page:focus {
     outline: none;
   }
-  footer {
-    text-align: center;
-    padding: var(--space-6) var(--space-4) var(--space-8);
+  .foot {
+    padding: var(--space-6) var(--gutter) var(--space-7);
+    border-top: 1px solid var(--rule);
     color: var(--text-muted);
-    font-size: 0.9rem;
-    border-top: 1px solid var(--line);
+    font-size: var(--text-sm);
   }
 </style>

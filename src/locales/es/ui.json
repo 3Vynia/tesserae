@@ -4,42 +4,72 @@
   },
   "app": {
     "title": "Tesserae",
-    "tagline": "Reúne a los dioses, héroes y monstruos del mundo antiguo, tesela a tesela.",
     "skipToContent": "Saltar al contenido"
   },
   "nav": {
     "label": "Principal",
-    "home": "Inicio",
+    "home": "Bóveda",
     "settings": "Ajustes"
   },
+  "pantheon": {
+    "greek": "Griego",
+    "roman": "Romano",
+    "norse": "Nórdico",
+    "egyptian": "Egipcio",
+    "mesopotamian": "Mesopotámico",
+    "celtic": "Celta",
+    "slavic": "Eslavo",
+    "persian": "Persa",
+    "aztec": "Azteca",
+    "maya": "Maya",
+    "inca": "Inca",
+    "chinese": "Chino",
+    "japanese": "Japonés"
+  },
   "home": {
-    "heading": "Un mosaico de mitos",
-    "intro": "Cada carta es una tesela. Gánalas jugando, hazlas crecer y llévalas al combate. Aquí nada está a la venta.",
-    "pillars": {
+    "tagline": "Dioses, héroes y monstruos de los mitos antiguos, engastados tesela a tesela en una bóveda de noche.",
+    "promise": "Gratis de principio a fin. No se vende nada, no se rastrea nada y todo funciona sin conexión.",
+    "atlas": {
+      "heading": "{count, plural, one {Una tradición} other {# tradiciones}}",
+      "body": "Cada panteón tiene su rincón en la bóveda y su propia cenefa. Las cartas siguen los mitos tal como se pusieron por escrito, y cada una cita su fuente."
+    },
+    "ways": {
+      "heading": "Cómo se llena la bóveda",
       "collect": {
         "title": "Colecciona",
-        "body": "Ilumina el cielo nocturno, panteón a panteón."
+        "body": "Cada carta que ganas enciende su tesela. Los huecos siguen a oscuras hasta que encuentras lo que les corresponde."
       },
       "summon": {
         "title": "Invoca",
-        "body": "Gasta lo que ganas jugando. Las probabilidades siempre están a la vista."
+        "body": "Gasta la luz de estrellas que ganas jugando. Cada estandarte muestra sus probabilidades, y la mala suerte tiene un límite."
       },
       "battle": {
         "title": "Combate",
-        "body": "Forma un equipo de cuatro o cinco y deja que el destino gire la rueda."
-      }
-    },
-    "upcoming": "Próximamente",
-    "pantheons": "{count, plural, one {# panteón} other {# panteones}} en espera"
+        "body": "Elige cuatro o cinco, coloca la formación y mira cómo se desarrolla la lucha turno a turno."
+      },
+      "soon": "Se irán abriendo en las próximas versiones. La bóveda se está engastando tesela a tesela."
+    }
   },
   "settings": {
     "heading": "Ajustes",
     "language": "Idioma",
-    "languageHint": "Se detecta del navegador la primera vez. Se guarda solo en este dispositivo.",
-    "privacy": "Tesserae no hace peticiones de red y guarda tu progreso en este navegador."
+    "languageHint": "Se toma del navegador la primera vez. Se guarda solo en este dispositivo.",
+    "motion": {
+      "legend": "Movimiento",
+      "system": "Como el dispositivo",
+      "systemHint": "Usa el ajuste de reducir movimiento de tu sistema.",
+      "full": "Completo",
+      "fullHint": "Cada ceremonia, cada brillo y cada nube a la deriva.",
+      "calm": "Sereno",
+      "calmHint": "Fundidos en lugar de desplazamientos. No se omite nada."
+    },
+    "privacy": {
+      "heading": "Tus datos",
+      "body": "Tesserae nunca se conecta a un servidor. Tu colección vive en este navegador y solo tú puedes moverla."
+    }
   },
   "footer": {
     "license": "Libre y de código abierto bajo la licencia MIT.",
-    "source": "Código fuente"
+    "source": "Ver el código"
   }
 }
