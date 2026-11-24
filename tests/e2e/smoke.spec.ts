@@ -51,8 +51,20 @@ test('summons once, skips the ceremony and lands in the vault', async ({ page })
   await page.getByRole('button', { name: 'Summon once' }).click();
   const ceremony = page.getByRole('dialog', { name: 'Summoning' });
   await expect(ceremony).toBeVisible();
-  await ceremony.getByRole('button', { name: 'Skip' }).click();
+  // The ceremony reveals on its own after a moment; waiting for it avoids racing the skip button.
   await ceremony.getByRole('button', { name: 'Set them in the vault' }).click();
   await expect(page).toHaveURL(/#\/collection$/);
   await expect(page.locator('#hud-starlight')).toContainText('1,440');
+});
+
+test('fights the first stage and returns to the formation', async ({ page }) => {
+  await page.goto('/#/battle');
+  await expect(page.getByRole('heading', { name: 'Formation' })).toBeVisible();
+  await page.getByRole('button', { name: 'Fight' }).click();
+  const stage = page.getByRole('dialog', { name: 'Battle' });
+  await expect(stage).toBeVisible();
+  await stage.getByRole('button', { name: 'Skip to the end' }).click();
+  await expect(stage.getByRole('heading', { name: /Victory|Defeat|Time ran out/ })).toBeVisible();
+  await stage.getByRole('button', { name: 'Back to the formation' }).click();
+  await expect(stage).toBeHidden();
 });
