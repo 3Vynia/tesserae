@@ -25,6 +25,7 @@
   import Icon from '../../ui/icons/Icon.svelte';
   import Button from '../../ui/Button.svelte';
   import NightSky from '../../ui/NightSky.svelte';
+  import SceneTitle from '../../ui/game/SceneTitle.svelte';
   import { motion } from '../../ui/motion/motion.svelte';
   import { stepSpring, TILT_SPRING, type SpringState } from '../../ui/motion/spring';
 
@@ -189,15 +190,9 @@
     <NightSky seed="vault-dust" stars={70} fixed={false} constellations={false} />
   </div>
 
-  <header class="head">
-    <h1>{t('ui.collection.heading')}</h1>
-    {#if ready}
-      <p class="progress">
-        {t('ui.collection.progress', { owned: ownedCount, total: CARDS.length })}
-      </p>
-    {/if}
-    <p class="intro">{t('ui.collection.intro')}</p>
-  </header>
+  <SceneTitle title={t('ui.collection.heading')}>
+    {#if ready}{t('ui.collection.progress', { owned: ownedCount, total: CARDS.length })}{/if}
+  </SceneTitle>
 
   {#if game.status === 'loading'}
     <p class="state" role="status">{t('ui.collection.loading')}</p>
@@ -346,7 +341,7 @@
 <style>
   .collection {
     position: relative;
-    padding: var(--space-8) var(--gutter) var(--space-9);
+    padding: var(--space-4) var(--gutter) var(--space-6);
     isolation: isolate;
   }
   .dust {
@@ -356,35 +351,21 @@
     opacity: 0.8;
     pointer-events: none;
   }
-  .head {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: var(--space-2) var(--space-6);
-    margin-bottom: var(--space-6);
-  }
-  h1 {
-    font-size: var(--text-6xl);
-  }
-  .progress {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    color: var(--gold);
-    text-align: end;
-  }
-  .intro {
-    grid-column: 1 / -1;
-    color: var(--parchment-dim);
-  }
 
   .filters {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: var(--space-4) var(--space-6);
-    padding: var(--space-4) 0;
-    border-block: 1px solid var(--rule);
+    padding: var(--space-4) var(--space-5);
     margin-bottom: var(--space-7);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-control);
+    background: rgb(7 10 20 / 0.85);
+    box-shadow:
+      inset 0 0 0 4px rgb(4 6 13 / 0.6),
+      inset 0 0 0 5px rgb(212 173 85 / 0.15),
+      var(--shadow-2);
   }
   .search {
     display: flex;
@@ -588,12 +569,6 @@
     font-size: var(--text-3xl);
   }
   @media (max-width: 620px) {
-    .head {
-      grid-template-columns: 1fr;
-    }
-    .progress {
-      text-align: start;
-    }
     .search,
     .search input {
       width: 100%;

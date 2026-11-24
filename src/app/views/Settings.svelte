@@ -3,6 +3,7 @@
   import { motion, MOTION_MODES, type MotionMode } from '../../ui/motion/motion.svelte';
   import Segmented from '../../ui/Segmented.svelte';
   import Icon from '../../ui/icons/Icon.svelte';
+  import SceneTitle from '../../ui/game/SceneTitle.svelte';
 
   const motionOptions = $derived(
     MOTION_MODES.map((value) => ({
@@ -14,8 +15,7 @@
 </script>
 
 <div class="settings">
-  <h1>{t('ui.settings.heading')}</h1>
-
+  <SceneTitle title={t('ui.settings.heading')} />
   <section class="row">
     <label class="caps label" for="locale">
       <Icon name="language" size={22} />{t('ui.settings.language')}
@@ -62,22 +62,35 @@
       <p>{t('ui.settings.privacy.body')}</p>
     </div>
   </section>
+
+  <section class="row" aria-labelledby="about-heading">
+    <h2 id="about-heading" class="caps label">
+      <Icon name="info" size={22} />{t('ui.settings.about')}
+    </h2>
+    <div class="control">
+      <p>
+        {t('ui.footer.license')}
+        <a href="https://github.com/3Vynia/tesserae" rel="noopener noreferrer">
+          {t('ui.footer.source')}
+        </a>
+      </p>
+    </div>
+  </section>
 </div>
 
 <style>
   .settings {
     max-width: 62rem;
-    padding: var(--space-8) var(--gutter) var(--space-9);
-  }
-  h1 {
-    font-size: var(--text-5xl);
-    margin-bottom: var(--space-7);
+    margin-inline: auto;
+    padding: var(--space-4) var(--gutter) var(--space-6);
   }
   .row {
     display: grid;
     grid-template-columns: 13rem minmax(0, 1fr);
     gap: var(--space-3) var(--space-6);
-    padding: var(--space-5) 0;
+    padding: var(--space-5) var(--space-2);
+  }
+  .row {
     border-top: 1px solid var(--rule);
   }
   .label {
