@@ -1,242 +1,247 @@
 <script lang="ts">
   import { t } from '../../i18n/i18n.svelte';
-  import { PANTHEONS } from '../../data/pantheons';
-  import Oculus from '../../ui/sky/Oculus.svelte';
-  import Ornament from '../../ui/Ornament.svelte';
-  import Icon from '../../ui/icons/Icon.svelte';
-  import { reveal } from '../../ui/motion/reveal';
-  import Button from '../../ui/Button.svelte';
+  import { CARDS } from '../../data/cards';
+  import { CHAPTERS } from '../../data/stages';
+  import { PULL_COST } from '../../engine/gacha';
+  import { game } from '../save.svelte';
   import { router } from '../router.svelte';
+  import Oculus from '../../ui/sky/Oculus.svelte';
+  import PortalCard from '../../ui/game/PortalCard.svelte';
+  import Frame from '../../ui/game/Frame.svelte';
+  import QuestList from '../../ui/game/QuestList.svelte';
+  import Icon from '../../ui/icons/Icon.svelte';
+  import Ornament from '../../ui/Ornament.svelte';
 
-  const ways = [
-    { id: 'collect', icon: 'collection' },
-    { id: 'summon', icon: 'summon' },
-    { id: 'battle', icon: 'battle' },
-  ] as const;
+  const ready = $derived(game.status === 'ready');
+  const owned = $derived(ready ? CARDS.filter((c) => game.save.owned[c.id]).length : 0);
+  const pulls = $derived(ready ? Math.floor(game.save.starlight / PULL_COST) : 0);
+  const next = $derived(
+    ready
+      ? CHAPTERS.flatMap((c) => c.stages).find((s) => !game.save.battle.cleared.includes(s.id))?.id
+      : undefined,
+  );
+  // 4 x 4 mosaic on the vault portal, lit in proportion to the collection.
+  const litTiles = $derived(Math.round((owned / CARDS.length) * 16));
 </script>
 
-<section class="portal">
+<div class="hub">
   <Oculus />
-  <div class="plate">
+
+  <section class="title-block">
     <h1 class="title">{t('ui.app.title')}</h1>
     <p class="tagline">{t('ui.home.tagline')}</p>
-    <p class="promise">{t('ui.home.promise')}</p>
-    <div class="cta">
-      <Button variant="gilt" icon="collection" href={router.href('collection')}>
-        {t('ui.home.enter')}
-      </Button>
+  </section>
+
+  {#if ready}
+    <section class="quest-block" aria-labelledby="quests-title">
+      <Frame tone="ink" class="quests">
+        <h2 id="quests-title" class="quests-title caps">
+          <Icon name="quest" size={20} />{t('ui.hub.quests')}
+        </h2>
+        <QuestList />
+      </Frame>
+    </section>
+  {/if}
+
+  <nav class="portals" aria-label={t('ui.hub.label')}>
+    <div class="slot one">
+      <PortalCard
+        href={router.href('collection')}
+        tone="vault"
+        title={t('ui.nav.collection')}
+        status={t('ui.collection.progress', { owned, total: CARDS.length })}
+      >
+        {#snippet art()}
+          <svg class="mosaic" viewBox="0 0 100 100">
+            {#each { length: 16 } as _, i (i)}
+              <rect
+                x={6 + (i % 4) * 23}
+                y={6 + Math.floor(i / 4) * 23}
+                width="20"
+                height="20"
+                rx="1.5"
+                class:lit={i < litTiles}
+                transform="rotate({((i * 37) % 7) - 3} {16 + (i % 4) * 23} {16 +
+                  Math.floor(i / 4) * 23})"
+              />
+            {/each}
+          </svg>
+        {/snippet}
+      </PortalCard>
     </div>
-  </div>
-</section>
-
-<section class="atlas" aria-labelledby="atlas-heading">
-  <div class="atlas-text">
-    <h2 id="atlas-heading">{t('ui.home.atlas.heading', { count: PANTHEONS.length })}</h2>
-    <p>{t('ui.home.atlas.body')}</p>
-  </div>
-  <ul class="bands" use:reveal>
-    {#each PANTHEONS as pantheon, i (pantheon)}
-      <li style:--i={i}>
-        <span class="name caps">{t(`ui.pantheon.${pantheon}`)}</span>
-        <span class="band"><Ornament {pantheon} height={16} /></span>
-      </li>
-    {/each}
-  </ul>
-</section>
-
-<section class="ways" aria-labelledby="ways-heading">
-  <h2 id="ways-heading">{t('ui.home.ways.heading')}</h2>
-  <p class="soon">{t('ui.home.ways.soon')}</p>
-  <ul>
-    {#each ways as { id: way, icon } (way)}
-      <li class="way {way}">
-        <Icon name={icon} size={44} />
-        <h3>{t(`ui.home.ways.${way}.title`)}</h3>
-        <p>{t(`ui.home.ways.${way}.body`)}</p>
-      </li>
-    {/each}
-  </ul>
-</section>
+    <div class="slot two">
+      <PortalCard
+        href={router.href('summon')}
+        tone="summon"
+        title={t('ui.nav.summon')}
+        status={t('ui.hub.pulls', { count: pulls })}
+      >
+        {#snippet art()}
+          <span class="glyph"><Icon name="summon" size={120} /></span>
+        {/snippet}
+      </PortalCard>
+    </div>
+    <div class="slot three">
+      <PortalCard
+        href={router.href('battle')}
+        tone="battle"
+        title={t('ui.nav.battle')}
+        status={next ? t('ui.hub.next', { id: next }) : t('ui.hub.allClear')}
+      >
+        {#snippet art()}
+          <span class="glyph"><Icon name="battle" size={120} /></span>
+          <span class="band"><Ornament pantheon="greek" height={10} /></span>
+        {/snippet}
+      </PortalCard>
+    </div>
+  </nav>
+</div>
 
 <style>
-  .portal {
+  .hub {
     position: relative;
     display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: 'title portals' 'quests portals';
+    grid-template-rows: 1fr auto;
     align-items: end;
-    min-height: 100svh;
-    padding: var(--space-9) var(--gutter) var(--space-8);
+    gap: var(--space-5) var(--space-6);
+    min-height: 100dvh;
+    padding: 6rem var(--gutter) 8.5rem;
     isolation: isolate;
+    overflow: hidden;
   }
-  .portal :global(.oculus) {
+  .hub :global(.oculus) {
     z-index: -1;
   }
-  .plate {
-    max-width: 44rem;
+  .title-block {
+    grid-area: title;
     display: grid;
     gap: var(--space-4);
+    align-content: end;
   }
   .title {
     font-family: var(--font-caps);
-    font-size: clamp(3.25rem, 1rem + 10vw, 8rem);
+    font-size: clamp(3rem, 1rem + 7vw, 6.5rem);
     letter-spacing: 0.14em;
     line-height: 0.95;
     color: var(--parchment);
     text-shadow: 0 2px 24px rgb(7 10 20 / 0.6);
-    margin-inline-start: -0.05em;
-    animation: rise var(--dur-ceremony) var(--ease-out) 350ms both;
+    animation: rise var(--dur-ceremony) var(--ease-out) 300ms both;
   }
   .tagline {
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-style: italic;
-    line-height: var(--leading-snug);
     color: var(--gold-pale);
-    max-width: 36ch;
-    animation: rise var(--dur-ceremony) var(--ease-out) 550ms both;
+    max-width: 34ch;
+    animation: rise var(--dur-ceremony) var(--ease-out) 450ms both;
   }
-  .promise {
-    color: var(--parchment-dim);
-    max-width: 46ch;
-    animation: rise var(--dur-ceremony) var(--ease-out) 700ms both;
+  .quest-block {
+    grid-area: quests;
   }
-  .cta {
-    margin-top: var(--space-3);
-    animation: rise var(--dur-ceremony) var(--ease-out) 850ms both;
+  .quest-block :global(.quests) {
+    max-width: 30rem;
+    animation: rise var(--dur-ceremony) var(--ease-out) 600ms both;
+  }
+  .quests-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--gold);
+  }
+  .portals {
+    grid-area: portals;
+    align-self: center;
+    padding-inline: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    align-items: end;
+    padding-bottom: var(--space-4);
+  }
+  /* the three portals sit in a gentle fan, like a hand of cards */
+  .slot {
+    transform-origin: 50% 120%;
+    animation: deal 900ms var(--ease-settle) both;
+  }
+  .one {
+    rotate: -5deg;
+    translate: 0 14px;
+    animation-delay: 500ms;
+  }
+  .two {
+    animation-delay: 620ms;
+  }
+  .three {
+    rotate: 5deg;
+    translate: 0 14px;
+    animation-delay: 740ms;
+  }
+  @keyframes deal {
+    from {
+      opacity: 0;
+      transform: translateY(60px) scale(0.9);
+    }
   }
   @keyframes rise {
     from {
       opacity: 0;
       transform: translateY(14px);
-      filter: blur(3px);
     }
   }
-
-  .atlas {
+  .mosaic {
+    width: 78%;
+  }
+  .mosaic rect {
+    fill: #142352;
+    stroke: var(--lapis-bright);
+    stroke-width: 0.8;
+  }
+  .mosaic rect.lit {
+    fill: var(--gold);
+    stroke: var(--gold-pale);
+  }
+  .glyph {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: var(--space-7) var(--space-8);
-    padding: var(--space-9) var(--gutter);
-  }
-  .atlas-text {
-    display: grid;
-    gap: var(--space-4);
-    align-content: start;
-    position: sticky;
-    top: var(--space-9);
-  }
-  .atlas h2 {
-    font-size: var(--text-5xl);
-  }
-  .bands {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--rule);
-  }
-  .bands li {
-    display: grid;
-    grid-template-columns: 10.5rem 1fr;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .name {
-    font-size: var(--text-xl);
-    color: var(--parchment);
+    place-items: center;
+    filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.6));
   }
   .band {
-    display: block;
-    clip-path: inset(0 100% 0 0);
+    position: absolute;
+    inset-inline: 6%;
+    bottom: -4%;
   }
-  :global(.bands[data-revealed]) .band {
-    clip-path: inset(0 0 0 0);
-    transition: clip-path var(--dur-ceremony) var(--ease-in-out);
-    transition-delay: calc(var(--i) * 45ms + (var(--i) * var(--i)) * 1ms);
-  }
-
-  .ways {
-    padding: var(--space-8) var(--gutter) var(--space-9);
-  }
-  .ways h2 {
-    font-size: var(--text-4xl);
-  }
-  .ways .soon {
-    margin: var(--space-2) 0 var(--space-7);
-    font-style: italic;
-    color: var(--text-muted);
-  }
-  .ways ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    row-gap: var(--space-6);
-  }
-  .way {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: var(--space-5);
-    row-gap: var(--space-2);
-    align-items: start;
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--rule-strong);
-    color: var(--gold);
-  }
-  .way :global(.icon) {
-    grid-row: span 2;
-  }
-  .way.collect {
-    grid-column: 1 / span 6;
-  }
-  .way.summon {
-    grid-column: 4 / span 6;
-  }
-  .way.battle {
-    grid-column: 7 / span 6;
-  }
-  .way h3 {
-    font-size: var(--text-3xl);
-  }
-  .way p {
-    color: var(--text);
-  }
-
-  @media (max-width: 860px) {
-    .atlas {
+  @media (max-width: 900px) {
+    .hub {
       grid-template-columns: 1fr;
+      grid-template-areas: 'title' 'portals' 'quests';
+      grid-template-rows: auto;
+      align-items: start;
+      padding-top: 5rem;
+      overflow: visible;
     }
-    .atlas-text {
-      position: static;
+    .title {
+      font-size: clamp(2.4rem, 1rem + 7vw, 4rem);
     }
-    .way.collect,
-    .way.summon,
-    .way.battle {
-      grid-column: 1 / -1;
+    .tagline {
+      font-size: var(--text-lg);
     }
-  }
-  @media (max-width: 480px) {
-    .bands li {
-      grid-template-columns: 1fr;
+    .portals {
       gap: var(--space-2);
+      padding-inline: 0;
     }
   }
-
+  :global([data-motion='calm']) .slot,
   :global([data-motion='calm']) .title,
   :global([data-motion='calm']) .tagline,
-  :global([data-motion='calm']) .promise,
-  :global([data-motion='calm']) .cta {
-    animation-name: fade-in;
+  :global([data-motion='calm']) .quest-block :global(.quests) {
+    animation-name: fade;
+    animation-duration: var(--dur-base);
   }
-  :global([data-motion='calm']) .band {
-    clip-path: none;
-    opacity: 0;
-  }
-  :global([data-motion='calm']) :global(.bands[data-revealed]) .band {
-    opacity: 1;
-    transition: opacity var(--dur-base) ease;
-  }
-  @keyframes fade-in {
+  @keyframes fade {
     from {
       opacity: 0;
     }
