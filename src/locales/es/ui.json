@@ -460,5 +460,26 @@
     "dayGift": "Día {day}: {amount, number} de luz estelar{golden, plural, =0 {} other { y una tesela de oro}}",
     "claim": "Tomar",
     "claimed": "Tomado"
+  },
+  "wheel": {
+    "heading": "La rueda de Fortuna",
+    "subtitle": "Los romanos le dieron una rueda. Hazla girar.",
+    "label": "La rueda, con ocho premios del mismo tamaño",
+    "freeReady": "Tu giro gratis está listo.",
+    "freeIn": "Próximo giro gratis en {time}",
+    "spin": "Girar la rueda",
+    "free": "Gratis",
+    "won": "Fortuna te da {prize}.",
+    "newCard": "{name} es nueva en tu bóveda.",
+    "copyCard": "Otra copia de {name}.",
+    "oddsHeading": "Lo que vale cada porción",
+    "oddsNote": "Todas las porciones se dibujan del mismo tamaño, pero las probabilidades cambian, y estas son las reales. Un giro gratis cada ocho horas; los demás cuestan {cost, number} de luz estelar.",
+    "recent": "En esta visita",
+    "prize": {
+      "starlight": "{amount, number} de luz estelar",
+      "dust": "{amount, number} de polvo de estrellas",
+      "golden": "{amount, plural, one {una tesela de oro} other {# teselas de oro}}",
+      "card": "una carta de rareza {rarity}"
+    }
   }
 }

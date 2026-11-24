@@ -460,5 +460,26 @@
     "dayGift": "Day {day}: {amount, number} starlight{golden, plural, =0 {} other { and a golden tessera}}",
     "claim": "Take",
     "claimed": "Taken"
+  },
+  "wheel": {
+    "heading": "Fortuna’s wheel",
+    "subtitle": "The Romans gave her a wheel. Turn it.",
+    "label": "The wheel, with eight prizes of equal size",
+    "freeReady": "Your free turn is ready.",
+    "freeIn": "Next free turn in {time}",
+    "spin": "Turn the wheel",
+    "free": "Free",
+    "won": "Fortuna gives you {prize}.",
+    "newCard": "{name} is new to your vault.",
+    "copyCard": "Another copy of {name}.",
+    "oddsHeading": "What each slice is worth",
+    "oddsNote": "Every slice is drawn the same size, but the chances differ, and these are the real ones. One free turn every eight hours; more turns cost {cost, number} starlight.",
+    "recent": "This visit",
+    "prize": {
+      "starlight": "{amount, number} starlight",
+      "dust": "{amount, number} stardust",
+      "golden": "{amount, plural, one {a golden tessera} other {# golden tesserae}}",
+      "card": "a {rarity} card"
+    }
   }
 }
