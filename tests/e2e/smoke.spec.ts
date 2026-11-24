@@ -72,3 +72,24 @@ test('starts a duel, plays a turn and leaves', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Defeat' })).toBeVisible();
   await page.getByRole('button', { name: 'Back to the formation' }).click();
 });
+
+test('turns the wheel, takes the altar and workshop gifts, and dissolves nothing by mistake', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/#/wheel');
+  await page.getByRole('button', { name: /Turn the wheel/ }).click();
+  await expect(page.getByText(/Fortuna gives you/)).toBeVisible({ timeout: 8000 });
+
+  await page.getByRole('link', { name: /^Summon/ }).click();
+  await page.getByRole('button', { name: /Take an offering/ }).click();
+  await expect(page.getByText(/from the offering/)).toBeVisible();
+
+  await page.getByRole('link', { name: /^Workshop/ }).click();
+  await page.getByRole('button', { name: 'Take the gift' }).click();
+  await expect(page.getByRole('button', { name: 'Taken' })).toBeDisabled();
+
+  await page.getByRole('link', { name: /^Collection/ }).click();
+  await page.getByRole('button', { name: 'Select', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Dissolve', exact: true })).toBeDisabled();
+});

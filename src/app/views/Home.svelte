@@ -13,6 +13,9 @@
   import Frame from '../../ui/game/Frame.svelte';
   import QuestList from '../../ui/game/QuestList.svelte';
   import Icon from '../../ui/icons/Icon.svelte';
+  import { clock, untilParts } from '../clock.svelte';
+  import { wheelReady } from '../../engine/rewards';
+  import { weekEnds, workshopRotation } from '../../engine/vault';
 
   type Slide =
     | { kind: 'banner'; banner: Banner }
@@ -35,6 +38,13 @@
       : t(`ui.hub.slides.${s.id}.title`);
 
   const ready = $derived(game.status === 'ready');
+  const wheel = $derived(ready ? wheelReady(game.save, clock.now) : null);
+  const span = (at: number) => {
+    const { h, m } = untilParts(at, clock.now);
+    return h >= 24
+      ? t('ui.time.dh', { d: Math.floor(h / 24), h: h % 24 })
+      : t('ui.time.hm', { h, m });
+  };
   const stages = CHAPTERS.flatMap((c) => c.stages);
   const modes = $derived(
     ready
@@ -62,6 +72,28 @@
               owned: CARDS.filter((c) => game.save.owned[c.id]).length,
               total: CARDS.length,
             }),
+          },
+          {
+            id: 'wheel',
+            icon: 'wheel' as const,
+            route: 'wheel' as const,
+            value: wheel?.free
+              ? t('ui.hub.modes.wheelReady')
+              : t('ui.hub.modes.wheelIn', { time: span(wheel?.nextAt ?? 0) }),
+          },
+          {
+            id: 'workshop',
+            icon: 'workshop' as const,
+            route: 'workshop' as const,
+            value: game.save.cosmetics.gifts.includes(workshopRotation(clock.now).id)
+              ? t('ui.hub.modes.benchIn', { time: span(weekEnds(clock.now)) })
+              : t('ui.hub.modes.giftReady'),
+          },
+          {
+            id: 'market',
+            icon: 'market' as const,
+            route: 'market' as const,
+            value: t('ui.hub.modes.stallIn', { time: span(weekEnds(clock.now)) }),
           },
         ]
       : [],

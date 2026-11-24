@@ -33,10 +33,16 @@ Shared rules:
 
 ## Navigation
 
-| Component   | Default               | Hover              | Focus   | Current                                    |
-| ----------- | --------------------- | ------------------ | ------- | ------------------------------------------ |
-| Nav link    | engraved icon + label | label to pale gold | outline | gold thread under it, slides between links |
-| Tab / plate | small caps label      | label brightens    | outline | lapis plate behind, slides on change       |
+| Component     | Default                                               | Hover              | Focus   | Current                                    |
+| ------------- | ----------------------------------------------------- | ------------------ | ------- | ------------------------------------------ |
+| Nav link      | engraved icon + label                                 | label to pale gold | outline | gold thread under it, slides between links |
+| Tab / plate   | small caps label                                      | label brightens    | outline | lapis plate behind, slides on change       |
+| Side rail     | icon tile + small caps label, badge or timer under it | tile edge to gold  | outline | gold tile, ink icon                        |
+| Dock (narrow) | four tablets and More, summon medallion raised        | label to pale gold | outline | gold tablet lifted                         |
+
+Badges: a cinnabar count for things to take (offerings, tribute), a twinkling gold spark for a
+single thing waiting (free turn, weekly gift, quest). Timers show hours and minutes under the
+label. Every badge has a spoken equivalent.
 
 ## Collection
 
@@ -45,6 +51,12 @@ Shared rules:
 | Mosaic tile   | dark glass, pantheon glyph at 20%   | gold leaf with rarity edge     | small star in corner until seen | lifts 2 px, edge brighter       | outline             | lapis ring |
 | Pantheon band | ornament at 40%, name in small caps | ornament at 100% when complete | n/a                             | n/a                             | n/a                 | n/a        |
 | Card          | n/a                                 | layered front, flips to back   | n/a                             | 3D tilt and foil follow pointer | outline around card | n/a        |
+
+| Tile marks | n/a | lock, copies (×n) in a pill at the bottom left | n/a | n/a | n/a | n/a |
+| Tile (select) | checkbox square top left | same | n/a | n/a | outline | gold outline, filled check |
+| Ledger row | silhouette thumb, "?" | thumb, name, rarity, copies, level, tags | n/a | n/a | outline | gold wash |
+| Bulk bar | floats above the dock with the count and actions; disabled actions dim | | | | | |
+| Look layer | frame band repeating a pantheon ornament in one of eleven tints; sticker medallion top right; effect overlay (stardust, aurora, eclipse) | | | | | |
 
 Empty collection: the vault is drawn dark with every slot outlined; the message points to the
 first free pull. Error loading the save: plain explanation, and buttons to retry or import a file.
@@ -61,11 +73,13 @@ first free pull. Error loading the save: plain explanation, and buttons to retry
 
 ## Sheets and ceremonies
 
-| Component     | Open                                                 | Close                                    | Calm motion              |
-| ------------- | ---------------------------------------------------- | ---------------------------------------- | ------------------------ |
-| Detail sheet  | card flies from its tile, sheet rises `--ease-sheet` | reverse, 70% of the time                 | crossfade                |
-| Pull ceremony | stars converge, rarity reveal, card settles          | card slots into the mosaic with a ripple | glow fades in, no travel |
-| Battle stage  | formation slides in, turn ribbon draws               | result plate                             | positions fade           |
+| Component       | Open                                                                       | Close                                    | Calm motion              |
+| --------------- | -------------------------------------------------------------------------- | ---------------------------------------- | ------------------------ |
+| Detail sheet    | card flies from its tile, sheet rises `--ease-sheet`                       | reverse, 70% of the time                 | crossfade                |
+| Pull ceremony   | stars converge, rarity reveal, card settles                                | card slots into the mosaic with a ripple | glow fades in, no travel |
+| Battle stage    | formation slides in, turn ribbon draws                                     | result plate                             | positions fade           |
+| Big wish (>10)  | particles, then highlights in an arc and the whole haul as a tally with ×n | vault or stay                            | fades                    |
+| Fortuna's wheel | eight equal slices turn for 4.2 s and slow to the prize                    | prize slice brightens twice              | lands at once            |
 
 Modals are not used for anything that does not need protected focus. The detail sheet and the
 ceremony trap focus and close with Escape.

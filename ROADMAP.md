@@ -35,6 +35,9 @@ Each phase ends with lint, type check, translation check, tests and build passin
 - [x] Banners, visible drop rates, pity
 - [x] Pull history, daily quests, pull animation
 - [x] Save in IndexedDB
+- [x] ×100, ×1000 and any amount; golden tesserae every 200 summons; odds for every card
+- [x] Wish history with stars and replay
+- [x] Offerings, daily tribute and Fortuna's wheel
 
 ## Phase 5: combat (v0.5.0)
 
@@ -51,14 +54,19 @@ Each phase ends with lint, type check, translation check, tests and build passin
 
 ## Phase 7: personalization (v0.7.0)
 
-- [ ] Frames, effects, stickers, fonts and tint per card with preview
+- [x] Frames from pantheon ornaments in eleven tints, stickers, effects, with live preview
+- [x] Frame workshop with a weekly bench, a free gift and try-on
+- [x] Profile: medallion, motto, showcase, stats, albums, wishlist, vault themes
+- [x] Stardust from spare copies; the Oracle's market
+- [ ] Title fonts per card
 
 ## Phase 8: polish (v1.0.0)
 
 - [ ] Sound, mobile layout, accessibility pass
 - [ ] Offline PWA
 - [ ] Save export and import
-- [ ] Performance budget enforced in CI
+- [ ] Performance budget enforced in CI (the main chunk is over Vite's 500 kB warning: split the
+      views)
 
 ## Open items
 

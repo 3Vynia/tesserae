@@ -205,3 +205,39 @@ explanatory paragraphs and a scrolling landing page. The shell is now built like
 
 The settling curve lost its overshoot (`--ease-settle` is now an exponential ease-out): the
 small bounce read as dated next to the rest of the motion.
+
+## Systems taken from collection games, made to work offline
+
+A review of an established card-collecting site gave a list of systems players expect. Each was
+adapted to Tesserae's vault and to the rule that nothing leaves the browser:
+
+- **Side rail.** On wide screens every destination sits in a left rail with badges (offerings,
+  tribute, a free turn, the weekly gift) and countdowns. Narrow screens keep the dock, with the
+  rest behind More.
+- **Free income.** Offerings refill one charge every two hours up to three; the daily tribute pays
+  more over a seven-day streak and ends with a golden tessera. Fortuna's wheel gives one free turn
+  every eight hours and prints the real chance of every slice next to it, since the slices are drawn
+  the same size.
+- **Big wishes.** Summon ×1, ×10, ×100, ×1000 or any amount up to 5,000. More than ten results
+  show their highlights and a tally instead of one card at a time.
+- **Golden tesserae.** Every 200 summons on any banner earn one; it summons a god or a primordial
+  without touching pity. This is the long-term guarantee, visible as a meter under the pity count.
+- **Odds per card.** The details sheet lists every card's chance on the next summon, with the
+  current pity, as a percentage and as "1 in N".
+- **History by wish.** Pulls made with one press share a batch. A wish can be starred (kept past the
+  history limit) and replayed.
+- **Stardust.** Spare copies dissolve into stardust; the last copy and locked cards are never
+  touched, and the amount is shown before confirming. Stardust buys cards at the Oracle's market
+  (a weekly stall of six, one of each, always with a god or better) and frames and stickers.
+- **Vault tools.** Marks (locked, tagged, wishlist, spare, customized, unseen) and tags as filters;
+  sorting; a list view; bulk selection to lock, tag, file in an album, wish or dissolve.
+- **Profile.** Name, motto, a medallion card, a showcase of five, stats, albums (ten, forty cards
+  each) and a wishlist of forty. A vault theme tints the banner and, if chosen, the whole game.
+- **Card looks.** Frames repeat a pantheon's band ornament along the edge, so every frame belongs to
+  the game's own family; eleven tints from metals and mosaic stones. Pantheon seals come free with
+  their cards; glyph stickers are bought. Effects open with copies (3, 5, 10), which gives
+  duplicates a use besides dissolving.
+
+Left out on purpose: trading, offers, auctions, friends and notifications between players need a
+server and accounts; the market replaces trading as a way to reach a missing card. Anything paid
+or premium is out, as everywhere in Tesserae.

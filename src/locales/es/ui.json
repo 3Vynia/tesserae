@@ -322,7 +322,15 @@
       "campaignValue": "{done} de {total} fases",
       "tower": "Torre",
       "towerValue": "Piso {floor}",
-      "vault": "La bóveda"
+      "vault": "La bóveda",
+      "wheel": "Rueda de Fortuna",
+      "wheelReady": "Hay un giro gratis listo",
+      "wheelIn": "Giro gratis en {time}",
+      "workshop": "Taller",
+      "giftReady": "El regalo de la semana te espera",
+      "benchIn": "Marcos nuevos en {time}",
+      "market": "Mercado del Oráculo",
+      "stallIn": "Puesto nuevo en {time}"
     }
   },
   "news": {
@@ -338,9 +346,13 @@
       "title": "Veinte figuras en la bóveda",
       "body": "Siete tradiciones por ahora, cada carta con su mito y su fuente."
     },
-    "calm-motion": {
-      "title": "Movimiento sereno",
-      "body": "¿Prefieres fundidos en vez de desplazamientos? Actívalo en Ajustes."
+    "fortuna": {
+      "title": "Gira la rueda de Fortuna",
+      "body": "Un giro gratis cada ocho horas, ofrendas en el altar, un tributo diario y una tesela de oro cada 200 invocaciones."
+    },
+    "workshop": {
+      "title": "Marcos, stickers y un mercado",
+      "body": "Viste tus cartas con marcos de cada panteón, disuelve copias de sobra en polvo de estrellas y compra al Oráculo las cartas que te faltan."
     }
   },
   "duel": {

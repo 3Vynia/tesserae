@@ -322,7 +322,15 @@
       "campaignValue": "{done} of {total} stages",
       "tower": "Tower",
       "towerValue": "Floor {floor}",
-      "vault": "The vault"
+      "vault": "The vault",
+      "wheel": "Fortuna’s wheel",
+      "wheelReady": "A free turn is ready",
+      "wheelIn": "Free turn in {time}",
+      "workshop": "Workshop",
+      "giftReady": "This week’s gift waits",
+      "benchIn": "New frames in {time}",
+      "market": "Oracle’s market",
+      "stallIn": "New stall in {time}"
     }
   },
   "news": {
@@ -338,9 +346,13 @@
       "title": "Twenty figures in the vault",
       "body": "Seven traditions so far, each card with its myth and its source."
     },
-    "calm-motion": {
-      "title": "Calm motion",
-      "body": "Prefer fades to movement? Switch it on in Settings."
+    "fortuna": {
+      "title": "Fortuna’s wheel turns",
+      "body": "A free turn every eight hours, offerings at the altar, a daily tribute, and a golden tessera every 200 summons."
+    },
+    "workshop": {
+      "title": "Frames, stickers and a market",
+      "body": "Dress your cards in pantheon frames, dissolve spares into stardust, and buy the cards you miss from the Oracle."
     }
   },
   "duel": {
