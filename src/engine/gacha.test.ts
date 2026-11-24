@@ -3,13 +3,17 @@ import { CARDS } from '../data/cards';
 import { RARITIES, type Rarity } from '../data/schema';
 import {
   bannersFor,
+  cardChance,
   currentRates,
   DEMIGOD_PITY,
   GOD_PITY,
+  historyBatches,
   pityStatus,
   pull,
   PULL_COST,
   RATES,
+  summonGolden,
+  toggleFavorite,
 } from './gacha';
 import { createSave } from './save';
 
@@ -112,5 +116,48 @@ describe('banners', () => {
     const [, b] = bannersFor(week, CARDS);
     expect(a!.featured).not.toBe(b!.featured);
     expect(bannersFor(0, CARDS)[0]!.featured).toBeNull();
+  });
+});
+
+describe('wishes', () => {
+  it('earns a golden tessera every 200 pulls and groups history by wish', () => {
+    const save = rich('golden');
+    const out = pull(save, banner, 250, CARDS, 1);
+    if ('error' in out) throw new Error(out.error);
+    expect(out.golden).toBe(1);
+    expect(save.wallet.golden).toBe(1);
+    expect(save.pulls.meter).toBe(50);
+    pull(save, banner, 10, CARDS, 2);
+    const wishes = historyBatches(save);
+    expect(wishes.map((w) => w.cards.length)).toEqual([10, 250]);
+  });
+
+  it('a golden tessera always gives a god or a primordial', () => {
+    const save = rich('gold');
+    save.wallet.golden = 30;
+    for (let i = 0; i < 30; i++) {
+      const out = summonGolden(save, banner, CARDS, i);
+      if ('error' in out) throw new Error(out.error);
+      expect(['god', 'primordial']).toContain(out.results[0]?.rarity);
+    }
+    expect(summonGolden(save, banner, CARDS, 99)).toEqual({ error: 'no-golden' });
+  });
+
+  it('card chances add up to the pull', () => {
+    const pity = { demigod: 0, god: 0 };
+    for (const b of [banner, { id: 'f', featured: CARDS[0]?.pantheon ?? null }]) {
+      const total = CARDS.reduce((n, c) => n + cardChance(c.id, b, pity, CARDS), 0);
+      expect(total).toBeCloseTo(1);
+    }
+  });
+
+  it('rejects bad amounts and keeps starred wishes', () => {
+    const save = rich('fav');
+    expect(pull(save, banner, 0, CARDS, 1)).toEqual({ error: 'bad-count' });
+    const first = pull(save, banner, 1, CARDS, 1);
+    if ('error' in first) throw new Error(first.error);
+    toggleFavorite(save, first.batch);
+    pull(save, banner, 2500, CARDS, 2);
+    expect(save.pulls.history.some((e) => e.batch === first.batch)).toBe(true);
   });
 });

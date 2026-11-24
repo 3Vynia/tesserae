@@ -12,6 +12,18 @@ const ownedCard = z.object({
   xp: z.number().int().min(0).default(0),
   firstAt: z.number(),
   seen: z.boolean(),
+  /** A locked card is never dissolved, not even its duplicates. */
+  locked: z.boolean().default(false),
+  tags: z.array(z.string().min(1).max(24)).max(8).default([]),
+  /** Cosmetics worn by the card; every field is optional. */
+  look: z
+    .object({
+      frame: z.string().optional(),
+      tint: z.string().optional(),
+      sticker: z.string().optional(),
+      effect: z.string().optional(),
+    })
+    .default({}),
 });
 export type OwnedCard = z.infer<typeof ownedCard>;
 
@@ -26,9 +38,80 @@ export const saveSchema = z.object({
     /** Pulls since the last card of each rarity, per banner id. */
     pity: z.record(z.string(), z.object({ demigod: z.number().int(), god: z.number().int() })),
     history: z.array(
-      z.object({ at: z.number(), banner: z.string(), card: z.string(), rarity: z.string() }),
+      z.object({
+        at: z.number(),
+        banner: z.string(),
+        card: z.string(),
+        rarity: z.string(),
+        /** Pulls made with one press share a batch, so a wish can be replayed whole. */
+        batch: z.number().int().min(0).default(0),
+      }),
     ),
+    batches: z.number().int().min(0).default(0),
+    /** Starred batches stay in the history after older ones fall off. */
+    favorites: z.array(z.number().int()).max(50).default([]),
+    /** Pulls toward the next golden tessera. */
+    meter: z.number().int().min(0).default(0),
   }),
+  wallet: z
+    .object({
+      /** Stardust, from dissolving duplicates; spent at the market and the frame workshop. */
+      dust: z.number().int().min(0),
+      /** Golden tesserae: each one summons a god or a primordial. */
+      golden: z.number().int().min(0),
+    })
+    .default({ dust: 0, golden: 0 }),
+  free: z
+    .object({
+      offerings: z.object({ charges: z.number().int().min(0), at: z.number() }),
+      tribute: z.object({ day: z.string(), streak: z.number().int().min(0) }),
+      wheel: z.object({ at: z.number(), spins: z.number().int().min(0) }),
+    })
+    .default({
+      offerings: { charges: 3, at: 0 },
+      tribute: { day: '', streak: 0 },
+      wheel: { at: 0, spins: 0 },
+    }),
+  stats: z
+    .object({
+      dissolved: z.number().int().min(0),
+      claimed: z.number().int().min(0),
+      bought: z.number().int().min(0),
+    })
+    .default({ dissolved: 0, claimed: 0, bought: 0 }),
+  profile: z
+    .object({
+      name: z.string().max(24),
+      motto: z.string().max(140),
+      /** Up to five cards shown on the profile. */
+      showcase: z.array(z.string()).max(5),
+      featured: z.string().nullable(),
+      theme: z.string(),
+    })
+    .default({ name: '', motto: '', showcase: [], featured: null, theme: 'lapis' }),
+  albums: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).max(32),
+        cards: z.array(z.string()).max(40),
+      }),
+    )
+    .max(10)
+    .default([]),
+  wishlist: z.array(z.string()).max(40).default([]),
+  cosmetics: z
+    .object({
+      /** Owned frames as "frame/color". */
+      frames: z.array(z.string()),
+      /** Rotations whose free gift was taken. */
+      gifts: z.array(z.string()),
+      glyphs: z.array(z.string()).default([]),
+    })
+    .default({ frames: [], gifts: [], glyphs: [] }),
+  market: z
+    .object({ week: z.number().int(), bought: z.array(z.string()) })
+    .default({ week: -1, bought: [] }),
   quests: z
     .object({
       day: z.string(),
@@ -56,7 +139,19 @@ export function createSave(seed: string, now: number): Save {
     createdAt: now,
     starlight: STARTER_STARLIGHT,
     owned: {},
-    pulls: { total: 0, pity: {}, history: [] },
+    pulls: { total: 0, pity: {}, history: [], batches: 0, favorites: [], meter: 0 },
+    wallet: { dust: 0, golden: 0 },
+    free: {
+      offerings: { charges: 3, at: 0 },
+      tribute: { day: '', streak: 0 },
+      wheel: { at: 0, spins: 0 },
+    },
+    stats: { dissolved: 0, claimed: 0, bought: 0 },
+    profile: { name: '', motto: '', showcase: [], featured: null, theme: 'lapis' },
+    albums: [],
+    wishlist: [],
+    cosmetics: { frames: [], gifts: [], glyphs: [] },
+    market: { week: -1, bought: [] },
     quests: { day: '', progress: {}, claimed: [] },
     battle: {
       deck: [...STARTER_CARDS],
@@ -77,7 +172,17 @@ export function grant(save: Save, cardId: string, now: number, seen = false): bo
     existing.count += 1;
     return false;
   }
-  save.owned[cardId] = { count: 1, level: 1, stars: 0, xp: 0, firstAt: now, seen };
+  save.owned[cardId] = {
+    count: 1,
+    level: 1,
+    stars: 0,
+    xp: 0,
+    firstAt: now,
+    seen,
+    locked: false,
+    tags: [],
+    look: {},
+  };
   return true;
 }
 

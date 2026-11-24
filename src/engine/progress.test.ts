@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { addXp, battleXp, MAX_LEVEL, xpToNext } from './progress';
 
-const card = () => ({ count: 1, level: 1, stars: 0, xp: 0, firstAt: 0, seen: true });
+const card = () => ({
+  count: 1,
+  level: 1,
+  stars: 0,
+  xp: 0,
+  firstAt: 0,
+  seen: true,
+  locked: false,
+  tags: [],
+  look: {},
+});
 
 describe('progress', () => {
   it('levels up across several thresholds', () => {
