@@ -214,43 +214,13 @@
     "reward": "{reward, number} de luz de estrellas",
     "firstWin": "por la primera victoria",
     "team": {
-      "heading": "Formación",
-      "front": "Primera fila",
-      "back": "Segunda fila",
-      "empty": "Vacío",
-      "hint": "Elige una carta para ponerla en el primer hueco libre; elige una carta colocada para quitarla. La primera fila recibe los golpes antes.",
-      "pick": "Tus cartas",
       "remove": "Quitar a {name} del equipo",
-      "place": "Poner a {name} en la formación",
-      "full": "La formación está completa. Quita una carta antes.",
-      "synergy": "{pantheon} ×{count}: +{attack} % de ataque",
-      "synergyHealth": "{pantheon} ×{count}: +{attack} % de ataque, +{health} % de vida",
-      "noSynergy": "Aún no compartes tradición. Dos o más cartas de un mismo panteón luchan mejor juntas.",
-      "invalid": "Un equipo necesita cuatro o cinco cartas distintas."
+      "place": "Poner a {name} en la formación"
     },
     "fight": "Luchar",
-    "stage": {
-      "label": "Combate",
-      "round": "Ronda {round}",
-      "order": "Orden de turno",
-      "speed": "Velocidad {speed}×",
-      "skip": "Saltar al final",
-      "hp": "{hp} de {max} de vida",
-      "strong": "Ventaja",
-      "weak": "Desventaja",
-      "crit": "Crítico",
-      "stunned": "Aturdido",
-      "log": {
-        "skill": "{actor} usa {skill}.",
-        "basic": "{actor} ataca a {target}.",
-        "defeat": "{target} cae.",
-        "round": "Ronda {round}."
-      }
-    },
     "result": {
       "victory": "Victoria",
       "defeat": "Derrota",
-      "draw": "Se acabó el tiempo",
       "reward": "+{reward, number} de luz de estrellas",
       "xp": "Cada carta del equipo ganó {xp} de experiencia.",
       "levelUp": "{name} llegó al nivel {level}.",
@@ -259,7 +229,14 @@
       "back": "Volver a la formación"
     },
     "opponents": "Rivales",
-    "lockedShort": "Cerrada"
+    "lockedShort": "Cerrada",
+    "deck": {
+      "heading": "Tu mazo",
+      "hint": "Elige de cuatro a ocho figuras. Cada una aporta dos copias; los ritos completan el mazo hasta 16 cartas.",
+      "count": "{count} de 8 figuras",
+      "invalid": "Un mazo necesita de cuatro a ocho figuras.",
+      "opponentLife": "Héroe rival: {life} de vida"
+    }
   },
   "pantheonInline": {
     "greek": "griego",
@@ -319,5 +296,96 @@
       "title": "Movimiento sereno",
       "body": "¿Prefieres fundidos en vez de desplazamientos? Actívalo en Ajustes."
     }
+  },
+  "duel": {
+    "keyword": {
+      "guard": {
+        "name": "Guardia",
+        "desc": "Los enemigos deben atacar primero a esta figura."
+      },
+      "swift": {
+        "name": "Veloz",
+        "desc": "Puede atacar el turno en que se juega."
+      },
+      "ward": {
+        "name": "Égida",
+        "desc": "Ignora el primer daño que reciba."
+      },
+      "venom": {
+        "name": "Veneno",
+        "desc": "Destruye a cualquier figura a la que dañe."
+      },
+      "drain": {
+        "name": "Drenaje",
+        "desc": "Cura a tu héroe tanto como el daño que inflige."
+      },
+      "fury": {
+        "name": "Furia",
+        "desc": "Ataca dos veces cada turno."
+      }
+    },
+    "effect": {
+      "damage": {
+        "enemy": "Inflige {amount} de daño a un enemigo.",
+        "enemy-unit": "Inflige {amount} de daño a una figura enemiga.",
+        "enemies": "Inflige {amount} de daño a todas las figuras enemigas.",
+        "enemy-hero": "Inflige {amount} de daño al héroe enemigo."
+      },
+      "heal": {
+        "ally": "Restaura {amount} de vida a un aliado o a tu héroe.",
+        "allies": "Restaura {amount} de vida a tu héroe y a todos tus aliados.",
+        "hero": "Restaura {amount} de vida a tu héroe."
+      },
+      "buff": {
+        "ally-unit": "Da +{attack}/+{health} a un aliado.",
+        "allies": "Da +{attack}/+{health} a tus figuras.",
+        "self": "Gana +{attack}/+{health}."
+      },
+      "draw": "Roba {amount, plural, one {una carta} other {# cartas}}.",
+      "stun": "Petrifica a una figura enemiga: se salta su próximo turno.",
+      "ward": {
+        "ally-unit": "Da Égida a un aliado.",
+        "self": "Gana Égida."
+      },
+      "weaken": {
+        "enemy-unit": "Da −{amount} de ataque a una figura enemiga.",
+        "enemies": "Da −{amount} de ataque a todas las figuras enemigas."
+      }
+    },
+    "kinship": "Parentesco: +1/+1 al unirse a una figura de su mismo panteón.",
+    "rite": "Rito",
+    "rites": {
+      "javelin": "Jabalina de bronce",
+      "libation": "Libación",
+      "omen": "Augurio",
+      "laurel": "Corona de laurel"
+    },
+    "stats": "{attack} de ataque, {health} de vida",
+    "you": "Tú",
+    "mana": "{mana} de {max} de maná",
+    "deck": "{count} en el mazo",
+    "hand": "{count, plural, one {# carta} other {# cartas}} en la mano",
+    "endTurn": "Terminar turno",
+    "yourTurn": "Tu turno",
+    "theirTurn": "Turno rival",
+    "pickTarget": "Elige un objetivo para {name}",
+    "pickAttack": "Elige a quién ataca {name}",
+    "cancel": "Cancelar",
+    "leave": "Abandonar el duelo",
+    "ready": "Lista para atacar",
+    "resting": "Recién llegada",
+    "stunned": "Petrificada",
+    "handCard": "{name}. {cost} de maná. {text}",
+    "unitCard": "{name}, {stats}. {state}",
+    "enemyHero": "El héroe rival, {life} de vida",
+    "ownHero": "Tu héroe, {life} de vida",
+    "log": {
+      "play": "{side} juega {name}.",
+      "attack": "{attacker} ataca a {target}.",
+      "death": "{name} cae.",
+      "theirs": "El rival",
+      "yours": "Tú"
+    },
+    "kinshipShort": "Parentesco +1/+1"
   }
 }

@@ -214,43 +214,13 @@
     "reward": "{reward, number} starlight",
     "firstWin": "for the first win",
     "team": {
-      "heading": "Formation",
-      "front": "Front row",
-      "back": "Back row",
-      "empty": "Empty",
-      "hint": "Pick a card to place it in the first empty slot; pick a placed card to take it off. The front row is hit first.",
-      "pick": "Your cards",
       "remove": "Take {name} off the team",
-      "place": "Place {name} in the formation",
-      "full": "The formation is full. Take a card off first.",
-      "synergy": "{pantheon} ×{count}: +{attack}% attack",
-      "synergyHealth": "{pantheon} ×{count}: +{attack}% attack, +{health}% health",
-      "noSynergy": "No shared tradition yet. Two or more cards from one pantheon fight better together.",
-      "invalid": "A team needs four or five different cards."
+      "place": "Place {name} in the formation"
     },
     "fight": "Fight",
-    "stage": {
-      "label": "Battle",
-      "round": "Round {round}",
-      "order": "Turn order",
-      "speed": "Speed {speed}×",
-      "skip": "Skip to the end",
-      "hp": "{hp} of {max} health",
-      "strong": "Strong",
-      "weak": "Weak",
-      "crit": "Critical",
-      "stunned": "Stunned",
-      "log": {
-        "skill": "{actor} uses {skill}.",
-        "basic": "{actor} attacks {target}.",
-        "defeat": "{target} falls.",
-        "round": "Round {round}."
-      }
-    },
     "result": {
       "victory": "Victory",
       "defeat": "Defeat",
-      "draw": "Time ran out",
       "reward": "+{reward, number} starlight",
       "xp": "Each card in the team gained {xp} experience.",
       "levelUp": "{name} reached level {level}.",
@@ -259,7 +229,14 @@
       "back": "Back to the formation"
     },
     "opponents": "Opponents",
-    "lockedShort": "Locked"
+    "lockedShort": "Locked",
+    "deck": {
+      "heading": "Your deck",
+      "hint": "Pick four to eight figures. Each brings two copies; rites fill the deck up to 16 cards.",
+      "count": "{count} of 8 figures",
+      "invalid": "A deck needs four to eight figures.",
+      "opponentLife": "Opposing hero: {life} health"
+    }
   },
   "pantheonInline": {
     "greek": "Greek",
@@ -319,5 +296,96 @@
       "title": "Calm motion",
       "body": "Prefer fades to movement? Switch it on in Settings."
     }
+  },
+  "duel": {
+    "keyword": {
+      "guard": {
+        "name": "Guard",
+        "desc": "Enemies must attack this figure first."
+      },
+      "swift": {
+        "name": "Swift",
+        "desc": "Can attack the turn it is played."
+      },
+      "ward": {
+        "name": "Ward",
+        "desc": "Ignores the first damage it would take."
+      },
+      "venom": {
+        "name": "Venom",
+        "desc": "Destroys any figure it damages."
+      },
+      "drain": {
+        "name": "Drain",
+        "desc": "Heals your hero by the damage it deals."
+      },
+      "fury": {
+        "name": "Fury",
+        "desc": "Attacks twice each turn."
+      }
+    },
+    "effect": {
+      "damage": {
+        "enemy": "Deal {amount} damage to an enemy.",
+        "enemy-unit": "Deal {amount} damage to an enemy figure.",
+        "enemies": "Deal {amount} damage to every enemy figure.",
+        "enemy-hero": "Deal {amount} damage to the enemy hero."
+      },
+      "heal": {
+        "ally": "Restore {amount} health to an ally or your hero.",
+        "allies": "Restore {amount} health to your hero and every ally.",
+        "hero": "Restore {amount} health to your hero."
+      },
+      "buff": {
+        "ally-unit": "Give an ally +{attack}/+{health}.",
+        "allies": "Give your figures +{attack}/+{health}.",
+        "self": "Gain +{attack}/+{health}."
+      },
+      "draw": "Draw {amount, plural, one {a card} other {# cards}}.",
+      "stun": "Petrify an enemy figure: it skips its next turn.",
+      "ward": {
+        "ally-unit": "Give an ally Ward.",
+        "self": "Gain Ward."
+      },
+      "weaken": {
+        "enemy-unit": "Give an enemy figure −{amount} attack.",
+        "enemies": "Give every enemy figure −{amount} attack."
+      }
+    },
+    "kinship": "Kinship: +1/+1 when it joins a figure of its own pantheon.",
+    "rite": "Rite",
+    "rites": {
+      "javelin": "Bronze javelin",
+      "libation": "Libation",
+      "omen": "Omen",
+      "laurel": "Laurel crown"
+    },
+    "stats": "{attack} attack, {health} health",
+    "you": "You",
+    "mana": "{mana} of {max} mana",
+    "deck": "{count} in deck",
+    "hand": "{count, plural, one {# card} other {# cards}} in hand",
+    "endTurn": "End turn",
+    "yourTurn": "Your turn",
+    "theirTurn": "Their turn",
+    "pickTarget": "Pick a target for {name}",
+    "pickAttack": "Pick what {name} attacks",
+    "cancel": "Cancel",
+    "leave": "Leave the duel",
+    "ready": "Ready to attack",
+    "resting": "Just arrived",
+    "stunned": "Petrified",
+    "handCard": "{name}. {cost} mana. {text}",
+    "unitCard": "{name}, {stats}. {state}",
+    "enemyHero": "The opposing hero, {life} health",
+    "ownHero": "Your hero, {life} health",
+    "log": {
+      "play": "{side} plays {name}.",
+      "attack": "{attacker} attacks {target}.",
+      "death": "{name} falls.",
+      "theirs": "They",
+      "yours": "You"
+    },
+    "kinshipShort": "Kinship +1/+1"
   }
 }

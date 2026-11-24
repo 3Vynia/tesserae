@@ -38,14 +38,14 @@ export const saveSchema = z.object({
     .default({ day: '', progress: {}, claimed: [] }),
   battle: z
     .object({
-      /** Card ids by slot: 0-2 front row, 3-4 back row. */
-      team: z.array(z.string().nullable()).length(5),
+      /** Figures in the duel deck; each brings two copies. */
+      deck: z.array(z.string()).max(8),
       cleared: z.array(z.string()),
       tower: z.number().int().min(0),
       bosses: z.array(z.string()),
       wins: z.number().int().min(0),
     })
-    .default({ team: [null, null, null, null, null], cleared: [], tower: 0, bosses: [], wins: 0 }),
+    .default({ deck: [...STARTER_CARDS], cleared: [], tower: 0, bosses: [], wins: 0 }),
 });
 export type Save = z.infer<typeof saveSchema>;
 
@@ -59,7 +59,7 @@ export function createSave(seed: string, now: number): Save {
     pulls: { total: 0, pity: {}, history: [] },
     quests: { day: '', progress: {}, claimed: [] },
     battle: {
-      team: [STARTER_CARDS[1], STARTER_CARDS[0], STARTER_CARDS[3], STARTER_CARDS[2], null],
+      deck: [...STARTER_CARDS],
       cleared: [],
       tower: 0,
       bosses: [],
@@ -86,7 +86,18 @@ export function markSeen(save: Save, cardId: string): void {
   if (owned) owned.seen = true;
 }
 
+/** Older saves kept a five-slot battle formation; it becomes the duel deck. */
+function migrate(data: unknown): unknown {
+  if (!data || typeof data !== 'object') return data;
+  const battle = (data as { battle?: { team?: unknown; deck?: unknown } }).battle;
+  if (battle && !battle.deck && Array.isArray(battle.team)) {
+    battle.deck = battle.team.filter((id): id is string => typeof id === 'string');
+    delete battle.team;
+  }
+  return data;
+}
+
 /** Validates data from storage or an imported file. Throws with a readable message. */
 export function parseSave(data: unknown): Save {
-  return saveSchema.parse(data);
+  return saveSchema.parse(migrate(structuredClone(data)));
 }

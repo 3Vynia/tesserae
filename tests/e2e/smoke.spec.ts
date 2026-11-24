@@ -58,14 +58,17 @@ test('summons once, skips the ceremony and lands in the vault', async ({ page })
   await expect(page.locator('#hud-starlight')).toContainText('1,440');
 });
 
-test('fights the first stage and returns to the formation', async ({ page }) => {
+test('starts a duel, plays a turn and leaves', async ({ page }) => {
   await page.goto('/#/battle');
-  await expect(page.getByRole('heading', { name: 'Formation' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Your deck' })).toBeVisible();
   await page.getByRole('button', { name: 'Fight' }).click();
-  const stage = page.getByRole('dialog', { name: 'Battle' });
-  await expect(stage).toBeVisible();
-  await stage.getByRole('button', { name: 'Skip to the end' }).click();
-  await expect(stage.getByRole('heading', { name: /Victory|Defeat|Time ran out/ })).toBeVisible();
-  await stage.getByRole('button', { name: 'Back to the formation' }).click();
-  await expect(stage).toBeHidden();
+  const table = page.getByRole('dialog', { name: 'Stage 1-1' });
+  await expect(table).toBeVisible();
+  await expect(table.getByRole('button', { name: 'End turn' })).toBeEnabled({ timeout: 5000 });
+  await table.getByRole('button', { name: 'End turn' }).click();
+  // The opponent plays its turn, then it is ours again.
+  await expect(table.getByRole('button', { name: 'End turn' })).toBeEnabled({ timeout: 20000 });
+  await table.getByRole('button', { name: 'Leave the duel' }).click();
+  await expect(page.getByRole('heading', { name: 'Defeat' })).toBeVisible();
+  await page.getByRole('button', { name: 'Back to the formation' }).click();
 });
