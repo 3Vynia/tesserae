@@ -481,5 +481,151 @@
       "golden": "{amount, plural, one {a golden tessera} other {# golden tesserae}}",
       "card": "a {rarity} card"
     }
+  },
+  "vault": {
+    "lockedShort": "locked",
+    "wishedShort": "on your wishlist",
+    "marks": {
+      "legend": "Marks",
+      "locked": "Locked",
+      "tagged": "Tagged",
+      "wished": "Wishlist",
+      "spare": "Spare copies",
+      "custom": "Customized",
+      "unseen": "Not yet seen"
+    },
+    "tagFilter": "Tag",
+    "anyTag": "Any tag",
+    "sort": {
+      "label": "Order",
+      "pantheon": "By pantheon",
+      "rarity": "Rarest first",
+      "recent": "Newest first",
+      "name": "A to Z",
+      "copies": "Most copies"
+    },
+    "view": {
+      "label": "View",
+      "mosaic": "Mosaic",
+      "list": "List"
+    },
+    "select": {
+      "start": "Select",
+      "done": "Done",
+      "bar": "Selected cards",
+      "count": "{count, plural, =0 {Nothing selected} one {# selected} other {# selected}}",
+      "all": "All shown"
+    },
+    "list": {
+      "card": "Card",
+      "copies": "Copies",
+      "level": "Level",
+      "tags": "Tags",
+      "unknown": "Not yet found"
+    },
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "locked": "Locked",
+    "tag": "Tag",
+    "album": "Album",
+    "wish": "Wish",
+    "wished": "On your wishlist",
+    "dissolve": "Dissolve",
+    "lockedMany": "{count, plural, one {# card locked.} other {# cards locked.}}",
+    "unlockedMany": "{count, plural, one {# card unlocked.} other {# cards unlocked.}}",
+    "wishedMany": "Missing cards added to your wishlist.",
+    "dissolved": "{copies, plural, =0 {Nothing to dissolve.} one {# copy became {dust, number} stardust.} other {# copies became {dust, number} stardust.}}",
+    "addedToAlbum": "{count, plural, =0 {Already in {name}.} one {# card added to {name}.} other {# cards added to {name}.}}",
+    "tagged": "{count, plural, one {# card tagged {tag}.} other {# cards tagged {tag}.}}",
+    "tagSheet": "{count, plural, one {Tag # card} other {Tag # cards}}",
+    "tagLabel": "Tag name",
+    "tagGo": "Add tag",
+    "albumSheet": "{count, plural, one {Put # card in an album} other {Put # cards in an album}}",
+    "albumCount": "{count, plural, one {# card} other {# cards}}",
+    "newAlbum": "Or start a new album",
+    "createAlbum": "Create",
+    "albumsFull": "You have ten albums, the most there can be. Delete one on your profile to start another.",
+    "dissolveSheet": "Dissolve spare copies",
+    "dissolveBody": "{copies, plural, one {# spare copy} other {# spare copies}} will become {dust, number} stardust.",
+    "dissolveKeep": "One copy of every card stays, and locked cards are never touched.",
+    "dissolveGo": "{count, plural, one {Dissolve # copy} other {Dissolve # copies}}",
+    "keep": "Keep them",
+    "inShowcase": "In your showcase",
+    "toShowcase": "Show on profile",
+    "dissolveSpare": "{count, plural, one {Dissolve # spare} other {Dissolve # spares}}",
+    "dissolveOne": "{count, plural, one {# spare copy} other {# spare copies}} will become {dust, number} stardust. One copy stays.",
+    "detailTabs": "About this card",
+    "tabs": {
+      "card": "Card",
+      "info": "Info",
+      "look": "Look"
+    },
+    "info": {
+      "copies": "Copies held",
+      "found": "First found",
+      "dust": "Each spare dissolves into",
+      "dustValue": "{dust, number} stardust",
+      "market": "Price at the Oracle’s market",
+      "albums": "In your albums",
+      "noAlbums": "None yet",
+      "source": "Where the myth comes from"
+    },
+    "removeTag": "Remove tag {tag}"
+  },
+  "look": {
+    "frameName": "{frame}, {tint}",
+    "frames": {
+      "greek": "Meander",
+      "roman": "Laurel",
+      "norse": "Serpent knot",
+      "egyptian": "Lotus",
+      "mesopotamian": "Rosette",
+      "celtic": "Triskele",
+      "slavic": "Lozenge",
+      "persian": "Palmette",
+      "aztec": "Stepped fret",
+      "maya": "Scroll",
+      "inca": "Tocapu",
+      "chinese": "Cloud scroll",
+      "japanese": "Seigaiha",
+      "constellation": "Constellation",
+      "gilded": "Gilded"
+    },
+    "tints": {
+      "gold": "gold",
+      "silver": "silver",
+      "bronze": "bronze",
+      "lapis": "lapis",
+      "porphyry": "porphyry",
+      "verdigris": "verdigris",
+      "jade": "jade",
+      "obsidian": "obsidian",
+      "ivory": "ivory",
+      "cinnabar": "cinnabar",
+      "turquoise": "turquoise"
+    },
+    "seal": "{pantheon} seal",
+    "glyphs": {
+      "sun": "Sun",
+      "moon": "Moon",
+      "owl": "Owl",
+      "serpent": "Serpent",
+      "wave": "Wave",
+      "eye": "Eye",
+      "laurel": "Laurel sprig",
+      "flame": "Flame"
+    },
+    "frame": "Frame",
+    "none": "None",
+    "noFrames": "No frames yet. The workshop gives one away each week.",
+    "toWorkshop": "Get frames at the workshop",
+    "sticker": "Sticker",
+    "effect": "Effect",
+    "effects": {
+      "stardust": "Stardust",
+      "aurora": "Aurora",
+      "eclipse": "Eclipse"
+    },
+    "needCopies": "needs {count} copies"
   }
 }

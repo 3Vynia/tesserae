@@ -6,6 +6,8 @@
   import CardArt from '../card/CardArt.svelte';
   import { GLYPHS } from '../card/art';
   import { createRng } from '../../engine/rng';
+  import Icon from '../icons/Icon.svelte';
+  import LookLayer from '../card/LookLayer.svelte';
 
   interface Props {
     card: Card;
@@ -14,8 +16,22 @@
     /** Name used to fly the art into the detail view. */
     transitionName: string | null;
     onopen: () => void;
+    /** On the wishlist: a missing card shows a small shooting star. */
+    wished?: boolean;
+    /** Selection mode: the tile toggles instead of opening. */
+    selecting?: boolean;
+    picked?: boolean;
   }
-  let { card, owned, dim, transitionName, onopen }: Props = $props();
+  let {
+    card,
+    owned,
+    dim,
+    transitionName,
+    onopen,
+    wished = false,
+    selecting = false,
+    picked = false,
+  }: Props = $props();
 
   // Hand-set look: each tessera sits a little off true, the same way on every visit.
   const set = $derived.by(() => {
@@ -39,14 +55,21 @@
   class="tile rarity-{card.rarity}"
   class:lit={owned}
   class:dim
+  class:picked
   data-card={card.id}
   aria-label={t(owned ? 'ui.collection.tileOwned' : 'ui.collection.tileMissing', { summary }) +
-    (owned && !owned.seen ? ` ${t('ui.collection.new')}` : '')}
+    (owned && !owned.seen ? ` ${t('ui.collection.new')}` : '') +
+    (owned?.locked ? ` ${t('ui.vault.lockedShort')}` : '') +
+    (wished ? ` ${t('ui.vault.wishedShort')}` : '')}
+  aria-pressed={selecting ? picked : undefined}
   onclick={onopen}
 >
   <span class="glass" style:view-transition-name={transitionName} style:transform={set}>
     {#if owned}
       <span class="gold"><CardArt {card} /></span>
+      {#if owned.look.frame || owned.look.sticker || owned.look.effect}
+        <span class="look"><LookLayer look={owned.look} /></span>
+      {/if}
     {:else}
       <svg class="ghost" viewBox="0 0 64 64" aria-hidden="true">
         <path d={GLYPHS[card.art.glyph] ?? ''} />
@@ -54,6 +77,16 @@
     {/if}
   </span>
   {#if owned && !owned.seen}<span class="new" aria-hidden="true"></span>{/if}
+  <span class="marks" aria-hidden="true">
+    {#if owned?.locked}<span class="mark lock"><Icon name="lock" size={12} /></span>{/if}
+    {#if wished && !owned}<span class="mark wish"><Icon name="wish" size={12} /></span>{/if}
+    {#if owned && owned.count > 1}<span class="mark copies">×{owned.count}</span>{/if}
+  </span>
+  {#if selecting}
+    <span class="check" aria-hidden="true">
+      {#if picked}<Icon name="check" size={16} />{/if}
+    </span>
+  {/if}
   <span class="label" aria-hidden="true">{owned ? cardName(card) : '?'}</span>
 </button>
 
@@ -190,6 +223,57 @@
   }
   :global([data-motion='calm']) .tile:global(.arrive) .glass {
     animation-name: fade;
+  }
+  .look {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  .marks {
+    position: absolute;
+    left: 6%;
+    bottom: 6%;
+    display: flex;
+    gap: 3px;
+    pointer-events: none;
+  }
+  .mark {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: rgb(7 10 20 / 0.88);
+    border: 1px solid var(--rule-strong);
+    color: var(--gold-pale);
+    font-size: 11px;
+    font-variant-numeric: lining-nums;
+    line-height: 1;
+  }
+  .mark.wish {
+    color: var(--gold);
+  }
+  .check {
+    position: absolute;
+    top: 6%;
+    left: 6%;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--gold-pale);
+    border-radius: 6px;
+    background: rgb(7 10 20 / 0.8);
+    color: var(--ink);
+  }
+  .picked .check {
+    background: var(--gold-pale);
+  }
+  .picked .glass {
+    outline: 3px solid var(--gold-pale);
+    outline-offset: 2px;
   }
   .new {
     position: absolute;

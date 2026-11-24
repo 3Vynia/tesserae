@@ -9,13 +9,17 @@
   import CardArt from './CardArt.svelte';
   import Ornament from '../Ornament.svelte';
   import { tilt } from './tilt';
+  import LookLayer from './LookLayer.svelte';
+  import type { Look } from '../../engine/vault';
 
   interface Props {
     card: Card;
     flipped?: boolean;
     interactive?: boolean;
+    /** Cosmetics the card wears in the vault. */
+    look?: Look | undefined;
   }
-  let { card, flipped = false, interactive = true }: Props = $props();
+  let { card, flipped = false, interactive = true, look }: Props = $props();
 
   let flipper = $state<HTMLDivElement>();
   let shown = $state(untrack(() => flipped));
@@ -70,6 +74,7 @@
           <div class="band top"><Ornament pantheon={card.pantheon} height={10} /></div>
         {/if}
         <div class="frame" aria-hidden="true"></div>
+        {#if look}<LookLayer {look} />{/if}
         <div class="plate">
           <h3 class="name">{cardName(card)}</h3>
           <p class="epithet">{cardEpithet(card)}</p>

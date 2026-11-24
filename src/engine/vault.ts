@@ -280,10 +280,10 @@ export const effectsFor = (copies: number) =>
   EFFECTS.filter((e) => copies >= e.copies).map((e) => e.id);
 
 export interface Look {
-  frame?: string;
-  tint?: string;
-  sticker?: string;
-  effect?: string;
+  frame?: string | undefined;
+  tint?: string | undefined;
+  sticker?: string | undefined;
+  effect?: string | undefined;
 }
 
 /** Applies a look to a card, dropping any piece the save does not own. */

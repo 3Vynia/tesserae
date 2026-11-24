@@ -481,5 +481,151 @@
       "golden": "{amount, plural, one {una tesela de oro} other {# teselas de oro}}",
       "card": "una carta de rareza {rarity}"
     }
+  },
+  "vault": {
+    "lockedShort": "bloqueada",
+    "wishedShort": "en tu lista de deseos",
+    "marks": {
+      "legend": "Marcas",
+      "locked": "Bloqueadas",
+      "tagged": "Con etiqueta",
+      "wished": "Lista de deseos",
+      "spare": "Copias de sobra",
+      "custom": "Personalizadas",
+      "unseen": "Sin ver"
+    },
+    "tagFilter": "Etiqueta",
+    "anyTag": "Cualquier etiqueta",
+    "sort": {
+      "label": "Orden",
+      "pantheon": "Por panteón",
+      "rarity": "Más raras primero",
+      "recent": "Más nuevas primero",
+      "name": "De la A a la Z",
+      "copies": "Más copias"
+    },
+    "view": {
+      "label": "Vista",
+      "mosaic": "Mosaico",
+      "list": "Lista"
+    },
+    "select": {
+      "start": "Seleccionar",
+      "done": "Listo",
+      "bar": "Cartas seleccionadas",
+      "count": "{count, plural, =0 {Nada seleccionado} one {# seleccionada} other {# seleccionadas}}",
+      "all": "Todas las visibles"
+    },
+    "list": {
+      "card": "Carta",
+      "copies": "Copias",
+      "level": "Nivel",
+      "tags": "Etiquetas",
+      "unknown": "Aún sin encontrar"
+    },
+    "lock": "Bloquear",
+    "unlock": "Desbloquear",
+    "locked": "Bloqueada",
+    "tag": "Etiquetar",
+    "album": "Álbum",
+    "wish": "Desear",
+    "wished": "En tu lista de deseos",
+    "dissolve": "Disolver",
+    "lockedMany": "{count, plural, one {# carta bloqueada.} other {# cartas bloqueadas.}}",
+    "unlockedMany": "{count, plural, one {# carta desbloqueada.} other {# cartas desbloqueadas.}}",
+    "wishedMany": "Las cartas que te faltan están en tu lista de deseos.",
+    "dissolved": "{copies, plural, =0 {No hay nada que disolver.} one {# copia se convirtió en {dust, number} de polvo de estrellas.} other {# copias se convirtieron en {dust, number} de polvo de estrellas.}}",
+    "addedToAlbum": "{count, plural, =0 {Ya estaban en {name}.} one {# carta añadida a {name}.} other {# cartas añadidas a {name}.}}",
+    "tagged": "{count, plural, one {# carta etiquetada como {tag}.} other {# cartas etiquetadas como {tag}.}}",
+    "tagSheet": "{count, plural, one {Etiquetar # carta} other {Etiquetar # cartas}}",
+    "tagLabel": "Nombre de la etiqueta",
+    "tagGo": "Añadir etiqueta",
+    "albumSheet": "{count, plural, one {Poner # carta en un álbum} other {Poner # cartas en un álbum}}",
+    "albumCount": "{count, plural, one {# carta} other {# cartas}}",
+    "newAlbum": "O empieza un álbum nuevo",
+    "createAlbum": "Crear",
+    "albumsFull": "Tienes diez álbumes, el máximo. Borra uno en tu perfil para empezar otro.",
+    "dissolveSheet": "Disolver copias de sobra",
+    "dissolveBody": "{copies, plural, one {# copia de sobra se convertirá} other {# copias de sobra se convertirán}} en {dust, number} de polvo de estrellas.",
+    "dissolveKeep": "Siempre queda una copia de cada carta, y las bloqueadas no se tocan.",
+    "dissolveGo": "{count, plural, one {Disolver # copia} other {Disolver # copias}}",
+    "keep": "Conservarlas",
+    "inShowcase": "En tu escaparate",
+    "toShowcase": "Mostrar en el perfil",
+    "dissolveSpare": "{count, plural, one {Disolver # copia de sobra} other {Disolver # copias de sobra}}",
+    "dissolveOne": "{count, plural, one {# copia de sobra se convertirá} other {# copias de sobra se convertirán}} en {dust, number} de polvo de estrellas. Queda una copia.",
+    "detailTabs": "Sobre esta carta",
+    "tabs": {
+      "card": "Carta",
+      "info": "Info",
+      "look": "Aspecto"
+    },
+    "info": {
+      "copies": "Copias",
+      "found": "Encontrada por primera vez",
+      "dust": "Cada copia de sobra se disuelve en",
+      "dustValue": "{dust, number} de polvo de estrellas",
+      "market": "Precio en el mercado del Oráculo",
+      "albums": "En tus álbumes",
+      "noAlbums": "En ninguno todavía",
+      "source": "De dónde viene el mito"
+    },
+    "removeTag": "Quitar la etiqueta {tag}"
+  },
+  "look": {
+    "frameName": "{frame}, {tint}",
+    "frames": {
+      "greek": "Meandro",
+      "roman": "Laurel",
+      "norse": "Nudo de sierpe",
+      "egyptian": "Loto",
+      "mesopotamian": "Roseta",
+      "celtic": "Trisquel",
+      "slavic": "Rombo",
+      "persian": "Palmeta",
+      "aztec": "Greca escalonada",
+      "maya": "Voluta",
+      "inca": "Tocapu",
+      "chinese": "Nube en voluta",
+      "japanese": "Seigaiha",
+      "constellation": "Constelación",
+      "gilded": "Dorado"
+    },
+    "tints": {
+      "gold": "oro",
+      "silver": "plata",
+      "bronze": "bronce",
+      "lapis": "lapislázuli",
+      "porphyry": "pórfido",
+      "verdigris": "verdín",
+      "jade": "jade",
+      "obsidian": "obsidiana",
+      "ivory": "marfil",
+      "cinnabar": "cinabrio",
+      "turquoise": "turquesa"
+    },
+    "seal": "Sello {pantheon}",
+    "glyphs": {
+      "sun": "Sol",
+      "moon": "Luna",
+      "owl": "Lechuza",
+      "serpent": "Serpiente",
+      "wave": "Ola",
+      "eye": "Ojo",
+      "laurel": "Rama de laurel",
+      "flame": "Llama"
+    },
+    "frame": "Marco",
+    "none": "Ninguno",
+    "noFrames": "Aún no tienes marcos. El taller regala uno cada semana.",
+    "toWorkshop": "Consigue marcos en el taller",
+    "sticker": "Sticker",
+    "effect": "Efecto",
+    "effects": {
+      "stardust": "Polvo de estrellas",
+      "aurora": "Aurora",
+      "eclipse": "Eclipse"
+    },
+    "needCopies": "necesita {count} copias"
   }
 }

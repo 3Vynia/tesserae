@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { CARDS } from '../data/cards';
-import { EMPTY_FILTER, fold, isFiltering, matchingIds } from './collection-filter';
+import {
+  EMPTY_FILTER,
+  emptyFilter,
+  fold,
+  isFiltering,
+  matchingIds,
+  sortCards,
+  type Mark,
+  type Traits,
+} from './collection-filter';
 
 const owned = new Set(['zeus', 'achilles']);
 const names = (c: { id: string }) => [
@@ -29,5 +38,30 @@ describe('collection filter', () => {
     expect(fold('Cú Chulainn')).toBe('cu chulainn');
     expect([...run({ query: 'CU CHU' })]).toEqual(['cu-chulainn']);
     expect(isFiltering({ ...EMPTY_FILTER, query: 'x' })).toBe(true);
+  });
+});
+
+describe('marks and sorting', () => {
+  const traits = (id: string): Traits => ({
+    marks: new Set<Mark>(id === 'zeus' ? ['locked', 'tagged'] : []),
+    tags: id === 'zeus' ? ['sky'] : [],
+    copies: id === 'zeus' ? 3 : 1,
+    firstAt: id === 'zeus' ? 10 : 0,
+  });
+  it('filters by marks and tag', () => {
+    const f = { ...emptyFilter(), marks: new Set<Mark>(['locked']), tag: 'sky' };
+    expect([
+      ...matchingIds(
+        CARDS,
+        () => true,
+        f,
+        (c) => [c.id],
+        traits,
+      ),
+    ]).toEqual(['zeus']);
+  });
+  it('sorts by copies and recency', () => {
+    expect(sortCards(CARDS, 'copies', traits, (c) => c.id)[0]?.id).toBe('zeus');
+    expect(sortCards(CARDS, 'recent', traits, (c) => c.id)[0]?.id).toBe('zeus');
   });
 });

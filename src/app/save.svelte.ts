@@ -43,6 +43,7 @@ async function load(): Promise<void> {
 /**
  * Development only, stripped from production builds: `?starlight` sets the balance to five
  * million (or `?starlight=200` to an exact amount) so summons and progression can be tested.
+ * It also tops stardust up to 100,000 and golden tesserae up to 10.
  */
 function applyDevParams(): void {
   const param = new URLSearchParams(location.search).get('starlight');
@@ -50,6 +51,8 @@ function applyDevParams(): void {
   const amount = param === '' ? 5_000_000 : Number(param);
   if (data && Number.isFinite(amount) && amount > 0) {
     data.starlight = Math.floor(amount);
+    data.wallet.dust = Math.max(data.wallet.dust, 100_000);
+    data.wallet.golden = Math.max(data.wallet.golden, 10);
     void persistNow();
   }
 }
